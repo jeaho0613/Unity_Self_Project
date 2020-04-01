@@ -14,6 +14,8 @@
   - **이미지 소스**
     - RPG BGM - Lobby
     - Sunny Land
+    - kenney 소스
+    - Clean Vector Icons
   - **사운트 소스**
     - FREE Casual Game SFX Pack 에셋 (sound)
     - Casual Game BGM #5
