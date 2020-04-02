@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     public Color Red;
     public Color Purple;
 
+    public Transform loadPoint;
+    public GameObject[] changeColors;
+
     private Rigidbody2D playerRigi;
     private SpriteRenderer playerRenderer;
 
@@ -39,14 +42,23 @@ public class Player : MonoBehaviour
         if (other.tag == "Change")
         {
             RandomColor();
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             return;
+        }
+
+        if (other.tag == "Star")
+        {
+            GameManager.Instance.Score += 1;
+            Destroy(other.gameObject);
         }
 
         if (currentColor != other.tag)
         {
-            //SceneManager.LoadScene(0);
-            Debug.Log("부딪쳤다!");
+            foreach (var change in changeColors)
+            {
+                change.SetActive(true);
+            }
+            gameObject.transform.position = loadPoint.position;
         }
     }
 
