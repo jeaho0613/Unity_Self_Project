@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D playerRigi;
     private SpriteRenderer playerRenderer;
-    
+
 
     void Start()
     {
@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (gameObject.tag != "Player")
+            return;
+
         if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Jump"))
         {
             playerRigi.velocity = Vector2.up * jumpPower;
@@ -33,17 +36,25 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(currentColor != other.tag)
+        if (other.tag == "Change")
         {
-            SceneManager.LoadScene(0);
+            RandomColor();
+            Destroy(other.gameObject);
+            return;
+        }
+
+        if (currentColor != other.tag)
+        {
+            //SceneManager.LoadScene(0);
+            Debug.Log("부딪쳤다!");
         }
     }
 
     public void RandomColor()
     {
         int index = Random.Range(0, 4);
-        
-        switch(index)
+
+        switch (index)
         {
             case 0:
                 currentColor = "Blue";
