@@ -10,6 +10,8 @@ TagManager:
   - Red
   - Star
   - Change
+  - MoveCircle
+  - MoveCircle1
   layers:
   - Default
   - TransparentFX

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public bool isTest; // 테스트용 무적
 
     public float jumpPower; // 점프 힘
+    public float savePower; // 세이브 점프 힘
     public string currentColor; // 현재 색깔
     public Color Blue; // 각 설정된 색깔
     public Color Yellow; // 각 설정된 색깔
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         RandomColor(); // 색 지정
+        stageManager.SetPostion(); // 위치값 로드
         stageManager.StageActive(); // 스테이지 로드
     }
 
@@ -40,8 +42,8 @@ public class Player : MonoBehaviour
         // 마우스 왼쪽 클릭 || 스페이스바 누를 때 동작
         if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Jump"))
         {
-            playerRigi.velocity = Vector2.up * jumpPower; // velocity 위쪽 방향으로
             playerAudioSource.PlayOneShot(audioClips[1]); // 점프 소리
+            playerRigi.velocity = Vector2.up * jumpPower; // velocity 위쪽 방향으로
         }
     }
 
@@ -51,8 +53,8 @@ public class Player : MonoBehaviour
         // changeColor 오브젝트 동작
         if (other.tag == "Change")
         {
-            RandomColor(); // 색을 변경
             playerAudioSource.PlayOneShot(audioClips[0]); // 소리 출력
+            RandomColor(); // 색을 변경
             other.gameObject.SetActive(false); // 오브젝트 비활성화
             return;
         }
@@ -69,7 +71,7 @@ public class Player : MonoBehaviour
         }
 
         // 테스트용 무적
-        if(isTest)
+        if (isTest)
         {
             return;
         }
@@ -78,7 +80,9 @@ public class Player : MonoBehaviour
         if (currentColor != other.tag)
         {
             playerAudioSource.PlayOneShot(audioClips[3]); // 소리 출력
+            RandomColor(); // 색 다시 지정
             stageManager.SetPostion(); // 장애물에 부딪쳤을 경우 postion으로 돌아감
+            playerRigi.velocity = Vector2.zero; // velocity 초기화
             stageManager.ChangeColorActive(); // chageColor오브젝트 재 활성화
             return;
         }

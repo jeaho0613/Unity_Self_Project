@@ -43,7 +43,6 @@ public class StageManager : MonoBehaviour
     public void ChangeColorActive()
     {
         int count = changeColors[0].transform.childCount; // 개수 파악
-        //Debug.Log(count);
         int stage = GameManager.Instance.LoadPoint; // LoadPoint를 받아와서
         for (int index = 0; index < count; index++)
         {

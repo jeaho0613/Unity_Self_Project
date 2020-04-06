@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4578231291411218009}
   - component: {fileID: 4578231291411218006}
   - component: {fileID: 4578231291411218011}
-  - component: {fileID: 4578231291411218007}
   - component: {fileID: 1666242962}
+  - component: {fileID: 4578231291411218007}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -122,35 +122,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.09
---- !u!114 &4578231291411218007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4578231291411218004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05a0626f66e64774981236eeb6fc9fac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTest: 0
-  jumpPower: 15
-  currentColor: 
-  Blue: {r: 0, g: 1, b: 1, a: 1}
-  Yellow: {r: 1, g: 0.9008621, b: 0, a: 1}
-  Red: {r: 1, g: 0, b: 0.50196075, a: 1}
-  Purple: {r: 0.5215516, g: 0, b: 1, a: 1}
-  changeColors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  stageManager: {fileID: 0}
-  audioClips:
-  - {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
-  - {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
-  - {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
-  - {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
 --- !u!82 &1666242962
 AudioSource:
   m_ObjectHideFlags: 0
@@ -247,3 +218,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4578231291411218007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4578231291411218004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a0626f66e64774981236eeb6fc9fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTest: 0
+  jumpPower: 15
+  savePower: 0
+  currentColor: 
+  Blue: {r: 0, g: 1, b: 1, a: 1}
+  Yellow: {r: 1, g: 0.9008621, b: 0, a: 1}
+  Red: {r: 1, g: 0, b: 0.50196075, a: 1}
+  Purple: {r: 0.5215516, g: 0, b: 1, a: 1}
+  changeColors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  stageManager: {fileID: 0}
+  audioClips:
+  - {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
+  - {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  - {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+  skill: {fileID: 0}
