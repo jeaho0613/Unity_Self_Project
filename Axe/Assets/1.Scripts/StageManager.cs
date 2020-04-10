@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
@@ -50,11 +51,31 @@ public class StageManager : MonoBehaviour
             changeColors[stage].transform.GetChild(index).gameObject.SetActive(true);
         }
     }
+
+    // 포지션 set
+    // - 딜레이를 주기 위해 2개로 나눔
+    public void setPostion()
+    {
+        Invoke("Postion", 0.3f);
+    }
+
     // Player의 위치 동작
-    public void SetPostion()
+    public void Postion()
     {
         // loadPoint(스테이지에 따라 위치값을 변환
         player.transform.position = loadPoint[GameManager.Instance.LoadPoint].position;
     }
 
+    IEnumerator CoolTime(float cool, int skillNum)
+    {
+        print("쿨타임 코루틴 실행");
+
+        while(cool > 1f)
+        {
+            cool -= Time.deltaTime;
+            //starImgs[skillNum].GetComponent<Image>().fillAmount = (3f / cool);
+            yield return new WaitForFixedUpdate();
+        }
+        print("쿨타임 코루틴 실행");
+    }
 }

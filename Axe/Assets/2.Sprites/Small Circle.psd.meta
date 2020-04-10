@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: -3555380709154224565
     second: Small Circle_3
+  - first:
+      213: 4152266032839194342
+    second: Small Circle_0
+  - first:
+      213: -2073403312753211791
+    second: Small Circle_1
+  - first:
+      213: -3532033770719969287
+    second: Small Circle_2
+  - first:
+      213: 616471027509761043
+    second: Small Circle_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -44,7 +56,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
+    aniso: 1
     mipBias: -100
     wrapU: 1
     wrapV: 1
@@ -121,28 +133,12 @@ TextureImporter:
       alignment: 9
       pivot: {x: 1, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 52.5, y: 80.5}
-        - {x: 23.5, y: 71.5}
-        - {x: -4.5, y: 58.5}
-        - {x: -39.5, y: 29.5}
-        - {x: -58.5, y: 3.5}
-        - {x: -74.5, y: -28.5}
-        - {x: -81.5, y: -54.5}
-        - {x: -82.5, y: -82.5}
-        - {x: -46.5, y: -82.5}
-        - {x: -43.5, y: -50.5}
-        - {x: -25.5, y: -9.5}
-        - {x: 2.5, y: 19.5}
-        - {x: 34.5, y: 37.5}
-        - {x: 60.5, y: 46.5}
-        - {x: 82.5, y: 45.5}
-        - {x: 82.5, y: 82.5}
+      outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3314e2df9fbf550a0800000000000000
-      internalID: -6893326603507580621
+      spriteID: 6e6fc4c05ffcf9930800000000000000
+      internalID: 4152266032839194342
       vertices: []
       indices: 
       edges: []
@@ -162,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd2a90cdcf852cdd0800000000000000
-      internalID: -2467311802798988577
+      spriteID: 1760a332caac933e0800000000000000
+      internalID: -2073403312753211791
       vertices: []
       indices: 
       edges: []
@@ -183,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6daccc171c8f52cb0800000000000000
-      internalID: -4889228310719182122
+      spriteID: 9ff7d81cff1bbfec0800000000000000
+      internalID: -3532033770719969287
       vertices: []
       indices: 
       edges: []
@@ -204,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b46069d0510c8aec0800000000000000
-      internalID: -3555380709154224565
+      spriteID: 3141a0122252e8800800000000000000
+      internalID: 616471027509761043
       vertices: []
       indices: 
       edges: []

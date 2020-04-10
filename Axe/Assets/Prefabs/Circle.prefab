@@ -576,3 +576,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   starRotate: 0
+  isTimeStop: 0

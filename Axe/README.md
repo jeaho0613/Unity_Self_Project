@@ -4,6 +4,13 @@
 
 **`장애물을 피해서 보석을 모아 라운드를 통과하는 게임입니다.`**  
 
+## **Using Asset**
+
+- Starter Particle Pack (FX)
+- FREE Casual Game SFX Pack (Sound)
+- Dotween (tweening)
+- Cartoon FX Free
+
 ## **Story**
 
 공(player)은 하늘사람이 가지고 노는 특별한 공입니다.  
@@ -38,14 +45,21 @@
     - 기본 UI 틀 완성
 
   - **`20-04-07` 예정**
-    - 효과 이팩트
-      - 스테이지 완료시
-      - 점프효과
-      - 오브젝트 상호작용
-      - 죽었을 때
-    - stage 1 완성
-    - UI 작성
-      - 보석 습득시 표시
-      - 보석 이미지 변경
-    - Dotween 사용 애니메이션
-      - 보석을 다 모았을 때 애니메이션
+
+    - 보석 FX, 효과 적용 완료
+    - 점프, 상호작용 사운드 적용 완료
+    - Timestop, Flash 스킬 구현 완료
+
+### **SoundManager Clops**
+
+Fx Clips
+
+- 0 : Coins(2) (색 변경 오브젝트 습득 소리)
+- 1 : DM-CGS-32 (점프 소리)
+- 2 : Special & Powerup (21) (star 습득 소리)
+- 3 : DM-CGS-17 (플레이어 파괴 소리)
+- 4 : ice(2) (TimeStop 소리)
+
+Bgm Clips
+
+- 0 : 04_eastern_wastlands (처음 배경음)

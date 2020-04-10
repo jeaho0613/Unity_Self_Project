@@ -234,6 +234,7 @@ MonoBehaviour:
   jumpPower: 15
   savePower: 0
   currentColor: 
+  saveTime: 0
   Blue: {r: 0, g: 1, b: 1, a: 1}
   Yellow: {r: 1, g: 0.9008621, b: 0, a: 1}
   Red: {r: 1, g: 0, b: 0.50196075, a: 1}
@@ -243,9 +244,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   stageManager: {fileID: 0}
-  audioClips:
-  - {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
-  - {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
-  - {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
-  - {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
-  skill: {fileID: 0}
+  soundManger: {fileID: 0}

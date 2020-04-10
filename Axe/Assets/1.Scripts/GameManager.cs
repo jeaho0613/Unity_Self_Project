@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Camera maincam;
-    public int LoadPoint;
+    public int LoadPoint; // stage 역할, LoadPoint 지점
+
+    public Camera maincam; // 메인 카메라
+    public GameObject[] starActive; // star획득 Active
 
     private static GameManager instance = null;
-    
+
     // GameManager 싱글톤
     // - 초기화
     private void Awake()
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    
+
     public static GameManager Instance
     {
         // get (가져올때) 
@@ -43,6 +46,15 @@ public class GameManager : MonoBehaviour
             }
             // null값이 아니면 instance return
             return instance;
+        }
+    }
+
+    private void Start()
+    {
+        // 최초 게임 시작시 LoadPoint에 따라 star 이미지 활성화
+        for (int index = 0; index < LoadPoint; index++)
+        {
+            starActive[index].SetActive(true); // 별 이미지 활성화
         }
     }
 }

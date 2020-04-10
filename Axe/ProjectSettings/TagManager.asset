@@ -12,6 +12,7 @@ TagManager:
   - Change
   - MoveCircle
   - MoveCircle1
+  - Circle
   layers:
   - Default
   - TransparentFX
