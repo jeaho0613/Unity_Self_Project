@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - WhiteBar
+  - BlueBar
+  - GreenBar
+  - RedBar
+  - YellowBar
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -41,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bar
+    uniqueID: 3807417209
+    locked: 0
+  - name: Player
+    uniqueID: 3576125289
     locked: 0
