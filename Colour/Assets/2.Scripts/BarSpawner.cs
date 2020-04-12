@@ -6,11 +6,12 @@ public class BarSpawner : MonoBehaviour
 {
     [SerializeField]
     private float delayTime;
-    
-    public GameObject[] barPreFabs;
+
+    //ObjectPool objectPool;
 
     private void Start()
     {
+      //  objectPool = ObjectPool.Instance;
         StartCoroutine(CreateBar());
     }
 
@@ -21,7 +22,7 @@ public class BarSpawner : MonoBehaviour
             int num = Random.Range(0, 4);
             delayTime = Random.Range(1, 5);
             yield return new WaitForSeconds(delayTime);
-            Instantiate(barPreFabs[num], transform.position, transform.rotation);
+            //objectPool.SpawnFromPool("BlueBar", transform.position, Quaternion.identity);
         }
     }
 }
