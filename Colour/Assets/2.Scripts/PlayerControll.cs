@@ -4,31 +4,33 @@ using UnityEngine;
 
 public class PlayerControll : MonoBehaviour
 {
+    public string currentColor; // 현재 색깔
     [Range(1f, 10f)]
     public float moveSpeed; // 스피드 
-    public Color[] Colors; // 색깔
-    public string currentColor; // 현재 색깔
-
-    public GameObject[] bulletPrefabs; // 총알 프리팹
-    [Range(0f,1f)]
+    [Range(0f, 1f)]
     public float shootingTime; // 발사 간격
     public float shootingCool = 0; // 발사 시간
+    public Texture2D[] sprites; // player 이미지
+    public GameObject[] bulletPrefabs; // 총알 프리팹
+
 
     private enum EnumColors
     {
-        White,
         Red,
         Blue,
         Green,
         Yellow
     } // 색깔을 표시할 enum변수
     private EnumColors enumColors;
-    private SpriteRenderer playerRenderer; // player 색변경 Renderer
+    private Animator playerAnimator; // player 애니메이션
+    public Material playerMaterial; // player 머테리얼
 
 
     private void Awake()
     {
-        playerRenderer = GetComponent<SpriteRenderer>();
+        playerAnimator = GetComponent<Animator>();
+        enumColors = EnumColors.Red;
+        playerMaterial.SetTexture("_SubTex", sprites[0]);
     }
 
     private void Update()
@@ -38,12 +40,18 @@ public class PlayerControll : MonoBehaviour
         PlayerShooting();
     }
 
-    // 플레이어 이동 로직
+    #region PlayerMove() 플레이어 이동 로직
     private void PlayerMove()
     {
-        float xInput = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime;
-        float yInput = Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime;
-        transform.Translate(xInput, yInput, 0);
+        float xInput = Input.GetAxisRaw("Horizontal");
+        float yInput = Input.GetAxisRaw("Vertical");
+        Debug.Log($"xInput은 : {xInput}");
+        Debug.Log($"yInput은 : {yInput}");
+
+
+        transform.Translate(xInput * moveSpeed * Time.deltaTime, // x축 입력
+                            yInput * moveSpeed * Time.deltaTime, // y축 입력
+                            0); // z축 입력
 
         // 화면 제한 로직
         // - min, max에 카메라 끝점(왼쪽하단, 오른쪽 상단)을 vector2 값으로 받아옴
@@ -59,18 +67,21 @@ public class PlayerControll : MonoBehaviour
 
         // 그 값을 플레이어 postion 값에 넣어줌
         transform.position = playerPos;
-    }
 
-    // 키에 따른 색 변경 로직
+        // palyer 움직임 애니메이션 
+        if (Input.GetButtonDown("Horizontal") || Input.GetButtonUp("Horizontal"))
+        {
+            Debug.Log("애니메이션 감지");
+            playerAnimator.SetInteger("Input", (int)xInput);
+        }
+    }
+    #endregion
+
+    #region PlayerClick() 키에 따른 색 변경 로직
     // - 각 특정키 입력에 따라서 enumColors를 교체해줌.
     // - ChageColor 함수를 통해 enumColors와 비교하여 색 변경
     private void PlayerClick()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            enumColors = EnumColors.White;
-            ChageColor();
-        }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             enumColors = EnumColors.Red;
@@ -78,12 +89,12 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            enumColors = EnumColors.Blue;
+            enumColors = EnumColors.Green;
             ChageColor();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            enumColors = EnumColors.Green;
+            enumColors = EnumColors.Blue;
             ChageColor();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -92,8 +103,9 @@ public class PlayerControll : MonoBehaviour
             ChageColor();
         }
     }
+    #endregion
 
-    // 플레이어 발사 로직
+    #region PlayerShooting() 플레이어 발사 로직
     // - enumColor에 따라서 총알 색 변경
     private void PlayerShooting()
     {
@@ -105,8 +117,9 @@ public class PlayerControll : MonoBehaviour
             shootingCool = 0f;
         }
     }
+    #endregion
 
-    // 컬러 변환 로직
+    #region ChageColor() 컬러 변환 로직
     // - 키 입력에 따라 enum값을 변경하여 색을 변경함
     private void ChageColor()
     {
@@ -116,27 +129,23 @@ public class PlayerControll : MonoBehaviour
         switch (num)
         {
             case 0:
-                currentColor = "White";
-                playerRenderer.color = Colors[num];
+                currentColor = "Red";
+                playerMaterial.SetTexture ("_SubTex" ,sprites[num]);
                 break;
             case 1:
-                currentColor = "Red";
-                playerRenderer.color = Colors[num];
+                currentColor = "Green";
+                playerMaterial.SetTexture("_SubTex", sprites[num]);
                 break;
             case 2:
                 currentColor = "Blue";
-                playerRenderer.color = Colors[num];
+                playerMaterial.SetTexture("_SubTex", sprites[num]);
                 break;
             case 3:
-                currentColor = "Green";
-                playerRenderer.color = Colors[num];
-                break;
-            case 4:
                 currentColor = "Yellow";
-                playerRenderer.color = Colors[num];
+                playerMaterial.SetTexture("_SubTex", sprites[num]);
                 break;
         }
     }
-
+    #endregion
 }
 
