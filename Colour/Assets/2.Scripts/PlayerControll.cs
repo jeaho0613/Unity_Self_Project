@@ -9,28 +9,30 @@ public class PlayerControll : MonoBehaviour
     public float moveSpeed; // 스피드 
     [Range(0f, 1f)]
     public float shootingTime; // 발사 간격
-    public float shootingCool = 0; // 발사 시간
     public Texture2D[] sprites; // player 이미지
     public GameObject[] bulletPrefabs; // 총알 프리팹
 
+    private float shootingCool = 0; // 발사 시간
+    private ObjectManager objManager; // 오브젝트 풀
 
     private enum EnumColors
     {
         Red,
-        Blue,
         Green,
+        Blue,
         Yellow
     } // 색깔을 표시할 enum변수
-    private EnumColors enumColors;
+    private EnumColors enumColors; // Color Enum 변수
     private Animator playerAnimator; // player 애니메이션
     public Material playerMaterial; // player 머테리얼
 
 
     private void Awake()
     {
-        playerAnimator = GetComponent<Animator>();
-        enumColors = EnumColors.Red;
-        playerMaterial.SetTexture("_SubTex", sprites[0]);
+        playerAnimator = GetComponent<Animator>(); // player Animator 가져오기
+        objManager = ObjectManager.Instance; // 오브젝트 풀 Instace
+        enumColors = EnumColors.Red; // EnumColor 초기화 (Red)
+        ChageColor(); // 최초실행시 player 색상 초기화
     }
 
     private void Update()
@@ -80,26 +82,35 @@ public class PlayerControll : MonoBehaviour
     #region PlayerClick() 키에 따른 색 변경 로직
     // - 각 특정키 입력에 따라서 enumColors를 교체해줌.
     // - ChageColor 함수를 통해 enumColors와 비교하여 색 변경
+    // - 각 색에 따른 능력치 변환
     private void PlayerClick()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             enumColors = EnumColors.Red;
+            moveSpeed = 3f;
+            shootingTime = 0.05f;
             ChageColor();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             enumColors = EnumColors.Green;
+            moveSpeed = 0.7f;
+            shootingTime = 0.1f;
             ChageColor();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             enumColors = EnumColors.Blue;
+            moveSpeed = 7f;
+            shootingTime = 0.2f;
             ChageColor();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             enumColors = EnumColors.Yellow;
+            moveSpeed = 7f;
+            shootingTime = 0.02f;
             ChageColor();
         }
     }
@@ -107,13 +118,15 @@ public class PlayerControll : MonoBehaviour
 
     #region PlayerShooting() 플레이어 발사 로직
     // - enumColor에 따라서 총알 색 변경
+    // - 오브젝트 풀 사용
     private void PlayerShooting()
     {
-
         shootingCool += Time.deltaTime;
         if (shootingCool > shootingTime)
         {
-            Instantiate(bulletPrefabs[(int)enumColors], transform.position, transform.rotation);
+            // 오브젝트 풀 사용
+            // - currentColor에 따른 총알 변경
+            objManager.SpawnFromPool(currentColor, transform.position, Quaternion.identity);
             shootingCool = 0f;
         }
     }
@@ -121,6 +134,7 @@ public class PlayerControll : MonoBehaviour
 
     #region ChageColor() 컬러 변환 로직
     // - 키 입력에 따라 enum값을 변경하여 색을 변경함
+    // - 쉐이더 그래프를 이용한 텍스쳐 변경
     private void ChageColor()
     {
         // enumColor에 따라서 색 변경
@@ -130,19 +144,19 @@ public class PlayerControll : MonoBehaviour
         {
             case 0:
                 currentColor = "Red";
-                playerMaterial.SetTexture ("_SubTex" ,sprites[num]);
+                playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 break;
             case 1:
                 currentColor = "Green";
-                playerMaterial.SetTexture("_SubTex", sprites[num]);
+                playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 break;
             case 2:
                 currentColor = "Blue";
-                playerMaterial.SetTexture("_SubTex", sprites[num]);
+                playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 break;
             case 3:
                 currentColor = "Yellow";
-                playerMaterial.SetTexture("_SubTex", sprites[num]);
+                playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 break;
         }
     }
