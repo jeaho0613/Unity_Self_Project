@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Bar : MonoBehaviour
+public class Bar : MonoBehaviour, IPooledObject
 {
     public string currentType; // Bar의 Type
 
-    void Start()
+    public void OnObjectSpanw()
     {
         transform.DOMove(new Vector3(0, -5.5f, 0), 5f).SetEase(Ease.Linear);
     }
@@ -21,7 +21,7 @@ public class Bar : MonoBehaviour
             // player의 currentColor값을 가져와서 
             string currentColor = other.GetComponent<PlayerControll>().currentColor;
             // 현재 bar의 색이랑 비교함
-            // - 다르면 player 비활성화
+            // - 다르면 player 비활성화, 게임 오버
             if (!(currentColor == currentType))
             {
                 other.gameObject.SetActive(false);

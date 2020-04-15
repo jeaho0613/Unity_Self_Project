@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerControll : MonoBehaviour
 {
@@ -12,26 +10,27 @@ public class PlayerControll : MonoBehaviour
     public Texture2D[] sprites; // player 이미지
     public GameObject[] bulletPrefabs; // 총알 프리팹
 
-    private float shootingCool = 0; // 발사 시간
-    private ObjectManager objManager; // 오브젝트 풀
-
     private enum EnumColors
     {
         Red,
         Green,
         Blue,
         Yellow
-    } // 색깔을 표시할 enum변수
+    } 
     private EnumColors enumColors; // Color Enum 변수
+
+    private Material playerMaterial; // player 머테리얼
     private Animator playerAnimator; // player 애니메이션
-    public Material playerMaterial; // player 머테리얼
+    private BoxCollider2D playerBoxCollider; // player box콜라이더
+
+    private float shootingCool = 0; // 발사 시간
 
 
     private void Awake()
     {
-        playerAnimator = GetComponent<Animator>(); // player Animator 가져오기
-        objManager = ObjectManager.Instance; // 오브젝트 풀 Instace
-        enumColors = EnumColors.Red; // EnumColor 초기화 (Red)
+        playerBoxCollider = GetComponent<BoxCollider2D>(); // player Boxcollider2d
+        playerAnimator = GetComponent<Animator>(); // player Animator 
+        playerMaterial = GetComponent<SpriteRenderer>().material; // player Material
         ChageColor(); // 최초실행시 player 색상 초기화
     }
 
@@ -47,10 +46,7 @@ public class PlayerControll : MonoBehaviour
     {
         float xInput = Input.GetAxisRaw("Horizontal");
         float yInput = Input.GetAxisRaw("Vertical");
-        Debug.Log($"xInput은 : {xInput}");
-        Debug.Log($"yInput은 : {yInput}");
-
-
+        
         transform.Translate(xInput * moveSpeed * Time.deltaTime, // x축 입력
                             yInput * moveSpeed * Time.deltaTime, // y축 입력
                             0); // z축 입력
@@ -73,7 +69,6 @@ public class PlayerControll : MonoBehaviour
         // palyer 움직임 애니메이션 
         if (Input.GetButtonDown("Horizontal") || Input.GetButtonUp("Horizontal"))
         {
-            Debug.Log("애니메이션 감지");
             playerAnimator.SetInteger("Input", (int)xInput);
         }
     }
@@ -126,7 +121,7 @@ public class PlayerControll : MonoBehaviour
         {
             // 오브젝트 풀 사용
             // - currentColor에 따른 총알 변경
-            objManager.SpawnFromPool(currentColor, transform.position, Quaternion.identity);
+            ObjectManager.Instance.SpawnFromPool(currentColor, transform.position, Quaternion.identity); // 오류가 나는 부분
             shootingCool = 0f;
         }
     }
@@ -145,21 +140,24 @@ public class PlayerControll : MonoBehaviour
             case 0:
                 currentColor = "Red";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
+                playerBoxCollider.enabled = true;
                 break;
             case 1:
                 currentColor = "Green";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
+                playerBoxCollider.enabled = true;
                 break;
             case 2:
                 currentColor = "Blue";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
+                playerBoxCollider.enabled = true;
                 break;
             case 3:
                 currentColor = "Yellow";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
+                playerBoxCollider.enabled = false;
                 break;
         }
     }
     #endregion
 }
-

@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class BarSpawner : MonoBehaviour
 {
-    [SerializeField]
     private float delayTime;
-
-    //ObjectPool objectPool;
-
+    private string[] colos = { "BarR", "BarG", "BarB"};
+   
     private void Start()
     {
-      //  objectPool = ObjectPool.Instance;
         StartCoroutine(CreateBar());
     }
 
@@ -19,10 +16,10 @@ public class BarSpawner : MonoBehaviour
     {
         while (true)
         {
-            int num = Random.Range(0, 4);
+            int num = Random.Range(0, 3);
             delayTime = Random.Range(1, 5);
             yield return new WaitForSeconds(delayTime);
-            //objectPool.SpawnFromPool("BlueBar", transform.position, Quaternion.identity);
+            ObjectManager.Instance.SpawnFromPool(colos[num], transform.position, Quaternion.identity);
         }
     }
 }
