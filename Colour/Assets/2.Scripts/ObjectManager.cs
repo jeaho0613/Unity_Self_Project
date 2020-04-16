@@ -1,18 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
-
-    #region 싱글톤 Instance
-    public static ObjectManager Instance;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-    #endregion
-
     // System.Serializable
     // - 생성한 클래스에 변수들은 모두 public으로 선얺나다.
     // - Awake(), Start()에서 초기화할 필요가 없다. 초기화는 유니티에서 해줌
@@ -32,9 +23,15 @@ public class ObjectManager : MonoBehaviour
 
     // 오브젝트의 정보가 담기는 Dictionary 배열
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
+    
+    // 싱글톤 변수
+    public static ObjectManager Instance;
 
-    private void Start()
+    #region 싱글톤, 오브젝트 풀링 초기화
+    private void Awake()
     {
+        Instance = this; // 싱글톤 변수
+
         // 생성자로 초기화
         PoolDictionary = new Dictionary<string, Queue<GameObject>>();
 
@@ -64,8 +61,9 @@ public class ObjectManager : MonoBehaviour
             //Debug.Log(PoolDictionary.Count);
         }
     }
+    #endregion
 
-    // 오브젝트 풀에서 생성할 때 로직
+    #region 오브젝트 풀에서 생성할 때 로직
     public GameObject SpawnFromPool(string tag, Vector3 postion, Quaternion rotation)
     {
 
@@ -91,7 +89,7 @@ public class ObjectManager : MonoBehaviour
         // - objectToSpawn에 상속된 interface를 가져온다.
         // - 현재의 경우 Bullt.cs에 IPooledObejct가 상속된 상황
         IPooledObject PooledObj = objectToSpawn.GetComponent<IPooledObject>();
-        
+
         if (PooledObj != null)
         {
             // Bullet.cs의 OnObjectSpawn을 실행시킨다.
@@ -103,4 +101,5 @@ public class ObjectManager : MonoBehaviour
 
         return objectToSpawn;
     }
+    #endregion
 }

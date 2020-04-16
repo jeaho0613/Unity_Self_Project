@@ -2,6 +2,8 @@
 
 public class PlayerControll : MonoBehaviour
 {
+    public bool isDie = false; // 사망 체크
+
     public string currentColor; // 현재 색깔
     [Range(1f, 10f)]
     public float moveSpeed; // 스피드 
@@ -19,26 +21,34 @@ public class PlayerControll : MonoBehaviour
     } 
     private EnumColors enumColors; // Color Enum 변수
 
-    private Material playerMaterial; // player 머테리얼
-    private Animator playerAnimator; // player 애니메이션
-    private BoxCollider2D playerBoxCollider; // player box콜라이더
+    private Material playerMaterial; // player Material
+    private Animator playerAnimator; // player Animetor
+    private BoxCollider2D playerBoxCollider; // player boxCollider
+    private AudioSource playerAudioSource; // player AudioSource
 
     private float shootingCool = 0; // 발사 시간
 
-
     private void Awake()
     {
-        playerBoxCollider = GetComponent<BoxCollider2D>(); // player Boxcollider2d
-        playerAnimator = GetComponent<Animator>(); // player Animator 
-        playerMaterial = GetComponent<SpriteRenderer>().material; // player Material
+        playerBoxCollider = GetComponent<BoxCollider2D>(); // Boxcollider2D 초기화
+        playerAnimator = GetComponent<Animator>(); // Animator 초기화
+        playerMaterial = GetComponent<SpriteRenderer>().material; // Material 초기화
+        playerAudioSource = GetComponent<AudioSource>(); // Audio 초기화
         ChageColor(); // 최초실행시 player 색상 초기화
     }
 
     private void Update()
     {
-        PlayerMove();
-        PlayerClick();
-        PlayerShooting();
+        if(!isDie) // 사망이 아니라면
+        {
+            PlayerMove(); // 이동 
+            PlayerClick(); // 색 변경
+            PlayerShooting(); // 총 발사
+        }
+        else // 사망이라면
+        {
+            playerBoxCollider.enabled = false; // boxcollider를 꺼줌 (충돌 제거)
+        }
     }
 
     #region PlayerMove() 플레이어 이동 로직
@@ -82,6 +92,7 @@ public class PlayerControll : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
             enumColors = EnumColors.Red;
             moveSpeed = 3f;
             shootingTime = 0.05f;
@@ -89,6 +100,7 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
             enumColors = EnumColors.Green;
             moveSpeed = 0.7f;
             shootingTime = 0.1f;
@@ -96,6 +108,7 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
             enumColors = EnumColors.Blue;
             moveSpeed = 7f;
             shootingTime = 0.2f;
@@ -103,6 +116,7 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
             enumColors = EnumColors.Yellow;
             moveSpeed = 7f;
             shootingTime = 0.02f;
@@ -119,9 +133,13 @@ public class PlayerControll : MonoBehaviour
         shootingCool += Time.deltaTime;
         if (shootingCool > shootingTime)
         {
+            // 총알 발사 소리
+            playerAudioSource.PlayOneShot(SoundManager.Instance.bullet); 
+            
             // 오브젝트 풀 사용
-            // - currentColor에 따른 총알 변경
-            ObjectManager.Instance.SpawnFromPool(currentColor, transform.position, Quaternion.identity); // 오류가 나는 부분
+            ObjectManager.Instance.SpawnFromPool(currentColor, transform.position, Quaternion.identity);
+
+            // cool 초기화
             shootingCool = 0f;
         }
     }

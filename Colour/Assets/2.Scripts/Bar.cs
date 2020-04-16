@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class Bar : MonoBehaviour, IPooledObject
@@ -18,13 +16,17 @@ public class Bar : MonoBehaviour, IPooledObject
         // player에 부딪칠 때
         if (other.tag == "Player")
         {
-            // player의 currentColor값을 가져와서 
-            string currentColor = other.GetComponent<PlayerControll>().currentColor;
+            // playerControll을 가져옴
+            var otherCom = other.GetComponent<PlayerControll>();
+            // 현재 currentColor의 값
+            string currentColor = otherCom.currentColor;
             // 현재 bar의 색이랑 비교함
             // - 다르면 player 비활성화, 게임 오버
             if (!(currentColor == currentType))
             {
-                other.gameObject.SetActive(false);
+                otherCom.isDie = true; // 캐릭터를 사망으로
+                SoundManager.Instance.GetComponent<AudioSource>().Stop(); // 배경음 정지
+                other.GetComponent<AudioSource>().PlayOneShot(SoundManager.Instance.endGame); // 사망 효과음 발생
             }
         }
 
@@ -32,7 +34,6 @@ public class Bar : MonoBehaviour, IPooledObject
         if (other.tag == "Wall")
         {
             // bar 비활성화
-            Debug.Log("벽에 부딪쳤습니다.");
             gameObject.SetActive(false);
         }
     }

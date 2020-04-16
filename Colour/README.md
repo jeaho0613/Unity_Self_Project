@@ -46,6 +46,15 @@
 - DOTWEEN (트윈 에셋)
 - Interface and Item Sounds (사운드 에셋)
 - URP (파이프 라인)
+- Planets with Space Background in Flat Style (예정)//
+
+## **SoundManager**
+
+- 총알 발사 시 : DM-CGS-34.wav
+- 색 변경 시 : v1.0 item Purchase(5)
+- player 사망 시
+  - 기체 효과음 : DM-CGS-17
+  - 배경 효과음 : You Lose (3).wav
 
 ## **화면 비율**
 
@@ -81,10 +90,13 @@
   - Ranbom Bar 생성 O
 
 - `20-04-16`
-  - 장애물 설정
-  - 적 기체 설정
-  - 효과음 설정
-  - FX 설정
+  - 적 비행물 설정 O
+  - text.file로 적 기체 생성 조작 O
+  - EnemySpanwer 설정 O
+
+- `20-04-17`
+  - 적 기체 생성 코루틴 완성하기
+  - 타격, 체력, 이팩트 구현
 
 ## **만들면서**
 
@@ -99,3 +111,8 @@
   - MainTex의 변경은 되지않는다...(아마도) 그래서 쉐이더 그래프를 만들어 Material을 적용시켰다.
   - public Material playerMaterial; // player 머테리얼을 가져오고
   - playerMaterial.SetTexture ("_SubTex" ,sprites[num]); // SetTexture("변수명", Texture)으로 변경
+
+- **PNG 와 JPG**
+  - PNG : 투명한 배경으로 저장, 파일 크기가 커짐
+  - JPG : 투명한 배경은 하얀색 바탕으로 저장되고, 파일 크기가 작음
+  
