@@ -10,11 +10,24 @@ public class Bullt : MonoBehaviour, IPooledObject
 
     public void OnObjectSpanw()
     {
-        transform.DOLocalMoveY(5.5f, endTime).SetEase(Ease.Linear)
-            .OnComplete(() =>
-            {
-                gameObject.SetActive(false); // 시간지나면 비활성화
-            });
-    }
+        // 생성된 총알의 태그별 로직
+        switch (gameObject.tag)
+        {
+            // 플레이어의 총알일 경우
+            case "PBullet":
+                transform.DOMoveY(5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
+                {
+                    gameObject.SetActive(false); // 시간지나면 비활성화
+                });
+                break;
 
+            // 적 총알일 경우
+            case "EBullet":
+                transform.DOMoveY(-5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
+                {
+                    gameObject.SetActive(false); // 시간지나면 비활성화
+                });
+                break;
+        }
+    }
 }

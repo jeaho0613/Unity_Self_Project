@@ -43,10 +43,10 @@
 
 ## **Using Asset, package**
 
-- DOTWEEN (트윈 에셋)
-- Interface and Item Sounds (사운드 에셋)
-- URP (파이프 라인)
-- Planets with Space Background in Flat Style (예정)//
+- DOTWEEN (트윈 에셋) // 무료
+- Interface and Item Sounds (사운드 에셋) // 유료
+- URP (파이프 라인) // 패키지 
+- Planets with Space Background in Flat Style (예정)
 
 ## **SoundManager**
 
@@ -95,8 +95,23 @@
   - EnemySpanwer 설정 O
 
 - `20-04-17`
-  - 적 기체 생성 코루틴 완성하기
-  - 타격, 체력, 이팩트 구현
+  - 적 기체 생성 코루틴 완성하기 O
+  - 화면 밖 (3,4,5,6)생성 기체 설정 O
+  - 적 기체 생성 o
+  - 기체 생성 시 총알 생성 o
+  - 적 기체 타격시 애니메이션 설정 o
+  - 총알 설정
+    - playerBullet : PBullet tag로 관리
+    - EnemyBullet : EBullet tag로 관리
+  - 적 기체 shooting delay에 따른 총알 발사 구현
+  
+- `20-04-18`
+  - 기체 움직임 설정
+    - player의 위치가 아닌 특정 위치로 변경
+    - 총알발사와 거리를 두기 위함
+  - 기체, 플레이어 사망효과
+  - 필살기 구현 로직
+  - UI 설정
 
 ## **만들면서**
 
@@ -115,4 +130,22 @@
 - **PNG 와 JPG**
   - PNG : 투명한 배경으로 저장, 파일 크기가 커짐
   - JPG : 투명한 배경은 하얀색 바탕으로 저장되고, 파일 크기가 작음
+
+- **싱글톤 Instance?**
+  - SoundManager를 싱글톤으로 구성하고 사용할 때 마다 Instance쓰기 불편
+  - soundManager를 전역변수로 설정하고
+  - public SoundManager soundManager = SoundManager.Instance 로 설정을 해도
+  - 코드상에서는 오류가 생김... 나중에 분석 요망
+
+- **스크립트, 오브젝트 비활성화**
+  - 비활성화 한다고 내부에 있는 값들이 사라지는건 아님.
+  - 생성주기를 이용해 로직을 구현할 때 스크립트의 내부 값을 초기화 해주는걸 고려해야함.
+  - start, Awake 등이 포함. 활성화 될 때 최초 1번 실행이 되었다면 재실행 되지 않음
+
+- **Rigidbody type**
+  - **dynamic** : 딜폴트 타입으로 다른 body type과 모두 충돌하고 중력과 힘의 영향을 받습니다.
+    - 위치나 회전값을 동적(코드)으로 변경하는 오브젝트에 사용하기엔 비효율 적입니다.
+  - **Kinematic** : 중력과 힘의 영향을 받지 않아  동적(코드)으로 제어하는 오브젝트에 적합한 타입입니다.
+    - dynamic 타입을 갖는 오브젝트와 충돌하고 그외 나머지 kinematic 과 static 타입과는 통과합니다.
+  - **static** : 움직이지 않는 오브젝트에 적합한 타입입니다.
   

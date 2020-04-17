@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2686959883224176470}
   - component: {fileID: 2686959883224176465}
-  - component: {fileID: 2686959883224176471}
   - component: {fileID: 4235011437534498786}
+  - component: {fileID: 1484471427688022407}
   - component: {fileID: -3883222361045286819}
   m_Layer: 0
   m_Name: EnemyM
@@ -85,25 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &2686959883224176471
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2686959883224176464}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2ff9a60de3fec2244aa6adece47465bc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!60 &4235011437534498786
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -135,6 +116,27 @@ PolygonCollider2D:
       - {x: 0.03125, y: -0.375}
       - {x: 0.21875, y: 0}
       - {x: 0.375, y: 0.375}
+--- !u!50 &1484471427688022407
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686959883224176464}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &-3883222361045286819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,4 +149,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fefb58009d49cba4babd1e1c57ee9b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: M
+  endSpeed: 3
+  shootingDelay: 2
+  health: 50
+  power: 0
+  sprites:
+  - {fileID: -7642239419928554605, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}
+  - {fileID: -7911572535675539837, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}

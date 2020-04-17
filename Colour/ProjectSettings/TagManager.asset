@@ -9,6 +9,8 @@ TagManager:
   - RedBar
   - YellowBar
   - Wall
+  - PBullet
+  - EBullet
   layers:
   - Default
   - TransparentFX

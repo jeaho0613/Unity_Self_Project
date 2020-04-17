@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         while (stringReader != null)
         {
             string line = stringReader.ReadLine();
-            Debug.Log(line);
+            //Debug.Log(line); //읽은값 출력
 
             // 마지막줄 즉 null 값이면 정지
             if (line == null)
