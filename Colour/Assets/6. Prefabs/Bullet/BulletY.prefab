@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2010712769179389442}
   - component: {fileID: 7445624363235790691}
   - component: {fileID: 4398140470938302889}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BulletY
-  m_TagString: Bullet
+  m_TagString: PBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

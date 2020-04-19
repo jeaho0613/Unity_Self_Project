@@ -11,6 +11,7 @@ TagManager:
   - Wall
   - PBullet
   - EBullet
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -20,13 +21,13 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - EBullet
+  - PBullet
+  - Bar
+  - ObjectTrigger
+  - Enemy
+  - FX
   - 
   - 
   - 
@@ -62,4 +63,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3576125289
+    locked: 0
+  - name: FX
+    uniqueID: 1328354631
     locked: 0

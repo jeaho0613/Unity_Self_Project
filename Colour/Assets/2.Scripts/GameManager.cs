@@ -5,7 +5,8 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager Instance; // 싱글톤
+
     // Spawn 구조체
     public class Spawn
     {
@@ -16,11 +17,15 @@ public class GameManager : MonoBehaviour
 
     public List<Spawn> spawnList; // Spawn구조체 리스트
 
+    public int Life; // 플레이어 라이프
+
+    // 초기화
     private void Awake()
     {
-        Instance = this;
-        spawnList = new List<Spawn>();
-        ReadSpawnFile();
+        Instance = this; // 싱글톤
+        spawnList = new List<Spawn>(); // spawnList 초기화
+        ReadSpawnFile(); // Text 파일 
+        Life = 3; // 목숨 3개로 초기화
     }
 
     #region Text파일 읽기

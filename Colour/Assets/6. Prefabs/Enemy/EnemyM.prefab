@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4235011437534498786}
   - component: {fileID: 1484471427688022407}
   - component: {fileID: -3883222361045286819}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,9 +150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endSpeed: 3
-  shootingDelay: 2
+  shootingDelay: 0.2
   health: 50
   power: 0
   sprites:
   - {fileID: -7642239419928554605, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}
   - {fileID: -7911572535675539837, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}
+  enemyType: EBM

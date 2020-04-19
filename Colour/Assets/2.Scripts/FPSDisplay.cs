@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+// 프레임 표시 스크립트
 public class FPSDisplay : MonoBehaviour
 {
     float deltaTime = 0f;

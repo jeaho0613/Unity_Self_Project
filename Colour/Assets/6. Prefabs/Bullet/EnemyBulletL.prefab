@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1285052860420989774}
   - component: {fileID: 8536659459731992632}
   - component: {fileID: 7255615943012162754}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyBulletL
   m_TagString: EBullet
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 0.125, y: 0.375}
   m_AdaptiveModeThreshold: 0.5

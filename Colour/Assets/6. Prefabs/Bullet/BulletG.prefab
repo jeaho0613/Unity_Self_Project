@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6026441788123800650}
   - component: {fileID: 5393740779017788979}
   - component: {fileID: -960516860600950466}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BulletG
-  m_TagString: Bullet
+  m_TagString: PBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

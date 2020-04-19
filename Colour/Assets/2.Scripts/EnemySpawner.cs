@@ -49,46 +49,58 @@ public class EnemySpawner : MonoBehaviour
 
         switch (enemySpawnList[index].point)
         {
-            // 0,1,2 포인트 생성 직선주행
+            // Red Large 기체 생성
             case 0:
             case 1:
             case 2:
-                playerPoint = playerObject.transform.position;
-                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type
-                                                    , points[enemySpawnList[index].point].position
-                                                    , Quaternion.identity);
-                
-                enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);
+                // 오브젝트 생성
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                    , points[enemySpawnList[index].point].position // 생성 포인트
+                                                    , Quaternion.identity); // 회전값
 
-                //Debug.Log("0,1,2 포인트 생성 입니다.");
+                // 움직임 (직선)
+                enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear); 
                 break;
-            // 3,5 포인트 생성 플레이어 방향으로
+
+            // Red M 기체 생성
             case 3:
-            case 5:
-                playerPoint = playerObject.transform.position;
-                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type
-                                                     , points[enemySpawnList[index].point].position
-                                                     , Quaternion.identity);
-                enemyObject.transform.DOMoveX(playerPoint.x, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.OutQuad);
-                enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.InQuad);
+                // 오브젝트 생성
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                     , points[enemySpawnList[index].point].position // 생성 포인트
+                                                     , Quaternion.Euler(0,0,90)); // 회전값
 
-
-                //Debug.Log("3,5 포인트 생성 입니다.");
+                // 움직임 (대각선)
+                enemyObject.transform.DOMoveX(5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);
+                enemyObject.transform.DOMoveY(0f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);
                 break;
-            // 4,6 포인트 생성 플레이어 방향으로 
+
+            // Red M 기체 생성
             case 4:
+                // 오브젝트 생성
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                     , points[enemySpawnList[index].point].position // 생성 포인트
+                                                     , Quaternion.Euler(0, 0, -90)); // 회전값
+
+                // 움직임 (대각선)
+                enemyObject.transform.DOMoveX(-5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);
+                enemyObject.transform.DOMoveY(0f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);
+                break;
+
+            // Red S 기체 생성
+            case 5:
             case 6:
-                playerPoint = playerObject.transform.position;
-                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type
-                                                     , points[enemySpawnList[index].point].position
-                                                     , Quaternion.identity);
+                // 오브젝트 생성
+                playerPoint = playerObject.transform.position; // 현재 player 위치값
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                     , points[enemySpawnList[index].point].position // 생성 포인트
+                                                     , Quaternion.identity); // 회전값
+
+                // 움직임 (플레이어.X값으로 진행)
                 enemyObject.transform.DOMoveX(playerPoint.x, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.OutQuad);
                 enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.InQuad);
-
-                //Debug.Log("4,6 포인트 생성 입니다.");
                 break;
         }
 
-        this.index++;
+        this.index++; // 다음 생성을 위한 index값 증가
     }
 }

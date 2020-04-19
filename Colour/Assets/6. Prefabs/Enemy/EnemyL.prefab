@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5983425315203518133}
   - component: {fileID: -9197197235880839354}
   - component: {fileID: 4915393161367785398}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,3 +151,4 @@ MonoBehaviour:
   sprites:
   - {fileID: 8596640243658272642, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}
   - {fileID: -5720429097031363069, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}
+  enemyType: EBL

@@ -7,7 +7,7 @@ public class Bar : MonoBehaviour, IPooledObject
 
     public void OnObjectSpanw()
     {
-        transform.DOMove(new Vector3(0, -5.5f, 0), 5f).SetEase(Ease.Linear);
+        transform.DOMove(new Vector3(0, -5.5f, 0), 5f).SetEase(Ease.Linear); // 생성시 움직임
     }
 
     // Bar가 collider에 부딪쳤을 때
@@ -21,12 +21,10 @@ public class Bar : MonoBehaviour, IPooledObject
             // 현재 currentColor의 값
             string currentColor = otherCom.currentColor;
             // 현재 bar의 색이랑 비교함
-            // - 다르면 player 비활성화, 게임 오버
-            if (!(currentColor == currentType))
+            // - 다르면 playerDie() 함수 실행
+            if (currentColor != currentType)
             {
-                otherCom.isDie = true; // 캐릭터를 사망으로
-                SoundManager.Instance.GetComponent<AudioSource>().Stop(); // 배경음 정지
-                other.GetComponent<AudioSource>().PlayOneShot(SoundManager.Instance.endGame); // 사망 효과음 발생
+                otherCom.PlayerDie();
             }
         }
 

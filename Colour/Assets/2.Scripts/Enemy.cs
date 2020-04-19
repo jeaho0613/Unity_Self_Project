@@ -12,31 +12,32 @@ public class Enemy : MonoBehaviour, IPooledObject
     public float health; // 체력
     public int power; // 공격력
     public Sprite[] sprites; // 피격 효과시 교체될 이미지
+    public string enemyType; // 현재 기체 타입
 
     private float savehealth; // 재 생성될때 저장 체력값
     private SpriteRenderer spriteRenderer; // enemy 기체 이미지렌더러
-    private string[] enemyType = { "EBS", "EBM", "EBL" }; // 풀링에 대입될 배열
-    private float startTime;
+    private float startTime; // 총알 발사 주기
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
         savehealth = health; // 체력값을 save에 저장
-        
     }
 
     private void Update()
     {
-        startTime += Time.deltaTime;
+        startTime += Time.deltaTime; // 경과 시간
+
+        // 경과 시간 >= 적 총알 생성 주기
         if (startTime >= shootingDelay)
         {
-            Shooting();
+            Shooting(); // 적 총알 발사
         }
     }
 
+    // 생성될 때 실행될 로직
     public void OnObjectSpanw()
     {
-        Shooting();
         health = savehealth;
     }
 
@@ -63,6 +64,7 @@ public class Enemy : MonoBehaviour, IPooledObject
             if (health <= 0)
             {
                 gameObject.SetActive(false);
+                ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation);
             }
         }
     }
@@ -70,12 +72,25 @@ public class Enemy : MonoBehaviour, IPooledObject
     // 피격시 스프라이트 복구
     private void Attacked()
     {
-        spriteRenderer.sprite = sprites[0];
+        spriteRenderer.sprite = sprites[0]; // 원상태 이미지
     }
 
+    // 오브젝트 풀링의 적 총알 타입에 맞게 생성
     private void Shooting()
     {
-        ObjectManager.Instance.SpawnFromPool("EBS", transform.position + new Vector3(0, -1, 0), Quaternion.identity);
-        startTime = 0;
+        switch (enemyType)
+        {
+            case "EBL":
+                ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0, -0.5f, 0), Quaternion.identity);
+                break;
+            case "EBM":
+                ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0, -0.5f, 0), Quaternion.identity);
+                break;
+            case "EBS":
+                ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0, -0.5f, 0), Quaternion.identity);
+                break;
+
+        }
+        startTime = 0; // 경과 시간 초기화
     }
 }
