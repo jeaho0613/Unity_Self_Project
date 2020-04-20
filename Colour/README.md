@@ -151,6 +151,36 @@
   - 아마 코루틴으로 애니메이션을 제어하는 부분에서 발생하는 딜레이인거 같다.
   - 이럴땐 Exis Time을 해제하고 타임을 0으로 만들면 정상적으로 작동한다.
 
+- **Get Set 프로퍼티**
+  - Get : 값을 가져올때
+  - Set : 값을 새로 쓸 때
+
+  - ```c#
+      [GameManager Script]
+
+      private float skillPoint; // 스킬 포인트
+      public float SkillPoint // 스킬 포인트 프로퍼티
+      {
+        get
+        {
+            return skillPoint;
+        }
+
+        set
+        {
+            Debug.Log("value입니다. : " + value);
+            skillPoint = value;
+            UpdateSkill();
+        }
+      }
+
+      [Enemy Script]
+
+      GameManager.Instance.SkillPoint += enemyPoint; // 기체의 스킬 포인트 획득
+
+    `value`는 `GameManager.Instance.SkillPoint += enemyPoint` 이 로직이 끝난 값을 받는다.
+    ```
+
 ## **Time Line**
 
 - `20-04-11`  
@@ -216,3 +246,6 @@
 - `20-04-21`
   - 필살기 구현 로직 요망
   - UI 설정 요망
+
+- `20-04-22`
+  - BOSS

@@ -57,9 +57,15 @@ TagManager:
   - name: Player
     uniqueID: 3576125289
     locked: 0
-  - name: Bullet
+  - name: PBullet
     uniqueID: 4235786937
+    locked: 0
+  - name: EBullet
+    uniqueID: 2067353279
     locked: 0
   - name: FX
     uniqueID: 1328354631
+    locked: 0
+  - name: UI
+    uniqueID: 3079292217
     locked: 0

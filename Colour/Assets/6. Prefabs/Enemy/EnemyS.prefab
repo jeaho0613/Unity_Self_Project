@@ -100,7 +100,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.14
 --- !u!50 &7403505502620747481
 Rigidbody2D:
   serializedVersion: 4
@@ -137,7 +137,7 @@ MonoBehaviour:
   endSpeed: 2
   shootingDelay: 1
   health: 10
-  power: 0
+  enemyPoint: 0.1
   sprites:
   - {fileID: -3876759189950653258, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}
   - {fileID: 5398807837072792716, guid: 5527507280c334f4bb89358ac4d06ac2, type: 3}

@@ -72,10 +72,8 @@ public class PlayerControll : MonoBehaviour
 
         // 화면 제한 로직
         // - min, max에 카메라 끝점(왼쪽하단, 오른쪽 상단)을 vector2 값으로 받아옴
-        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
-        //Debug.Log("min값 : "+min);
+        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0.07f));
         Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
-        //Debug.Log("max값 : " + max);
         Vector2 playerPos = transform.position;
 
         // Clamp (최소,최대 값을 정해줌)
@@ -123,9 +121,10 @@ public class PlayerControll : MonoBehaviour
             moveSpeed = 7f;
             shootingTime = 0.2f;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow) && (GameManager.Instance.skillCount > 0))
         {
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
+            GameManager.Instance.skillCount--;
             enumColors = EnumColors.Yellow;
             ChageColor();
             moveSpeed = 7f;
@@ -194,7 +193,8 @@ public class PlayerControll : MonoBehaviour
         isDie = true; // 사망 체크
         playerBoxCollider.enabled = false; // 충돌 비활성화
         PlayerSpriteRenderer.color = Color.clear; // player 색 제거
-        GameManager.Instance.Life--; // 목숨 -1
+        GameManager.Instance.life--; // 목숨 -1
+        //StartCoroutine(GameManager.Instance.UpdateLifeUI());
         ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭파 애니메이션 생성
         playerAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[(int)enumColors + 2]); // 사망 효과음 발생 
         Invoke("PlayerRespawn", 2); // 사망한뒤 2초뒤 생성

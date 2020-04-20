@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
                                                     , Quaternion.identity); // 회전값
 
                 // 움직임 (직선)
-                enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear); 
+                enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);
                 break;
 
             // Red M 기체 생성
@@ -67,7 +67,7 @@ public class EnemySpawner : MonoBehaviour
                 // 오브젝트 생성
                 enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
                                                      , points[enemySpawnList[index].point].position // 생성 포인트
-                                                     , Quaternion.Euler(0,0,90)); // 회전값
+                                                     , Quaternion.Euler(0, 0, 90)); // 회전값
 
                 // 움직임 (대각선)
                 enemyObject.transform.DOMoveX(5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.Linear);

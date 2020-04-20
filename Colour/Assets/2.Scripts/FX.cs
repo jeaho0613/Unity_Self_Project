@@ -31,7 +31,7 @@ public class FX : MonoBehaviour, IPooledObject
     IEnumerator CheckEndSound()
     {
         // 무한루프
-        while(true)
+        while (true)
         {
             // 사운드가 끝났을 때
             if (!audioSource.isPlaying)
@@ -40,7 +40,6 @@ public class FX : MonoBehaviour, IPooledObject
                 StopCoroutine(checkCoroutine); // 코루틴 정지
             }
             yield return new WaitForSeconds(1f); // 사운드가 재생중이면 1초후 다시 체크
-            Debug.Log("체크중");
         }
     }
     #endregion
