@@ -668,10 +668,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c550786a03ba34b8ec2902a5f95e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 8300000, guid: 881e3f52c86c94f26a60718d35627cd8, type: 3}
-  colorChange: {fileID: 8300000, guid: 99592ce21f4bf5e40be7d91ded203888, type: 3}
-  playerDie: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
-  endGame: {fileID: 8300000, guid: 5243d9e0a03b1164bb59121ab8c56a16, type: 3}
+  bullet: {fileID: 8300000, guid: 512652d17bc8f3341aa4f3a14082ada1, type: 3}
+  colorChange: {fileID: 8300000, guid: 8f7aa0f1cd3bd2845bcd434ddec52315, type: 3}
+  playerDie: {fileID: 8300000, guid: 244e3253f0529fd4894ece996c404ba6, type: 3}
+  endGame: {fileID: 8300000, guid: 463b227c0373c9641bbabc9a2010a2ac, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
