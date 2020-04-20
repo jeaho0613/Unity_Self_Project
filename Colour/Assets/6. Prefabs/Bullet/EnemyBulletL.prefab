@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1285052860420989774}
   - component: {fileID: 8536659459731992632}
   - component: {fileID: 7255615943012162754}
+  - component: {fileID: -2003381071114886016}
   m_Layer: 9
   m_Name: EnemyBulletL
   m_TagString: EBullet
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -59180359
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -8903820709282021555, guid: 1897f3e65d9118c469a53999227ae3b7,
     type: 3}
@@ -97,3 +98,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endTime: 1
   power: 0
+--- !u!61 &-2003381071114886016
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994663683073872609}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.07667208}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.125, y: 0.375}
+    newSize: {x: 0.125, y: 0.375}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.125, y: 0.1585145}
+  m_EdgeRadius: 0

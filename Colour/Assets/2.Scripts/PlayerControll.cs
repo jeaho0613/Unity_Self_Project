@@ -101,7 +101,7 @@ public class PlayerControll : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) && (enumColors != EnumColors.Red))
         {
-            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
             enumColors = EnumColors.Red;
             ChageColor();
             moveSpeed = 3f;
@@ -109,7 +109,7 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && (enumColors != EnumColors.Green))
         {
-            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
             enumColors = EnumColors.Green;
             ChageColor();
             moveSpeed = 0.7f;
@@ -117,7 +117,7 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) && (enumColors != EnumColors.Blue))
         {
-            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
             enumColors = EnumColors.Blue;
             ChageColor();
             moveSpeed = 7f;
@@ -125,7 +125,7 @@ public class PlayerControll : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow))
         {
-            playerAudioSource.PlayOneShot(SoundManager.Instance.colorChange);
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
             enumColors = EnumColors.Yellow;
             ChageColor();
             moveSpeed = 7f;
@@ -143,7 +143,7 @@ public class PlayerControll : MonoBehaviour
         if (shootingCool > shootingTime)
         {
             // 총알 발사 소리
-            playerAudioSource.PlayOneShot(SoundManager.Instance.bullet);
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[0]);
 
             // 오브젝트 풀 사용
             ObjectManager.Instance.SpawnFromPool(currentColor, transform.position, Quaternion.identity);
@@ -196,7 +196,7 @@ public class PlayerControll : MonoBehaviour
         PlayerSpriteRenderer.color = Color.clear; // player 색 제거
         GameManager.Instance.Life--; // 목숨 -1
         ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭파 애니메이션 생성
-        playerAudioSource.PlayOneShot(SoundManager.Instance.endGame); // 사망 효과음 발생 
+        playerAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[(int)enumColors + 2]); // 사망 효과음 발생 
         Invoke("PlayerRespawn", 2); // 사망한뒤 2초뒤 생성
     }
     #endregion
@@ -219,6 +219,17 @@ public class PlayerControll : MonoBehaviour
         isRespawn = false; // 리스폰 해제
         playerBoxCollider.enabled = true; // 충돌 비활성화
         PlayerSpriteRenderer.color = Color.white; // 색 복귀
+    }
+    #endregion
+
+    #region OnTriggerEnter2D() 플레이어 충돌 판정
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // 적 총알 || 적 기체에 충돌시
+        if (other.tag == "EBullet" || other.tag == "Enemy")
+        {
+            PlayerDie(); // player Die
+        }
     }
     #endregion
 

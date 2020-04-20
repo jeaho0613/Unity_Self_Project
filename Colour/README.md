@@ -3,7 +3,12 @@
 색을 이용한 게임을 제작합니다.  
 기본 베이스는 슈팅게임을 바탕으로 색에 맞추어 컨트롤합니다.
 
-## 프로젝트 디자인
+## **주의 사항**
+
+- **`Sound Folder`에 유로 에셋이 포함되있습니다. 저작권에 위반될 시 삭제하겠습니다.**
+- **이미지 리소스는 `골드메탈`님의 슈팅게임 강의영상을 기반으로 제작했습니다.**
+
+## **프로젝트 디자인**
 
 - Object Pool 디자인
 - Manager scripts 구성
@@ -54,15 +59,26 @@
 - DOTWEEN (트윈 에셋) // 무료
 - Interface and Item Sounds (사운드 에셋) // 유료
 - URP (파이프 라인) // 패키지
-- Planets with Space Background in Flat Style (예정)
+- Grenade Sound FX (예정)
+- Loop & Music Free
+- (Free) Retro SFX Pack
 
 ## **SoundManager**
 
-- 총알 발사 시 : DM-CGS-34.wav
-- 색 변경 시 : v1.0 item Purchase(5)
-- player 사망 시
-  - 기체 효과음 : DM-CGS-17
-  - 배경 효과음 : You Lose (3).wav
+- **Player Sounds**  
+  - 0 Bullet (플레이어 발사 소리)
+  - 1 Color Change (플레이어 색 변경 소리)
+
+- **Enemy Sounds**  
+  - 0 Bullet (적 발사 소리)
+
+- **FX Sounds**
+  - 0 Game Win (게임 승리 소리)
+  - 1 Game Lose (게임 종료 소리)
+  - 2 Destroy1 (nomarl)
+  - 3 Destroy2 (nomarl)
+  - 4 Destroy3 (nomarl)
+  - 5 Destroy4 (nomarl)
 
 ## **화면 비율**
 
@@ -126,6 +142,15 @@
     - dynamic 타입을 갖는 오브젝트와 충돌하고 그외 나머지 kinematic 과 static 타입과는 통과합니다.
   - **static** : 움직이지 않는 오브젝트에 적합한 타입입니다.
 
+- **생명 주기**
+  - 알고는 있었지만 Awake() Start()의 실행 시간은 다르다.
+  - Awake에서 비활성화된 오브젝트가 있을 경우 Start가 실행되지 않아 오류가 발생했다.
+
+- **Animation delay**
+  - Exis Time을 체크했는대도 얘기치 못한 딜레이가 발생할수 있다.
+  - 아마 코루틴으로 애니메이션을 제어하는 부분에서 발생하는 딜레이인거 같다.
+  - 이럴땐 Exis Time을 해제하고 타임을 0으로 만들면 정상적으로 작동한다.
+
 ## **Time Line**
 
 - `20-04-11`  
@@ -179,7 +204,15 @@
     - 각 오브젝트별 Layer 설정
     - 충돌별 Matrix설정
 
-- `20-04-19`
-  - 적 기체와 적 총알의 피격 판정 설정 요망
+- `20-04-20`
+  - 적 기체와 적 총알의 피격 판정 설정 완료
+  - 적 기체, 플레이어의 파괴 효과 완료
+  - **`애니메이션 StateBehaviour 제거`**
+    - FX 스크립트에서 플레이 체크하는 방식으로 변경
+  - Sound Manager 변경
+    - 배열로 관리
+    - 각 오브젝트 단위로 변경
+
+- `20-04-21`
   - 필살기 구현 로직 요망
   - UI 설정 요망

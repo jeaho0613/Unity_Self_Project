@@ -4,14 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - BlueBar
-  - GreenBar
-  - RedBar
-  - YellowBar
   - Wall
   - PBullet
   - EBullet
-  - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -55,14 +51,14 @@ TagManager:
   - name: Bar
     uniqueID: 3807417209
     locked: 0
-  - name: Bullet
-    uniqueID: 4235786937
-    locked: 0
   - name: Enemy
     uniqueID: 3007952287
     locked: 0
   - name: Player
     uniqueID: 3576125289
+    locked: 0
+  - name: Bullet
+    uniqueID: 4235786937
     locked: 0
   - name: FX
     uniqueID: 1328354631

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2341477474880778237}
   - component: {fileID: 3483628225558618618}
   - component: {fileID: 4781444501672474959}
+  - component: {fileID: 2995321932450838103}
   m_Layer: 9
   m_Name: EnemyBulletS
   m_TagString: EBullet
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -59180359
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 1288859403982618476, guid: 1897f3e65d9118c469a53999227ae3b7,
     type: 3}
@@ -97,3 +98,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endTime: 1
   power: 0
+--- !u!58 &2995321932450838103
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4772746772643867106}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.09
