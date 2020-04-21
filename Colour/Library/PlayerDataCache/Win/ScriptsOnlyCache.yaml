@@ -60,18 +60,14 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
     UnityEngine.UI.dll:
-    - UnityEngine.EventSystems.EventSystem
-    - UnityEngine.EventSystems.StandaloneInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.ContentSizeFitter
@@ -162,8 +158,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12730}
     - Class: 114
-      Script: {instanceID: 12820}
-    - Class: 114
       Script: {instanceID: 12968}
     - Class: 114
       Script: {instanceID: 12972}
@@ -222,8 +216,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 15928}
     - Class: 114
-      Script: {instanceID: 15972}
-    - Class: 114
       Script: {instanceID: 15998}
     - Class: 114
       Script: {instanceID: 16000}
@@ -254,7 +246,7 @@ ScriptsOnlyBuild:
   scriptHashData:
   - hash:
       serializedVersion: 2
-      Hash: befc74fb6808d5597c40fc3bdf7d930b
+      Hash: 80c6e9c74da9abbbe2dababac718bc72
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Enemy
@@ -554,7 +546,7 @@ ScriptsOnlyBuild:
     className: UIFoldout
   - hash:
       serializedVersion: 2
-      Hash: d439b87d5ad314da0e4eeaf018ae39cc
+      Hash: 7c5aa65a9fb0939845eb018f34a4c5d9
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager

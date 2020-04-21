@@ -99,36 +99,36 @@ public class PlayerControll : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) && (enumColors != EnumColors.Red))
         {
-            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
-            enumColors = EnumColors.Red;
-            ChageColor();
-            moveSpeed = 3f;
-            shootingTime = 0.05f;
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]); // 소리 출력
+            enumColors = EnumColors.Red; // 색 변경
+            ChageColor(); // 색 변경 실행
+            moveSpeed = 3f; // 능력치 변경
+            shootingTime = 0.05f; // 능력치 변경
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && (enumColors != EnumColors.Green))
         {
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
-            enumColors = EnumColors.Green;
-            ChageColor();
-            moveSpeed = 0.7f;
-            shootingTime = 0.1f;
+            enumColors = EnumColors.Green; // 색 변경
+            ChageColor(); // 색 변경
+            moveSpeed = 0.7f; // 능력치 변경
+            shootingTime = 0.1f; // 능력치 변경
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) && (enumColors != EnumColors.Blue))
         {
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
-            enumColors = EnumColors.Blue;
-            ChageColor();
-            moveSpeed = 7f;
-            shootingTime = 0.2f;
+            enumColors = EnumColors.Blue; // 색 변경
+            ChageColor(); // 색 변경
+            moveSpeed = 7f; // 능력치 변경
+            shootingTime = 0.2f; // 능력치 변경
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow) && (GameManager.Instance.skillCount > 0))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow) && (GameManager.Instance.SkillCount > 0))
         {
-            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
-            GameManager.Instance.skillCount--;
-            enumColors = EnumColors.Yellow;
-            ChageColor();
-            moveSpeed = 7f;
-            shootingTime = 0.02f;
+            playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]); // 소리 출력
+            GameManager.Instance.SkillCount--; // 스킬 카운트 감소
+            enumColors = EnumColors.Yellow; // 색 변경
+            ChageColor(); // 색 변경
+            moveSpeed = 7f; // 능력치 변경
+            shootingTime = 0.02f; // 능력치 변경
         }
     }
     #endregion
@@ -193,7 +193,7 @@ public class PlayerControll : MonoBehaviour
         isDie = true; // 사망 체크
         playerBoxCollider.enabled = false; // 충돌 비활성화
         PlayerSpriteRenderer.color = Color.clear; // player 색 제거
-        GameManager.Instance.life--; // 목숨 -1
+        GameManager.Instance.Life--; // 목숨 감소
         //StartCoroutine(GameManager.Instance.UpdateLifeUI());
         ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭파 애니메이션 생성
         playerAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[(int)enumColors + 2]); // 사망 효과음 발생 

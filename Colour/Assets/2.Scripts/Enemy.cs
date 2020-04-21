@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour, IPooledObject
                 //Debug.Log($"Enemy의 skillPoint : {skillPoint}");
                 gameObject.SetActive(false); // 비활성화
                 ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭팔 이펙트 생성
-                GameManager.Instance.skillPoint += enemyPoint; // 기체의 스킬 포인트 획득
+                GameManager.Instance.SkillPoint += enemyPoint; // 기체의 스킬 포인트 획득
             }
         }
     }

@@ -5,8 +5,8 @@ public class FX : MonoBehaviour, IPooledObject
 {
     private Animator animator; // 애니메이션
     private AudioSource audioSource; // 폭팔 소리 소스
-    private int randomNum;
-    private Coroutine checkCoroutine = null;
+    private int randomNum; // 랜덤한 폭팔 소리 변수
+    private Coroutine checkCoroutine = null; // 코루틴 정지를 위한 변수
 
     private void Awake()
     {
@@ -22,8 +22,6 @@ public class FX : MonoBehaviour, IPooledObject
         animator.SetTrigger("isDie"); // 애니메이션 재생
         audioSource.Play(); // 재생
         checkCoroutine = StartCoroutine(CheckEndSound()); // 사운드 종료 체크
-        //Debug.Log("FX 스크립트 OnObjectSpawn()이 실행됐습니다.");
-        //Debug.Log(audioSource.isPlaying);
     }
 
 
