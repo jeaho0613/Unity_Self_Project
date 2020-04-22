@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerControll : MonoBehaviour
 {
-    public bool isDie = false; // 사망 체크
-    public bool isRespawn = false; // 리스폰 체크
+    private bool isDie = false; // 사망 체크
+    private bool isRespawn = false; // 리스폰 체크
+    private bool isSkill = false; // 스킬 사용 체크
 
     public string currentColor; // 현재 색깔
     [Range(1f, 10f)]
@@ -102,33 +104,27 @@ public class PlayerControll : MonoBehaviour
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]); // 소리 출력
             enumColors = EnumColors.Red; // 색 변경
             ChageColor(); // 색 변경 실행
-            moveSpeed = 3f; // 능력치 변경
-            shootingTime = 0.05f; // 능력치 변경
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && (enumColors != EnumColors.Green))
         {
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
             enumColors = EnumColors.Green; // 색 변경
             ChageColor(); // 색 변경
-            moveSpeed = 0.7f; // 능력치 변경
-            shootingTime = 0.1f; // 능력치 변경
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) && (enumColors != EnumColors.Blue))
         {
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]);
             enumColors = EnumColors.Blue; // 색 변경
             ChageColor(); // 색 변경
-            moveSpeed = 7f; // 능력치 변경
-            shootingTime = 0.2f; // 능력치 변경
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow) && (GameManager.Instance.SkillCount > 0))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && (enumColors != EnumColors.Yellow) && (GameManager.Instance.SkillCount > 0) && !isSkill)
         {
+            isSkill = true;
+            StartCoroutine(PlayerSkill());
             playerAudioSource.PlayOneShot(SoundManager.Instance.PlayerSounds[1]); // 소리 출력
             GameManager.Instance.SkillCount--; // 스킬 카운트 감소
             enumColors = EnumColors.Yellow; // 색 변경
             ChageColor(); // 색 변경
-            moveSpeed = 7f; // 능력치 변경
-            shootingTime = 0.02f; // 능력치 변경
         }
     }
     #endregion
@@ -164,21 +160,29 @@ public class PlayerControll : MonoBehaviour
         switch (num)
         {
             case 0:
+                moveSpeed = 3f; // 능력치 변경
+                shootingTime = 0.05f; // 능력치 변경
                 currentColor = "Red";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 playerBoxCollider.enabled = true;
                 break;
             case 1:
+                moveSpeed = 0.7f; // 능력치 변경
+                shootingTime = 0.1f; // 능력치 변경
                 currentColor = "Green";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 playerBoxCollider.enabled = true;
                 break;
             case 2:
+                moveSpeed = 7f; // 능력치 변경
+                shootingTime = 0.2f; // 능력치 변경
                 currentColor = "Blue";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 playerBoxCollider.enabled = true;
                 break;
             case 3:
+                moveSpeed = 7f; // 능력치 변경
+                shootingTime = 0.02f; // 능력치 변경
                 currentColor = "Yellow";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
                 playerBoxCollider.enabled = false;
@@ -219,6 +223,17 @@ public class PlayerControll : MonoBehaviour
         isRespawn = false; // 리스폰 해제
         playerBoxCollider.enabled = true; // 충돌 비활성화
         PlayerSpriteRenderer.color = Color.white; // 색 복귀
+    }
+    #endregion
+
+    #region PlayerSkill() 플레이어 스킬 로직
+    IEnumerator PlayerSkill()
+    {
+        EnumColors saveNum = enumColors; // 스킬 사용전 원래 color 저장
+        yield return new WaitForSeconds(2f); // 2초 대기
+        isSkill = false;
+        enumColors = saveNum; // 사용전 color로 돌려줌
+        ChageColor(); // 색 변경
     }
     #endregion
 

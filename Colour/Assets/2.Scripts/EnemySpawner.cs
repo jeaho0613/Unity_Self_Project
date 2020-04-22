@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     {
         index = 0; // 초기화
         enemySpawnList = GameManager.Instance.spawnList; // 초기화
-        //Debug.Log("enemySpanwList count : " + enemySpawnList.Count); // 리스트 총 길이
+        Debug.Log("enemySpanwList count : " + enemySpawnList.Count); // 리스트 총 길이
     }
 
     private void Update()
@@ -29,14 +29,14 @@ public class EnemySpawner : MonoBehaviour
         // 마지막줄 처리
         if (enemySpawnList.Count <= index)
         {
-            // 인덱스를 리셋
-            index = 0;
+            Debug.Log("마지막 적 생성 종료");
+            gameObject.SetActive(false);
         }
 
         // 경과시간 > 딜레이 
-        if (nextSpawnTime > enemySpawnList[index].delay)
+        else if (nextSpawnTime > enemySpawnList[index].delay)
         {
-            //Debug.Log($"index : {index}"); // 현재 인덱스 
+            Debug.Log("적 생성"); // 현재 인덱스 
             nextSpawnTime = 0; // 생성 주기 초기화
             EnemySpawn(index); // 적 기체 생성
         }
@@ -49,10 +49,16 @@ public class EnemySpawner : MonoBehaviour
 
         switch (enemySpawnList[index].point)
         {
-            // Red Large 기체 생성
+            // BOSS 생성
             case 0:
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                    , points[enemySpawnList[index].point].position // 생성 포인트
+                                                    , Quaternion.identity); // 회전값
+                break;
+            // Red Large 기체 생성
             case 1:
             case 2:
+            case 3:
                 // 오브젝트 생성
                 enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
                                                     , points[enemySpawnList[index].point].position // 생성 포인트
@@ -63,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
                 break;
 
             // Red M 기체 생성
-            case 3:
+            case 4:
                 // 오브젝트 생성
                 enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
                                                      , points[enemySpawnList[index].point].position // 생성 포인트
@@ -75,7 +81,7 @@ public class EnemySpawner : MonoBehaviour
                 break;
 
             // Red M 기체 생성
-            case 4:
+            case 5:
                 // 오브젝트 생성
                 enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
                                                      , points[enemySpawnList[index].point].position // 생성 포인트
@@ -87,8 +93,8 @@ public class EnemySpawner : MonoBehaviour
                 break;
 
             // Red S 기체 생성
-            case 5:
             case 6:
+            case 7:
                 // 오브젝트 생성
                 playerPoint = playerObject.transform.position; // 현재 player 위치값
                 enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
@@ -102,5 +108,6 @@ public class EnemySpawner : MonoBehaviour
         }
 
         this.index++; // 다음 생성을 위한 index값 증가
+        Debug.Log(index);
     }
 }
