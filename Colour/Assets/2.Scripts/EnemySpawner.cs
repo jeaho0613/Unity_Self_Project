@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     {
         index = 0; // 초기화
         enemySpawnList = GameManager.Instance.spawnList; // 초기화
-        Debug.Log("enemySpanwList count : " + enemySpawnList.Count); // 리스트 총 길이
+        //Debug.Log("enemySpanwList count : " + enemySpawnList.Count); // 리스트 총 길이
     }
 
     private void Update()
@@ -29,14 +29,15 @@ public class EnemySpawner : MonoBehaviour
         // 마지막줄 처리
         if (enemySpawnList.Count <= index)
         {
-            Debug.Log("마지막 적 생성 종료");
-            gameObject.SetActive(false);
+            //Debug.Log("마지막 적 생성 종료");
+            GameManager.Instance.isBoss = true; // 보스전 돌입
+            gameObject.SetActive(false); // 몹 스포너 제거
         }
 
         // 경과시간 > 딜레이 
         else if (nextSpawnTime > enemySpawnList[index].delay)
         {
-            Debug.Log("적 생성"); // 현재 인덱스 
+            //Debug.Log("적 생성"); // 현재 인덱스 
             nextSpawnTime = 0; // 생성 주기 초기화
             EnemySpawn(index); // 적 기체 생성
         }
@@ -108,6 +109,6 @@ public class EnemySpawner : MonoBehaviour
         }
 
         this.index++; // 다음 생성을 위한 index값 증가
-        Debug.Log(index);
+        //Debug.Log(index);
     }
 }

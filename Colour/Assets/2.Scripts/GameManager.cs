@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] lifeGameObjects; // 라이프 오브젝트
     public GameObject[] skillPowerGameObjects; // 스킬 오브젝트
     public Image skillPowerBar; // 스킬 바
+    public bool isBoss = false;
 
     // 초기화
     private void Awake()

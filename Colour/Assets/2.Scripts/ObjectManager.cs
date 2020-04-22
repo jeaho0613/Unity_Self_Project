@@ -47,6 +47,7 @@ public class ObjectManager : MonoBehaviour
             {
                 //Debug.Log(Pool.tag);
                 GameObject obj = Instantiate(pool.prefab); // obj에 프리팹으로 설정한 게임오브젝트를 생성
+                obj.name = pool.prefab.name; // 이름을 프리팹 이름과 통일 (Clone)을 제거하기 위함
                 obj.transform.SetParent(pool.target); // 생성될 위치값
                 obj.SetActive(false); // 비활성화
                 objectPool.Enqueue(obj); // queue배열에 담는다.
