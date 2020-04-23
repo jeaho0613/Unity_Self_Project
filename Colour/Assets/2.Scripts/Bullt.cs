@@ -41,7 +41,7 @@ public class Bullt : MonoBehaviour, IPooledObject
             switch(gameObject.name)
             {
                 case "EnemyBulletL":
-                    transform.DOMoveY(-5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
+                    transform.DOMoveY(-5.5f, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
                     {
                         gameObject.SetActive(false); // 시간지나면 비활성화
                     });
@@ -52,17 +52,12 @@ public class Bullt : MonoBehaviour, IPooledObject
                     {
                         gameObject.SetActive(false); // 시간지나면 비활성화
                     });
-                    //
-                    break; 
-                case "EnemyBulletS":
-                    transform.DOMoveY(-5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
-                    {
-                        gameObject.SetActive(false); // 시간지나면 비활성화
-                    });
-                    //
-                    break; 
+                    break;
 
-                default:
+                case "BulletR":
+                case "BulletG":
+                case "BulletB":
+                case "BulletY":
                     transform.DOMoveY(5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
                     {
                         gameObject.SetActive(false); // 시간지나면 비활성화

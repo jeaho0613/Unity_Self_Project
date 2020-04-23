@@ -3,6 +3,7 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Bar
     - BarSpawner
+    - Boss
     - Bullt
     - Enemy
     - EnemySpawner
@@ -14,14 +15,6 @@ ScriptsOnlyBuild:
     - SoundManager
     DOTween.dll:
     - DG.Tweening.Core.DOTweenSettings
-    Unity.2D.Animation.Editor.dll:
-    - UnityEditor.U2D.Animation.BoneGizmo
-    Unity.2D.Tilemap.Editor.dll:
-    - UnityEditor.Tilemaps.GridPaintingState
-    - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
-    - UnityEditor.Tilemaps.SceneViewGridManager
-    - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.RenderPipelines.Core.Runtime.dll:
     - UnityEngine.Rendering.UI.DebugUIHandlerBitField
     - UnityEngine.Rendering.UI.DebugUIHandlerButton
@@ -57,12 +50,8 @@ ScriptsOnlyBuild:
     - UnityEngine.Rendering.Universal.UniversalRenderPipelineEditorResources
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    UnityEditor.Graphs.dll:
-    - UnityEditor.Graphs.AnimationBlendTree.Graph
-    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.Graph
-    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimatorControllerTool
+    Unity.ShaderGraph.Editor.dll:
+    - UnityEditor.ShaderGraph.Drawing.MaterialGraphEditWindow
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -122,109 +111,111 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11276}
+      Script: {instanceID: 11270}
     - Class: 114
-      Script: {instanceID: 11296}
+      Script: {instanceID: 11286}
     - Class: 114
-      Script: {instanceID: 11302}
+      Script: {instanceID: 11292}
     - Class: 114
-      Script: {instanceID: 11446}
+      Script: {instanceID: 11398}
     - Class: 114
-      Script: {instanceID: 11592}
+      Script: {instanceID: 11498}
+    - Class: 114
+      Script: {instanceID: 11518}
+    - Class: 114
+      Script: {instanceID: 11616}
     - Class: 114
       Script: {instanceID: 11620}
     - Class: 114
-      Script: {instanceID: 11756}
+      Script: {instanceID: 11694}
     - Class: 114
-      Script: {instanceID: 11762}
+      Script: {instanceID: 11728}
     - Class: 114
-      Script: {instanceID: 11848}
+      Script: {instanceID: 11856}
     - Class: 114
-      Script: {instanceID: 11910}
+      Script: {instanceID: 11886}
     - Class: 114
-      Script: {instanceID: 12082}
+      Script: {instanceID: 11954}
     - Class: 114
-      Script: {instanceID: 12116}
+      Script: {instanceID: 12170}
     - Class: 114
-      Script: {instanceID: 12208}
+      Script: {instanceID: 12210}
     - Class: 114
-      Script: {instanceID: 12504}
+      Script: {instanceID: 12214}
     - Class: 114
-      Script: {instanceID: 12558}
+      Script: {instanceID: 12272}
     - Class: 114
-      Script: {instanceID: 12562}
+      Script: {instanceID: 12324}
     - Class: 114
-      Script: {instanceID: 12660}
+      Script: {instanceID: 12396}
     - Class: 114
-      Script: {instanceID: 12730}
+      Script: {instanceID: 12498}
     - Class: 114
-      Script: {instanceID: 12968}
+      Script: {instanceID: 12502}
     - Class: 114
-      Script: {instanceID: 12972}
+      Script: {instanceID: 12546}
     - Class: 114
-      Script: {instanceID: 13026}
+      Script: {instanceID: 12662}
     - Class: 114
-      Script: {instanceID: 13198}
+      Script: {instanceID: 12696}
     - Class: 114
-      Script: {instanceID: 13248}
+      Script: {instanceID: 12738}
     - Class: 114
-      Script: {instanceID: 13300}
+      Script: {instanceID: 12794}
     - Class: 114
-      Script: {instanceID: 13382}
+      Script: {instanceID: 12888}
     - Class: 114
-      Script: {instanceID: 13526}
+      Script: {instanceID: 12998}
     - Class: 114
-      Script: {instanceID: 13688}
+      Script: {instanceID: 13092}
     - Class: 114
-      Script: {instanceID: 13820}
+      Script: {instanceID: 13148}
     - Class: 114
-      Script: {instanceID: 13896}
+      Script: {instanceID: 13174}
     - Class: 114
-      Script: {instanceID: 13930}
+      Script: {instanceID: 13292}
     - Class: 114
-      Script: {instanceID: 14092}
+      Script: {instanceID: 13436}
     - Class: 114
-      Script: {instanceID: 14284}
+      Script: {instanceID: 13496}
     - Class: 114
-      Script: {instanceID: 14370}
+      Script: {instanceID: 13516}
+    - Class: 114
+      Script: {instanceID: 13632}
+    - Class: 114
+      Script: {instanceID: 13660}
+    - Class: 114
+      Script: {instanceID: 13668}
+    - Class: 114
+      Script: {instanceID: 13956}
+    - Class: 114
+      Script: {instanceID: 13972}
+    - Class: 114
+      Script: {instanceID: 14022}
+    - Class: 114
+      Script: {instanceID: 14222}
+    - Class: 114
+      Script: {instanceID: 14242}
     - Class: 114
       Script: {instanceID: 14394}
     - Class: 114
-      Script: {instanceID: 14542}
+      Script: {instanceID: 14420}
     - Class: 114
-      Script: {instanceID: 14586}
+      Script: {instanceID: 14464}
     - Class: 114
-      Script: {instanceID: 14598}
+      Script: {instanceID: 14654}
     - Class: 114
-      Script: {instanceID: 14978}
+      Script: {instanceID: 14656}
     - Class: 114
-      Script: {instanceID: 14998}
+      Script: {instanceID: 14704}
     - Class: 114
-      Script: {instanceID: 15068}
+      Script: {instanceID: 14706}
     - Class: 114
-      Script: {instanceID: 15354}
+      Script: {instanceID: 14758}
     - Class: 114
-      Script: {instanceID: 15378}
+      Script: {instanceID: 14816}
     - Class: 114
-      Script: {instanceID: 15580}
-    - Class: 114
-      Script: {instanceID: 15618}
-    - Class: 114
-      Script: {instanceID: 15672}
-    - Class: 114
-      Script: {instanceID: 15924}
-    - Class: 114
-      Script: {instanceID: 15928}
-    - Class: 114
-      Script: {instanceID: 15998}
-    - Class: 114
-      Script: {instanceID: 16000}
-    - Class: 114
-      Script: {instanceID: 16064}
-    - Class: 114
-      Script: {instanceID: 16142}
-    - Class: 114
-      Script: {instanceID: 16148}
+      Script: {instanceID: 14822}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -384,12 +375,6 @@ ScriptsOnlyBuild:
     className: TestResultRendererCallback
   - hash:
       serializedVersion: 2
-      Hash: 896f4ddc5cbd3f6fa8a70c332cddb47a
-    assemblyName: Unity.2D.SpriteShape.Runtime.dll
-    namespaceName: UnityEngine.U2D
-    className: SpriteShapeController
-  - hash:
-      serializedVersion: 2
       Hash: 7dbf450932234158be58ca2027563dcb
     assemblyName: Unity.RenderPipelines.Core.Runtime.dll
     namespaceName: UnityEngine.Rendering.UI
@@ -468,18 +453,6 @@ ScriptsOnlyBuild:
     className: CameraSwitcher
   - hash:
       serializedVersion: 2
-      Hash: 87cef3c82381dc586f6772c3e27561b6
-    assemblyName: Unity.2D.Animation.Runtime.dll
-    namespaceName: UnityEngine.Experimental.U2D.Animation
-    className: SpriteLibrary
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Unity.2D.PixelPerfect.dll
-    namespaceName: UnityEngine.U2D
-    className: CinemachinePixelPerfect
-  - hash:
-      serializedVersion: 2
       Hash: bdb2aa563ff34cd96dfe8e46b3382012
     assemblyName: Unity.RenderPipelines.Universal.Runtime.dll
     namespaceName: UnityEngine.Rendering.Universal
@@ -496,12 +469,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMeshUI
-  - hash:
-      serializedVersion: 2
-      Hash: 63bdc2cf3273aa9bf650350f19d2af61
-    assemblyName: Unity.2D.PixelPerfect.dll
-    namespaceName: UnityEngine.U2D
-    className: PixelPerfectCamera
   - hash:
       serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
@@ -546,7 +513,7 @@ ScriptsOnlyBuild:
     className: UIFoldout
   - hash:
       serializedVersion: 2
-      Hash: 7c5aa65a9fb0939845eb018f34a4c5d9
+      Hash: e503b6292d26c67c63525ddc508a15a2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -558,22 +525,16 @@ ScriptsOnlyBuild:
     className: EventSystem
   - hash:
       serializedVersion: 2
-      Hash: b424b4eeb810aecb0ff91c62639241e9
-    assemblyName: Unity.2D.Animation.Runtime.dll
-    namespaceName: UnityEngine.Experimental.U2D.Animation
-    className: SpriteResolver
+      Hash: 26fa4d18ea5c1b1cb338545bc0c2651e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Boss
   - hash:
       serializedVersion: 2
       Hash: 0fb27be807aa299702f28ad0bcad1f46
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ControlPlayableAsset
-  - hash:
-      serializedVersion: 2
-      Hash: 0edeba255bdbade25edc357f1412ba38
-    assemblyName: Unity.2D.SpriteShape.Runtime.dll
-    namespaceName: UnityEngine.U2D
-    className: SpriteShape
   - hash:
       serializedVersion: 2
       Hash: b8a5e8091ab0b8861d2add371082c5e0
@@ -664,12 +625,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Unity.2D.Animation.Runtime.dll
-    namespaceName: UnityEngine.U2D.Animation
-    className: SpriteSkinEntity
   - hash:
       serializedVersion: 2
       Hash: 5e1eefcd5106de6c2e85908a3b2d3f04
@@ -774,12 +729,6 @@ ScriptsOnlyBuild:
     className: MotionBlur
   - hash:
       serializedVersion: 2
-      Hash: 98bf293cd34a2f7168fb0675fad19457
-    assemblyName: Unity.2D.Animation.Runtime.dll
-    namespaceName: UnityEngine.U2D.Animation
-    className: SpriteSkin
-  - hash:
-      serializedVersion: 2
       Hash: 36025d42bf23fda83a55bf1429201821
     assemblyName: Unity.RenderPipelines.Core.Runtime.dll
     namespaceName: UnityEngine.Rendering.UI
@@ -808,12 +757,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_FontAsset
-  - hash:
-      serializedVersion: 2
-      Hash: 28cfb4bd305dd11c6326cc3ee7c14138
-    assemblyName: Unity.2D.Animation.Runtime.dll
-    namespaceName: UnityEngine.Experimental.U2D.Animation
-    className: SpriteLibraryAsset
   - hash:
       serializedVersion: 2
       Hash: f79e983672d079ff24eee15484fb74b8

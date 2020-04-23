@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNextPage: 0
-  health: 3000
+  health: 1000
   maxCountCheck: 0
   pattenCount: 0
   currentPattern: 0
@@ -233,7 +233,8 @@ MonoBehaviour:
   - {fileID: 3996393436280389354}
   - {fileID: 2563658611985915354}
   - {fileID: 4181747836297474902}
-  maxPatternCounts: 000000000000000005000000050000000500000005000000
+  maxPatternCounts: 0a0000000a0000001e000000000000000500000005000000
+  playerPostion: {fileID: 0}
 --- !u!1 &5444796318625950585
 GameObject:
   m_ObjectHideFlags: 0
