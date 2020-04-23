@@ -291,7 +291,6 @@ GameObject:
   - component: {fileID: 277630888}
   - component: {fileID: 277630891}
   - component: {fileID: 277630889}
-  - component: {fileID: 277630890}
   m_Layer: 12
   m_Name: WallDown
   m_TagString: Wall
@@ -339,27 +338,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.011755658}
   m_EdgeRadius: 0
---- !u!50 &277630890
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 277630887}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!212 &277630891
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -621,7 +599,6 @@ GameObject:
   m_Component:
   - component: {fileID: 419797678}
   - component: {fileID: 419797680}
-  - component: {fileID: 419797679}
   m_Layer: 12
   m_Name: WallRigth
   m_TagString: Wall
@@ -643,27 +620,6 @@ Transform:
   m_Father: {fileID: 1386653995}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &419797679
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419797677}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &419797680
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -690,49 +646,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &444061887
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 444061889}
-  - component: {fileID: 444061888}
-  m_Layer: 0
-  m_Name: BarSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &444061888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444061887}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5f4314a4da29448bc5ac9b4ba0bf1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &444061889
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444061887}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2000042556}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &471906645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1205,7 @@ Transform:
   - {fileID: 1059032758}
   - {fileID: 881702180}
   m_Father: {fileID: 2000042556}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &765348496
 MonoBehaviour:
@@ -2246,7 +2159,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1896288178}
   - component: {fileID: 1896288180}
-  - component: {fileID: 1896288179}
   m_Layer: 12
   m_Name: WallLeft
   m_TagString: Wall
@@ -2268,27 +2180,6 @@ Transform:
   m_Father: {fileID: 1386653995}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &1896288179
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1896288177}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &1896288180
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2372,7 +2263,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 444061889}
   - {fileID: 765348495}
   m_Father: {fileID: 0}
   m_RootOrder: 7

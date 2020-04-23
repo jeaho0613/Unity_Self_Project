@@ -8,7 +8,7 @@ public class Bar : MonoBehaviour, IPooledObject
     // 재 생성시 실행할 로직
     public void OnObjectSpanw()
     {
-        transform.DOMove(new Vector3(0, -5.5f, 0), 5f).SetEase(Ease.Linear); // 생성시 움직임
+        transform.DOMove(new Vector3(0, -5.5f, 0), 1f).SetEase(Ease.Linear); // 생성시 움직임
     }
 
     // Bar가 collider에 부딪쳤을 때

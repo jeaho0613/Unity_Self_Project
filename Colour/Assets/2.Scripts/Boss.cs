@@ -20,6 +20,8 @@ public class Boss : MonoBehaviour
     private SpriteRenderer bossSpriteRenderer; // Boss spriteRenderer
     [SerializeField]
     private Transform playerPostion; // 플레이어 위치값
+    [SerializeField]
+    private BarSpawner barSpawner; // 바 스폰을 하기 위한 변수
 
     // Move 사용 시퀀스
     private Sequence mySequence1; // page 1 
@@ -36,9 +38,11 @@ public class Boss : MonoBehaviour
     {
         bossCapsuleCollider2D = GetComponent<CapsuleCollider2D>(); // 초기화
         bossSpriteRenderer = GetComponent<SpriteRenderer>();
+        barSpawner = GetComponent<BarSpawner>();
         playerPostion = FindObjectOfType<PlayerControll>().transform;
 
-        currentPage = 1; // 페이지 초기화
+        barSpawner.enabled = false;
+        //currentPage = 1; // 페이지 초기화
         currentPattern = 1; // 페턴 초기화
         saveHealth = health; // 체력 저장 변수 초기화
         isNextPage = true; // 처음 소환시 탄 발사 정지
@@ -79,8 +83,8 @@ public class Boss : MonoBehaviour
         _BossSkill_1 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
                                       .Append(transform.DOMove(new Vector3(0, 8, 0), 1f))
-                                      .Append(bossSpriteRenderer.DOColor(new Color(0, 0, 0, 0.5f), 1.5f))
-                                      .Append(transform.DOMoveY(-8, 4f).SetEase(Ease.Linear))
+                                      .Append(bossSpriteRenderer.DOColor(new Color(0, 0, 0, 0.5f), 1.2f))
+                                      .Append(transform.DOMoveY(-8, 3f).SetEase(Ease.Linear))
                                       .AppendInterval(10f)
                                       .OnComplete(() =>
                                       {
@@ -217,7 +221,6 @@ public class Boss : MonoBehaviour
                 break;
         }
     }
-
     private void PageAMove()
     {
         Debug.Log("PageAMove 호출");
@@ -257,7 +260,7 @@ public class Boss : MonoBehaviour
         // 현재 패턴 
         switch (currentPattern)
         {
-            // 일렬로 발사
+            // 플레이어 방향으로 발사
             case 1:
                 Debug.Log("플레이어 방향으로 단발총 발사");
                 if (pattenCount < 0)
@@ -275,22 +278,13 @@ public class Boss : MonoBehaviour
                 Invoke("PageB", 0.2f);
                 break;
 
-            // 4개의 총탄 발사
+            // Boss Skill_1
             case 2:
                 Debug.Log("스킬 시작!!");
                 mySequence2.Pause();
                 BossSkill_1();
                 pattenCount = 0;
                 currentPattern = 1;
-
-                break;
-
-            // 패턴 초기화
-            default:
-                Debug.Log("패턴 초기화");
-                maxCountCheck--;
-                currentPattern = 1;
-                PageB();
                 break;
         }
     }
@@ -306,7 +300,7 @@ public class Boss : MonoBehaviour
 
         Sequence damme = DOTween.Sequence()
             .Append(transform.DOMove(new Vector3(0, 3, 0), 3f)).SetEase(Ease.Linear) // 시작점 조정
-            .Append(transform.DOMoveX(-2, 1.5f)).SetEase(Ease.Linear)
+            .Append(transform.DOMoveX(-2, 1.5f)).SetEase(Ease.Linear) // 왼쪽으로 위치조정
             .OnComplete(() => // 도착시
             {
                 SequenceUpdate(); // 시퀀스 초기화
@@ -398,6 +392,7 @@ public class Boss : MonoBehaviour
         bossCapsuleCollider2D.enabled = false;
         SequenceUpdate(); // 시퀀스 초기화
         bossSkill_1.Restart();
+        StartCoroutine(BarSpawnerUpdate());
     }
 
     #endregion
@@ -425,6 +420,14 @@ public class Boss : MonoBehaviour
         mySequence1 = _MySequence1;
         mySequence2 = _MySequence2;
         mySequence3 = _MySequence3;
+    }
+
+    // 
+    private IEnumerator BarSpawnerUpdate()
+    {
+        barSpawner.enabled = true;
+        yield return new WaitForSeconds(11f);
+        barSpawner.enabled = false;
     }
 
 }

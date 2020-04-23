@@ -154,7 +154,7 @@
   - Get : 값을 가져올때
   - Set : 값을 새로 쓸 때
 
-  - ```c#
+```c#
       [GameManager Script]
 
       private float skillPoint; // 스킬 포인트
@@ -177,8 +177,8 @@
 
       GameManager.Instance.SkillPoint += enemyPoint; // 기체의 스킬 포인트 획득
 
-    `value`는 `GameManager.Instance.SkillPoint += enemyPoint` 이 로직이 끝난 값을 받는다.
-    ```
+      `value`는 `GameManager.Instance.SkillPoint += enemyPoint` 이 로직이 끝난 값을 받는다.
+```
 
 - **++ 과 + 1**
   - 간혹 ++과 +1에 로직차이를 보임.
@@ -187,6 +187,42 @@
   - Start에서 초기화를 해줘야지 원하는 타이밍에 정지가 가능
   - Awake에서는 DoTween 전역 매니저가 생성되지 않았기 때문에 반드시 Start에서 호출!
   - `이 점은 직접 실험해 봐야할 필요성`
+
+- **코루틴 While 무한 루프**
+  - A 코루틴의 경우 반복된 thread 생성으로 메모리상 더 좋지않음
+  - B 코루틴의 경우 A보단 좋다.
+
+```c#
+  public IEnumerator A()
+  {
+    yield retrun newWaitForSeconds(1f);
+    StartCoroutine("A");
+  }
+
+  public IEnumerator B()
+  {
+    while(반복조건)
+    {
+         yield return newWaitForSeconds(1f);
+    }
+  }
+```
+
+- **Trigger 조건**
+  - 두 GameObject가 모두 Collider를 가지고 있어야 함.
+  - 두 GameObject 중 하나는 Rigidbody를 가지고 있어야 함.
+  - 두 GameObject 중 하나만 움직인다면 움직이는 GameObject가 Rigidbody를 가지고 있어야 함.
+
+- **오브젝트 링크**
+  - 인스펙터뷰 상에서 링크하는 방법은 간단하나 자동으로 연결되게 하는게 좋음
+  - Prefab의 경우 오브젝트를 링크하는 방법이 스크립트로 한정되 있음
+  - 이 경우 Find을 사용해야하는데 비용이 많이듬
+
+- **Prefab의 초기화 순서?**
+  - public int A라는 전역변수가 있다.
+  - 인스펙터 뷰에선 2라고 설정했는데
+  - Awack에서 1로 초기화하면 1로 설정된다.
+  - 인스펙터 뷰의 값으로 초기화가 되는걸로 알고있었는데 테스트가 필요하다.
 
 ## **Time Line**
 
@@ -268,8 +304,8 @@
     - 다음 페이지 연결하는 부분 요망 (완료)
     - 페이지에 맞는 Boss 움직임 구현 (완료)
     - 페이지 2까지 구현하기 요망 (완료)
-    - 페이지 2 2번째 시작시 bossSkill시 바로 색변경되는 부분 수정 요망
-    - 공백 10초간 BAR 스폰 or 총알 스폰 요망
+    - 페이지 2 2번째 시작시 bossSkill시 바로 색변경되는 부분 수정 요망 (완료)
+    - 공백 10초간 BAR 스폰 or 총알 스폰 요망 (완료)
 
 - `20-04-24`
   - **`BOSS 구현`**

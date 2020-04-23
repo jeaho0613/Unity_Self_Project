@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 683101290725923161}
   - component: {fileID: 6331145834089129839}
   - component: {fileID: 3648987849860478498}
+  - component: {fileID: 6418005721552452483}
   m_Layer: 13
   m_Name: BOSS
   m_TagString: Enemy
@@ -225,7 +226,7 @@ MonoBehaviour:
   maxCountCheck: 0
   pattenCount: 0
   currentPattern: 0
-  currentPage: 0
+  currentPage: 2
   shootPoints:
   - {fileID: 4397772226954615604}
   - {fileID: 7833289765806833417}
@@ -235,6 +236,19 @@ MonoBehaviour:
   - {fileID: 4181747836297474902}
   maxPatternCounts: 0a0000000a0000001e000000000000000500000005000000
   playerPostion: {fileID: 0}
+  barSpawner: {fileID: 0}
+--- !u!114 &6418005721552452483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3867292903745140481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5f4314a4da29448bc5ac9b4ba0bf1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5444796318625950585
 GameObject:
   m_ObjectHideFlags: 0
