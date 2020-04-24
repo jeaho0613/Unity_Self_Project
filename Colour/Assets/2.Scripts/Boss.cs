@@ -15,24 +15,38 @@ public class Boss : MonoBehaviour
     public int[] maxPatternCounts; // 각 패턴발사 수
 
     //private PathType pathType = PathType.CatmullRom; // path 타입 (직선 경로)
-    private float saveHealth; // 체력 저장 변수
     private CapsuleCollider2D bossCapsuleCollider2D; // Boss 콜라이더
     private SpriteRenderer bossSpriteRenderer; // Boss spriteRenderer
     private Transform playerPostion; // 플레이어 위치값
     private BarSpawner barSpawner; // 바 스폰을 하기 위한 변수
+    [SerializeField]
+    private LineRenderer bossLineRenderer_1; // 라인 렌더러
+    [SerializeField]
+    private LineRenderer bossLineRenderer_2; // 라인 렌더러
+    [SerializeField]
+    private EdgeCollider2D edgeCollider_1; // 엣지 콜라이더
+    [SerializeField]
+    private EdgeCollider2D edgeCollider_2; // 엣지 콜라이더
+    private float saveHealth; // 체력 저장 변수
     private float[] screenWidths = new float[9]; // 화면 비율값에 대한 x값
     private float mainCamWidth; // 화면 가로 길이
+
+    private Color2 resetColor = new Color2(new Color(1, 0, 0, 0.5f), new Color(1, 0, 0, 0.5f));
+    private Color2 startColor = new Color2(Color.white, Color.white);
+    private Color2 endColor = new Color2(Color.clear, Color.clear);
 
     // Move 사용 시퀀스
     private Sequence loopMoveSequence1; // 루프 무브 
     private Sequence loopMoveSequence2; // 루프 무브 
     private Sequence loopMoveSequence3; // 루프 무브 
     private Sequence bossSkill_1; // skill 1
+    private Sequence bossSkill_5; // skill 1
 
     private Sequence _LoopMoveSequence_1; // page 1 
     private Sequence _LoopMoveSequence_2; // page 2
     private Sequence _LoopMoveSequence_3; // page 3 
     private Sequence _BossSkill_1; // skill 1
+    private Sequence _BossSkill_5; // skill 1
 
     private void Awake()
     {
@@ -40,6 +54,12 @@ public class Boss : MonoBehaviour
         bossSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
         barSpawner = GetComponent<BarSpawner>(); // 초기화
         playerPostion = FindObjectOfType<PlayerControll>().transform; // 플레이어 위치 받기
+
+        bossLineRenderer_1 = transform.GetChild(0).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
+        bossLineRenderer_2 = transform.GetChild(1).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
+
+        edgeCollider_1 = transform.GetChild(0).GetComponent<EdgeCollider2D>();
+        edgeCollider_2 = transform.GetChild(1).GetComponent<EdgeCollider2D>();
 
         barSpawner.enabled = false; // 초기 바 스폰 제거
         //currentPage = 1; // 페이지 초기화 (*****테스트 끝나면 주석 제거*****)
@@ -74,7 +94,7 @@ public class Boss : MonoBehaviour
                                       .SetLoops(-1, LoopType.Yoyo);
         loopMoveSequence3 = _LoopMoveSequence_3;
 
-        // Boss skill 시퀀스
+        // Boss skill_1 시퀀스
         _BossSkill_1 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
                                       .Append(transform.DOMove(new Vector3(0, 8, 0), 1f))
@@ -88,14 +108,28 @@ public class Boss : MonoBehaviour
                                           bossSpriteRenderer.DOColor(new Color(1, 1, 1, 1), 0);
                                           PageChange();
                                       });
-
         bossSkill_1 = _BossSkill_1;
 
+        // Boss Skill_5 시퀀스
+        _BossSkill_5 = DOTween.Sequence().Pause()
+                                      .SetAutoKill(false)
+                                      .Append(transform.DOMove(new Vector3(0, 8, 0), 1f))
+                                      .Append(bossSpriteRenderer.DOColor(Color.clear, 0))
+                                      .OnComplete(() =>
+                                      {
+                                          bossCapsuleCollider2D.enabled = false;
+                                          transform.DOMove(Vector3.zero, 0);
+                                          StartCoroutine(BossSkill_5());
+                                      });
+        bossSkill_5 = _BossSkill_5;
         #endregion
 
         transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
         Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
-
+        
+        //bossLineRenderer_1.SetPosition(0, new Vector2(playerPostion.position.x, 5.5f));
+        //bossLineRenderer_1.SetPosition(1, new Vector2(playerPostion.position.x, -5.5f));
+        //bossLineRenderer_1.DOColor(startColor, endColor, 1f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -369,23 +403,12 @@ public class Boss : MonoBehaviour
             case 3:
                 Debug.Log("레이저 발사 패턴");
 
-                if (pattenCount < 0)
-                {
-                    pattenCount = 0; // 발사 횟수 초기화
-                    currentPattern++; // 다음 패턴++
-                    Invoke("PageC", 1f); // 다음 패턴 쿨타임
-                    return;
-                }
+                PageMoveStop(); // 움직임 리셋
+                bossSkill_5.Restart(); // 움직임 시작
 
-                Invoke("PageC", 1f); // 1초 마다 
-                break;
-
-            // 패턴 초기화
-            default:
-                Debug.Log("패턴 초기화");
-                maxCountCheck = 4; // Page C의 첫번째 패턴으로 초기화
-                currentPattern = 1; // 시작 패턴 초기화
-                PageC(); // 패턴 시작
+                maxCountCheck = 4; // 횟수 체크 초기화
+                currentPattern = 1; // 다음 패턴++
+                pattenCount = 0; // 발사 횟수 초기화
                 break;
         }
     }
@@ -475,6 +498,55 @@ public class Boss : MonoBehaviour
     }
     #endregion
 
+    #region BossSkill_5() Laser Skill 로직
+    IEnumerator BossSkill_5()
+    {
+        int count = 0;
+        while (true)
+        {
+            Debug.Log("레이저 발사중!");
+            if (count > 5) break;
+
+            // line_1 세로 => player의 x축 추적
+            
+            bossLineRenderer_1.DOColor(resetColor, resetColor, 0); // 컬러 리셋
+
+            bossLineRenderer_1.SetPosition(0, new Vector2(playerPostion.position.x, 5.5f)); // 라인 생성
+            bossLineRenderer_1.SetPosition(1, new Vector2(playerPostion.position.x, -5.5f)); // 라인 생성
+            edgeCollider_1.points = new Vector2[] { bossLineRenderer_1.GetPosition(0),bossLineRenderer_1.GetPosition(1) };
+            yield return new WaitForSeconds(0.5f); // 라인 생성후 1.5초 후
+            edgeCollider_1.enabled = true; // 콜라이더 활성화
+            bossLineRenderer_1.DOColor(startColor, endColor, 1f); // 라인 사라지는 모션
+            yield return new WaitForSeconds(0.3f);
+            edgeCollider_1.enabled = false; // 콜라이더 활성화
+            yield return new WaitForSeconds(0.2f);
+
+            // line_2 가로 = > player의 y축 추적
+
+            bossLineRenderer_2.DOColor(resetColor, resetColor, 0); // 컬러 리셋
+
+            bossLineRenderer_2.SetPosition(0, new Vector2(3f, playerPostion.position.y)); // 라인 생성
+            bossLineRenderer_2.SetPosition(1, new Vector2(-3f, playerPostion.position.y)); // 라인 생성
+            edgeCollider_2.points = new Vector2[] { bossLineRenderer_2.GetPosition(0), bossLineRenderer_2.GetPosition(1) };
+            yield return new WaitForSeconds(0.5f); // 라인 생성후 0.5초 후
+            edgeCollider_2.enabled = true; // 콜라이더 활성화
+            bossLineRenderer_2.DOColor(startColor, endColor, 1f); // 라인 사라지는 모션
+            yield return new WaitForSeconds(0.3f);
+            edgeCollider_2.enabled = false; // 콜라이더 활성화
+            yield return new WaitForSeconds(0.2f);
+            count++;
+        }
+        Debug.Log("레이저 발사 wwhile 종료");
+
+        bossSpriteRenderer.DOColor(Color.white, 0); // 색 리셋
+        transform.DOMove(new Vector3(0, 8, 0), 0) // 위치 리셋
+            .OnComplete(() =>
+            {
+                PageChange();
+            });
+    }
+    #endregion
+
     #region Shooting() 총 발사 로직
     // 탄 종류, 위치값을 받음
     private void Shooting(string bulletName, int postion)
@@ -497,10 +569,11 @@ public class Boss : MonoBehaviour
     private void SequenceUpdate()
     {
         Debug.Log("시퀀스 초기화!");
-        bossSkill_1 = _BossSkill_1;
         loopMoveSequence1 = _LoopMoveSequence_1;
         loopMoveSequence2 = _LoopMoveSequence_2;
         loopMoveSequence3 = _LoopMoveSequence_3;
+        bossSkill_1 = _BossSkill_1;
+        bossSkill_5 = _BossSkill_5;
     }
     #endregion
 
@@ -561,3 +634,4 @@ public class Boss : MonoBehaviour
     }
     #endregion
 }
+
