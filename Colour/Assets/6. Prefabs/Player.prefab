@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3852232477048343633}
   - component: {fileID: 3852232477048343661}
   - component: {fileID: 3852232477048343660}
-  - component: {fileID: 2710204050064431162}
+  - component: {fileID: 653005240654526809}
   - component: {fileID: 6913819667836894016}
   - component: {fileID: 3852232477048343635}
   m_Layer: 8
@@ -127,8 +127,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &2710204050064431162
-BoxCollider2D:
+--- !u!58 &653005240654526809
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -137,22 +137,12 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0005079061, y: -0.06298065}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.75, y: 0.75}
-    newSize: {x: 0.75, y: 0.75}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.0013005584, y: -0.045519352}
   serializedVersion: 2
-  m_Size: {x: 0.24977499, y: 0.24717808}
-  m_EdgeRadius: 0
+  m_Radius: 0.1265025
 --- !u!82 &6913819667836894016
 AudioSource:
   m_ObjectHideFlags: 0
@@ -261,8 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02536985a7847b449ab0ac78a7997982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDie: 0
-  isRespawn: 0
   currentColor: 
   moveSpeed: 3
   shootingTime: 0.1

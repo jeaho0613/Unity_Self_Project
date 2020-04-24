@@ -226,7 +226,7 @@ MonoBehaviour:
   maxCountCheck: 0
   pattenCount: 0
   currentPattern: 0
-  currentPage: 2
+  currentPage: 1
   shootPoints:
   - {fileID: 4397772226954615604}
   - {fileID: 7833289765806833417}
@@ -234,9 +234,7 @@ MonoBehaviour:
   - {fileID: 3996393436280389354}
   - {fileID: 2563658611985915354}
   - {fileID: 4181747836297474902}
-  maxPatternCounts: 0a0000000a0000001e000000000000000500000005000000
-  playerPostion: {fileID: 0}
-  barSpawner: {fileID: 0}
+  maxPatternCounts: 0a0000000a00000032000000000000000a0000002c01000003000000
 --- !u!114 &6418005721552452483
 MonoBehaviour:
   m_ObjectHideFlags: 0

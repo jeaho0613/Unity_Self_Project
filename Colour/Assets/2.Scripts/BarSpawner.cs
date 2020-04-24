@@ -6,7 +6,7 @@ public class BarSpawner : MonoBehaviour
 {
     private float delayTime; // 스폰 딜레이
     private string[] colos = { "BarR", "BarG", "BarB" }; // 스폰될 바(오브젝트)
-    private Vector3 spawnPostion = new Vector3(0,6,0);
+    private Vector3 spawnPostion = new Vector3(0,6,0); // 생성 위치
 
     private void OnEnable()
     {
@@ -21,7 +21,7 @@ public class BarSpawner : MonoBehaviour
 
     IEnumerator CreateBar()
     {
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(4.5f); // 대기시간
 
         while (true)
         {

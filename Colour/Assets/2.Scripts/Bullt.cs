@@ -35,9 +35,11 @@ public class Bullt : MonoBehaviour, IPooledObject
                     break;
             }
         }
+
         // 보스전 일경우
         else
         {
+            // 오브젝트의 이름으로 스위치
             switch(gameObject.name)
             {
                 case "EnemyBulletL":
@@ -54,6 +56,7 @@ public class Bullt : MonoBehaviour, IPooledObject
                     });
                     break;
 
+                // 플레이어 총알
                 case "BulletR":
                 case "BulletG":
                 case "BulletB":

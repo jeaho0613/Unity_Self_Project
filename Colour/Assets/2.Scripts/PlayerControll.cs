@@ -17,7 +17,7 @@ public class PlayerControll : MonoBehaviour
 
     private Material playerMaterial; // player Material
     private Animator playerAnimator; // player Animetor
-    private BoxCollider2D playerBoxCollider; // player boxCollider
+    private CircleCollider2D playerBoxCollider; // player boxCollider
     private AudioSource playerAudioSource; // player AudioSource
     private SpriteRenderer PlayerSpriteRenderer; // player SpriteRenderer
 
@@ -34,7 +34,7 @@ public class PlayerControll : MonoBehaviour
 
     private void Awake()
     {
-        playerBoxCollider = GetComponent<BoxCollider2D>(); // Boxcollider2D 초기화
+        playerBoxCollider = GetComponent<CircleCollider2D>(); // Boxcollider2D 초기화
         playerAnimator = GetComponent<Animator>(); // Animator 초기화
         playerMaterial = GetComponent<SpriteRenderer>().material; // Material 초기화
         playerAudioSource = GetComponent<AudioSource>(); // Audio 초기화

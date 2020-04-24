@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using System.Collections;
+using System.Linq;
 
 public class Boss : MonoBehaviour
 {
@@ -15,69 +16,63 @@ public class Boss : MonoBehaviour
 
     //private PathType pathType = PathType.CatmullRom; // path 타입 (직선 경로)
     private float saveHealth; // 체력 저장 변수
-
     private CapsuleCollider2D bossCapsuleCollider2D; // Boss 콜라이더
     private SpriteRenderer bossSpriteRenderer; // Boss spriteRenderer
-    [SerializeField]
     private Transform playerPostion; // 플레이어 위치값
-    [SerializeField]
     private BarSpawner barSpawner; // 바 스폰을 하기 위한 변수
+    private float[] screenWidths = new float[9]; // 화면 비율값에 대한 x값
+    private float mainCamWidth; // 화면 가로 길이
 
     // Move 사용 시퀀스
-    private Sequence mySequence1; // page 1 
-    private Sequence mySequence2; // page 2
-    private Sequence mySequence3; // page 3
+    private Sequence loopMoveSequence1; // 루프 무브 
+    private Sequence loopMoveSequence2; // 루프 무브 
+    private Sequence loopMoveSequence3; // 루프 무브 
     private Sequence bossSkill_1; // skill 1
 
-    private Sequence _MySequence1; // page 1 
-    private Sequence _MySequence2; // page 2
-    private Sequence _MySequence3; // page 3
+    private Sequence _LoopMoveSequence_1; // page 1 
+    private Sequence _LoopMoveSequence_2; // page 2
+    private Sequence _LoopMoveSequence_3; // page 3 
     private Sequence _BossSkill_1; // skill 1
 
     private void Awake()
     {
         bossCapsuleCollider2D = GetComponent<CapsuleCollider2D>(); // 초기화
-        bossSpriteRenderer = GetComponent<SpriteRenderer>();
-        barSpawner = GetComponent<BarSpawner>();
-        playerPostion = FindObjectOfType<PlayerControll>().transform;
+        bossSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
+        barSpawner = GetComponent<BarSpawner>(); // 초기화
+        playerPostion = FindObjectOfType<PlayerControll>().transform; // 플레이어 위치 받기
 
-        barSpawner.enabled = false;
-        //currentPage = 1; // 페이지 초기화
+        barSpawner.enabled = false; // 초기 바 스폰 제거
+        //currentPage = 1; // 페이지 초기화 (*****테스트 끝나면 주석 제거*****)
         currentPattern = 1; // 페턴 초기화
         saveHealth = health; // 체력 저장 변수 초기화
         isNextPage = true; // 처음 소환시 탄 발사 정지
+        ScreenMath(); // 스크린 비율 초기화
     }
 
     private void Start()
     {
-        transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
-        Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
+        #region DOTween Sequence 초기화
 
-        #region DOTween 초기화
-
-        // move1 시퀀스
-        _MySequence1 = DOTween.Sequence().Pause()
+        _LoopMoveSequence_1 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
                                       .Append(transform.DOMoveX(2, 3f).SetEase(Ease.Linear))
                                       .Append(transform.DOMoveX(-2, 3f).SetEase(Ease.Linear))
                                       .SetLoops(-1, LoopType.Yoyo);
-        mySequence1 = _MySequence1;
+        loopMoveSequence1 = _LoopMoveSequence_1;
 
-        // move2 시퀀스
-        _MySequence2 = DOTween.Sequence().Pause()
+        _LoopMoveSequence_2 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
                                       .Append(transform.DOMoveX(2, 1.5f).SetEase(Ease.Linear))
                                       .Append(transform.DOMoveX(-2, 1.5f).SetEase(Ease.Linear))
                                       .SetLoops(-1, LoopType.Yoyo);
-        mySequence2 = _MySequence2;
+        loopMoveSequence2 = _LoopMoveSequence_2;
 
-        // move3 시퀀스
-        _MySequence3 = DOTween.Sequence().Pause()
+        _LoopMoveSequence_3 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
-                                      .Append(transform.DOMoveX(2, 1.5f).SetEase(Ease.Linear))
-                                      .Append(transform.DOMoveX(-2, 1.5f).SetEase(Ease.Linear))
+                                      .Append(transform.DOMoveX(2.4f, 0.7f).SetEase(Ease.Linear))
+                                      .Append(transform.DOMoveX(-2.4f, 0.7f).SetEase(Ease.Linear))
                                       .SetLoops(-1, LoopType.Yoyo);
-        mySequence3 = _MySequence3;
+        loopMoveSequence3 = _LoopMoveSequence_3;
 
         // Boss skill 시퀀스
         _BossSkill_1 = DOTween.Sequence().Pause()
@@ -95,7 +90,12 @@ public class Boss : MonoBehaviour
                                       });
 
         bossSkill_1 = _BossSkill_1;
+
         #endregion
+
+        transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
+        Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -112,6 +112,7 @@ public class Boss : MonoBehaviour
                 isNextPage = true;
                 currentPage++; // 페이지 증가
                 health = saveHealth; // 체력 복귀
+
                 transform.DOMove(new Vector2(0, 8), 2) // 리스폰 장소로 복귀
                     .SetEase(Ease.Linear)
                     .OnComplete(() => // 복귀가 완료되면 크기 줄이기
@@ -138,21 +139,21 @@ public class Boss : MonoBehaviour
         {
             case 1:
                 Debug.Log("페이지 1 시작");
-                maxCountCheck = 0;
-                PageA();
-                PageAMove();
+                maxCountCheck = 0; // maxPatternCounts[]을 체크하기 위한 변수 초기화
+                PageA(); // 총 발사
+                PageAMove(); // 움직임 시작
                 break;
             case 2:
                 Debug.Log("페이지 2 시작");
-                maxCountCheck = 2;
+                maxCountCheck = 2; // maxPatternCounts[]을 체크하기 위한 변수 초기화
                 Invoke("PageB", 3f); // 총 발사
-                PageBMove();
+                PageBMove(); // 움직임 시작
                 break;
             case 3:
                 Debug.Log("페이지 3 시작");
-                maxCountCheck = 4;
+                maxCountCheck = 4; // maxPatternCounts[]을 체크하기 위한 변수 초기화
                 Invoke("PageC", 3f); // 총 발사
-                PageCMove();
+                PageCMove(); // 움직임 시작
                 break;
         }
     }
@@ -181,17 +182,18 @@ public class Boss : MonoBehaviour
             // 일렬로 발사
             case 1:
                 Debug.Log("일렬로 발사!!");
+                // 패턴별 발사 횟수 초과시
                 if (pattenCount < 0)
                 {
-                    pattenCount = 0;
-                    currentPattern++;
-                    maxCountCheck++;
-                    Invoke("PageA", 1f);
+                    pattenCount = 0; // 패턴 횟수 초기화 
+                    currentPattern++; // 다음 패턴++
+                    maxCountCheck++; // 다음 패턴 횟수 체크할 변수++
+                    Invoke("PageA", 1f); // 다음 패턴 쿨타임
                     return;
                 }
 
-                Shooting("EBL", 1);
-                Invoke("PageA", 0.2f);
+                Shooting("EBL", 1); // 기본 탄 발사
+                Invoke("PageA", 0.2f); // 0.2초마다 시작
                 break;
 
             // 4개의 총탄 발사
@@ -199,42 +201,46 @@ public class Boss : MonoBehaviour
                 Debug.Log("샷권 발사!!");
                 if (pattenCount < 0)
                 {
-                    pattenCount = 0;
-                    currentPattern++;
-                    Invoke("PageA", 1f);
+                    pattenCount = 0; // 패턴 횟수 초기화
+                    currentPattern++; // 다음 패턴++
+                    Invoke("PageA", 1f); // 다음 패턴 쿨타임
                     return;
                 }
 
+                // Boss의 총구 위치값으로 총 발사
                 for (int index = 2; index < 6; index++)
                 {
-                    Shooting("EBM", index);
+                    Shooting("EBM", index); // for문이므로 동시에 나가는 것 처럼 보임
                 }
-                Invoke("PageA", 0.2f);
+                Invoke("PageA", 0.2f); // 0.2초 마다 시작
                 break;
 
             // 패턴 초기화
             default:
                 Debug.Log("패턴 초기화");
-                maxCountCheck--;
-                currentPattern = 1;
-                PageA();
+                maxCountCheck = 0; // 패턴 처음부터 시작
+                currentPattern = 1; // 패턴 처음부터 시작
+                PageA(); // 패턴 시작
                 break;
         }
     }
+
     private void PageAMove()
     {
         Debug.Log("PageAMove 호출");
-        if (currentPage != 1)
-        {
-            Debug.LogError("currentPageA Error is return");
-            return;
-        }
+
+        // 중복 시퀀스 사용을 방지하기 위한 처리
+        //if (currentPage != 1)
+        //{
+        //    Debug.LogError("currentPageA Error is return");
+        //    return;
+        //}
 
         transform.DOMove(new Vector3(-2, 3, 0), 1.5f).SetEase(Ease.Linear) // 시작점을 -2로 시작, 균등한 움직임
             .OnComplete(() => // 도착시
             {
                 SequenceUpdate(); // 시퀀스 초기화
-                mySequence1.Restart(); // 좌우 루프 트윈 시작
+                loopMoveSequence1.Restart(); // 좌우 루프 트윈 시작
             });
 
     }
@@ -263,28 +269,28 @@ public class Boss : MonoBehaviour
             // 플레이어 방향으로 발사
             case 1:
                 Debug.Log("플레이어 방향으로 단발총 발사");
+
+                // count를 다 발사했을 때 예외
                 if (pattenCount < 0)
                 {
-                    pattenCount = 0;
-                    currentPattern++;
-                    maxCountCheck++;
+                    pattenCount = 0; // 발사 횟수 초기화
+                    currentPattern++; // 다음 패턴++
+                    maxCountCheck++; // 다음 패턴 횟수 체크++
                     Invoke("PageB", 1f);
                     return;
                 }
 
-                var bullet = ObjectManager.Instance.SpawnFromPool("EBS", shootPoints[0].position, transform.rotation);
-                bullet.transform.DOMove(playerPostion.position, 0.7f).SetEase(Ease.Linear)
-                    .OnComplete(() => { bullet.SetActive(false); });
-                Invoke("PageB", 0.2f);
+                BossSkill_4(); // 패턴 시작
+                Invoke("PageB", 0.1f); // 0.1초 마다
                 break;
 
             // Boss Skill_1
             case 2:
                 Debug.Log("스킬 시작!!");
-                mySequence2.Pause();
-                BossSkill_1();
-                pattenCount = 0;
-                currentPattern = 1;
+                loopMoveSequence2.Pause(); // case 1의 움직임 정지
+                BossSkill_1(); // 스킬 사용
+                pattenCount = 0; // case 1로 복귀
+                currentPattern = 1; // case 1로 복귀
                 break;
         }
     }
@@ -292,19 +298,18 @@ public class Boss : MonoBehaviour
     private void PageBMove()
     {
         Debug.Log("PageBMove 호출");
-        if (currentPage != 2)
-        {
-            Debug.LogError("currentPageB Error is return");
-            return;
-        }
-
+        //if (currentPage != 2)
+        //{
+        //    Debug.LogError("currentPageB Error is return");
+        //    return;
+        //}
         Sequence damme = DOTween.Sequence()
             .Append(transform.DOMove(new Vector3(0, 3, 0), 3f)).SetEase(Ease.Linear) // 시작점 조정
             .Append(transform.DOMoveX(-2, 1.5f)).SetEase(Ease.Linear) // 왼쪽으로 위치조정
             .OnComplete(() => // 도착시
             {
                 SequenceUpdate(); // 시퀀스 초기화
-                mySequence2.Restart(); // 좌우 루프 트윈 시작
+                loopMoveSequence2.Restart(); // 좌우 루프 트윈 시작
             });
     }
     #endregion
@@ -329,44 +334,58 @@ public class Boss : MonoBehaviour
         // 현재 패턴 
         switch (currentPattern)
         {
-            // 일렬로 발사
             case 1:
-                Debug.Log("일렬로 발사!!");
-                Shooting("EBL", 1);
+                Debug.Log("다발로 쏘기");
+                // count다 발사 시 예외 처리
                 if (pattenCount < 0)
                 {
-                    pattenCount = 0;
-                    currentPattern++;
-                    maxCountCheck++;
-                    Invoke("PageC", 1f);
+                    pattenCount = 0; // 발사 횟수 초기화
+                    currentPattern++; // 다음 패턴++
+                    maxCountCheck++; // 발사 횟수 체크++
+                    Invoke("PageC", 3f); // 다음 패턴 쿨타임
                     return;
                 }
-                Invoke("PageC", 0.2f);
+
+                BossSkill_2(); // 스킬 사용
+                Invoke("PageC", 0.5f); // 0.5초 마다 
                 break;
 
-            // 4개의 총탄 발사
             case 2:
-                Debug.Log("샷권 발사!!");
-                for (int index = 2; index < 6; index++)
-                {
-                    Shooting("EBM", index);
-                }
+                Debug.Log("다발총 발사");
+
                 if (pattenCount < 0)
                 {
-                    pattenCount = 0;
-                    currentPattern++;
-                    Invoke("PageC", 1f);
+                    pattenCount = 0; // 발사 횟수 초기화
+                    currentPattern++; // 다음 패턴++
+                    maxCountCheck++; // 발사 횟수 체크++
+                    Invoke("PageC", 1f); // 다음 패턴 쿨타임
                     return;
                 }
-                Invoke("PageC", 0.2f);
+
+                BossSkill_3(); // 스킬 사용
+                Invoke("PageC", 0.05f); // 0.05초 마다
+                break;
+
+            case 3:
+                Debug.Log("레이저 발사 패턴");
+
+                if (pattenCount < 0)
+                {
+                    pattenCount = 0; // 발사 횟수 초기화
+                    currentPattern++; // 다음 패턴++
+                    Invoke("PageC", 1f); // 다음 패턴 쿨타임
+                    return;
+                }
+
+                Invoke("PageC", 1f); // 1초 마다 
                 break;
 
             // 패턴 초기화
             default:
                 Debug.Log("패턴 초기화");
-                maxCountCheck--;
-                currentPattern = 1;
-                PageC();
+                maxCountCheck = 4; // Page C의 첫번째 패턴으로 초기화
+                currentPattern = 1; // 시작 패턴 초기화
+                PageC(); // 패턴 시작
                 break;
         }
     }
@@ -374,30 +393,90 @@ public class Boss : MonoBehaviour
     private void PageCMove()
     {
         Debug.Log("PageBMove 호출");
-        if (currentPage != 3)
-        {
-            Debug.LogError("currentPageC Error is return");
-            return;
-        }
-        SequenceUpdate(); // 시퀀스 초기화
-        mySequence3.Restart();
+        //if (currentPage != 3)
+        //{
+        //    Debug.LogError("currentPageC Error is return");
+        //    return;
+        //}
+        Sequence damme = DOTween.Sequence()
+            .Append(transform.DOMove(new Vector3(0, 3, 0), 3f)).SetEase(Ease.Linear) // 시작점 조정
+            .Append(transform.DOMoveX(-2.4f, 0.5f)).SetEase(Ease.Linear) // 왼쪽으로 위치조정
+            .OnComplete(() => // 도착시
+            {
+                SequenceUpdate(); // 시퀀스 초기화
+                loopMoveSequence3.Restart(); // 좌우 루프 트윈 시작
+            });
     }
     #endregion
 
-    #region BossSkill_1() 보스 스킬 로직
-
+    #region BossSkill_1() BarSpawn Skill 로직
     private void BossSkill_1()
     {
         Debug.Log("BOSSSKill_1() 실행");
-        bossCapsuleCollider2D.enabled = false;
+        bossCapsuleCollider2D.enabled = false; // 충돌 제거
         SequenceUpdate(); // 시퀀스 초기화
-        bossSkill_1.Restart();
-        StartCoroutine(BarSpawnerUpdate());
+        bossSkill_1.Restart(); // 시퀀스 시작
+        StartCoroutine(BarSpawnerUpdate()); // 바 스폰 OnEnable
     }
+    #endregion
 
+    #region BossSkill_2() BulletSpawn Skill 로직
+    private void BossSkill_2()
+    {
+        int[] dammeArry = RandomNum(); // 중복되지 않은 랜덤 값 배열
+
+        // 한번에 반복수 만큼 총알 생성
+        for (int index = 0; index < 8; index++)
+        {
+            var bullets = ObjectManager.Instance.SpawnFromPool( // 오브젝트 생성
+                                               "EBBM" // 총알 종류
+                                             , new Vector2(screenWidths[dammeArry[index]], 5.3f) // 랜덤한 위치값 vector2
+                                             , transform.rotation // 방향은 그대로
+                                                           );
+            bullets.transform.DOLocalMoveY(-4.7f, 2f).SetEase(Ease.Linear) // 생성 후 -4.7f 까지 움직임
+                .OnComplete(() =>
+                {
+                    bullets.SetActive(false); // 완료 후 비활성 화
+                });
+        }
+
+    }
+    #endregion
+
+    #region BossSkill_3() Machine Gun Skill 로직
+    private void BossSkill_3()
+    {
+        int damme = Random.Range(1, 6); // 랜덤한 값
+        var bullet = ObjectManager.Instance.SpawnFromPool( // 탄 생성
+                                        "EBS" // 탄 총류
+                                        , shootPoints[damme].position // 위치값 (랜덤한 보스 총구 위치)
+                                        , transform.rotation); // 그대로
+        bullet.transform.DOLocalMoveY(-4.7f, 3).SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                bullet.SetActive(false); // 완료후 비활성화
+            });
+    }
+    #endregion
+
+    #region BossSkill_4() Follow Bullet Skill 로직
+    private void BossSkill_4()
+    {
+        var bullet = ObjectManager.Instance.SpawnFromPool(
+                                                            "EBS" // 탄 총류
+                                                            , shootPoints[0].position // 위치값
+                                                            , transform.rotation); // 회전
+
+        bullet.transform.DOMove(playerPostion.position, 0.7f).SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                bullet.SetActive(false); // 완료후 비활성화
+            });
+    }
     #endregion
 
     #region Shooting() 총 발사 로직
+    // 탄 종류, 위치값을 받음
     private void Shooting(string bulletName, int postion)
     {
         ObjectManager.Instance.SpawnFromPool(bulletName, shootPoints[postion].position, transform.rotation);
@@ -407,27 +486,78 @@ public class Boss : MonoBehaviour
     #region PageMoveStop() 보스 움직임 시퀀스 정지
     private void PageMoveStop()
     {
-        mySequence1.Pause();
-        mySequence2.Pause();
-        mySequence3.Pause();
+        Debug.Log("페이지 무브 스탑");
+        loopMoveSequence1.Pause();
+        loopMoveSequence2.Pause();
+        loopMoveSequence3.Pause();
     }
     #endregion
 
+    #region SequenceUpdate() 시퀀스 초기화 로직
     private void SequenceUpdate()
     {
         Debug.Log("시퀀스 초기화!");
         bossSkill_1 = _BossSkill_1;
-        mySequence1 = _MySequence1;
-        mySequence2 = _MySequence2;
-        mySequence3 = _MySequence3;
+        loopMoveSequence1 = _LoopMoveSequence_1;
+        loopMoveSequence2 = _LoopMoveSequence_2;
+        loopMoveSequence3 = _LoopMoveSequence_3;
     }
+    #endregion
 
-    // 
+    #region BarSpawnerUpdate() Bar 장애물 생성로직
     private IEnumerator BarSpawnerUpdate()
     {
         barSpawner.enabled = true;
         yield return new WaitForSeconds(11f);
         barSpawner.enabled = false;
     }
+    #endregion
 
+    #region ScreenMath() 화면 비율에 따른 위치 계산 로직
+    private void ScreenMath()
+    {
+        mainCamWidth = Screen.width;
+        //Debug.Log($"계산전 mainCam : {mainCamWidth}"); //540
+        mainCamWidth = mainCamWidth / 100f;
+        //Debug.Log($"계산후 mainCam : {mainCamWidth}"); // 5.4
+        float num = mainCamWidth / 8f;
+        //Debug.Log($"num  : {num}"); // 0.675
+        float halfNum = mainCamWidth / 2f;
+        //Debug.Log($"halfNum의 값 : {halfNum}"); // 2.7
+        float saveHalfNum = halfNum;
+
+        screenWidths[0] = saveHalfNum;
+
+        for (int index = 1; index < 9; index++)
+        {
+            float temp = 0;
+            temp = halfNum - num; // 2.7 - 0.675 = 2.025
+            screenWidths[index] = temp;
+            halfNum = temp;
+            //Debug.Log($"screenWidths 배열의 {index} 값 : {screenWidths[index]}");
+        }
+    }
+    #endregion
+
+    #region RandomNum() 중복되지않은 난수 발생기 로직
+    private int[] RandomNum()
+    {
+        int ranLength = 9;
+
+        int[] ranArr = Enumerable.Range(0, ranLength).ToArray();
+
+        for (int i = 0; i < ranLength; ++i)
+        {
+            int ranIdx = Random.Range(i, ranLength);
+
+            int tmp = ranArr[ranIdx];
+
+            ranArr[ranIdx] = ranArr[i];
+
+            ranArr[i] = tmp;
+        }
+
+        return ranArr;
+    }
+    #endregion
 }
