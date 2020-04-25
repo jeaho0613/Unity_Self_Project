@@ -24,14 +24,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.isBoss) return; // 보스전이면 동작 X
+
         nextSpawnTime += Time.deltaTime; // 경과 시간
 
         // 마지막줄 처리
         if (enemySpawnList.Count <= index)
         {
-            //Debug.Log("마지막 적 생성 종료");
+            Debug.Log("마지막 적 생성 종료");
+            StartCoroutine(SoundManager.Instance.BossSound());
             GameManager.Instance.isBoss = true; // 보스전 돌입
-            gameObject.SetActive(false); // 몹 스포너 제거
+            //gameObject.SetActive(false); // 몹 스포너 제거
         }
 
         // 경과시간 > 딜레이 

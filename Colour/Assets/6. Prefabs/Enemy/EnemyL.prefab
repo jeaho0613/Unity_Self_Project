@@ -144,8 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fefb58009d49cba4babd1e1c57ee9b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endSpeed: 5
-  shootingDelay: 3
+  endSpeed: 4
+  shootingDelay: 2
   health: 200
   enemyPoint: 0.3
   sprites:

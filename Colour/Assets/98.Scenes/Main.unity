@@ -678,7 +678,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8f1316c77ba95764abc5a9b8f996e8f8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bcd6628a872ee634d95e642bafa69baa, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.6
   m_Pitch: 1
@@ -802,6 +802,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c3f783c335382ef40a3ca4f1282c7db9, type: 3}
   - {fileID: 8300000, guid: 42b1357139295bb42bf1a5fd4964bf85, type: 3}
   - {fileID: 8300000, guid: 75f920839db3e674aa1b85e2c3628739, type: 3}
+  - {fileID: 8300000, guid: 833ea82851053304bb1602eace930cca, type: 3}
+  - {fileID: 8300000, guid: 6839434773e16a742a3e527e95a8cd06, type: 3}
+  - {fileID: 8300000, guid: 3c57bac6602240446a2289006a9ea17f, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,6 +945,11 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 653005240654526809, guid: a8b4a0171b74314409bdcc456d8af1a8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2710204050064431162, guid: a8b4a0171b74314409bdcc456d8af1a8,
         type: 3}
       propertyPath: m_Enabled
@@ -1070,7 +1078,7 @@ PrefabInstance:
     - target: {fileID: 6913819667836894016, guid: a8b4a0171b74314409bdcc456d8af1a8,
         type: 3}
       propertyPath: m_Volume
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2710204050064431162, guid: a8b4a0171b74314409bdcc456d8af1a8, type: 3}
@@ -1785,7 +1793,7 @@ MonoBehaviour:
   - tag: L
     prefab: {fileID: 4103975644004289000, guid: 3d4b48d9ead6d354fb34cc811e24b339,
       type: 3}
-    size: 10
+    size: 15
     target: {fileID: 1027604572}
   - tag: M
     prefab: {fileID: 2686959883224176464, guid: a32e2e0990a265343be04e963d14c365,
@@ -1795,7 +1803,7 @@ MonoBehaviour:
   - tag: S
     prefab: {fileID: 2040704065184967675, guid: ed2e2adfa3ebf2f4d932bdb1ad1bb485,
       type: 3}
-    size: 10
+    size: 35
     target: {fileID: 1027604572}
   - tag: EBS
     prefab: {fileID: 4772746772643867106, guid: a1f398bf2336e244ba63fb827ef89983,

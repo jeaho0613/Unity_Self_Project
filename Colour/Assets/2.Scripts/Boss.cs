@@ -13,21 +13,18 @@ public class Boss : MonoBehaviour
     public int currentPage; // 현재 보스 페이지
     public Transform[] shootPoints; // 총 발사 포인트
     public int[] maxPatternCounts; // 각 패턴발사 수
+    public Vector3 saveSize; // 사이즈 세이브
 
     //private PathType pathType = PathType.CatmullRom; // path 타입 (직선 경로)
     private CapsuleCollider2D bossCapsuleCollider2D; // Boss 콜라이더
     private SpriteRenderer bossSpriteRenderer; // Boss spriteRenderer
     private Transform playerPostion; // 플레이어 위치값
     private BarSpawner barSpawner; // 바 스폰을 하기 위한 변수
-    [SerializeField]
     private LineRenderer bossLineRenderer_1; // 라인 렌더러
-    [SerializeField]
     private LineRenderer bossLineRenderer_2; // 라인 렌더러
-    [SerializeField]
     private EdgeCollider2D edgeCollider_1; // 엣지 콜라이더
-    [SerializeField]
     private EdgeCollider2D edgeCollider_2; // 엣지 콜라이더
-    private float saveHealth; // 체력 저장 변수
+    private AudioSource bossAudioSource; // 보스 오디오 
     private float[] screenWidths = new float[9]; // 화면 비율값에 대한 x값
     private float mainCamWidth; // 화면 가로 길이
 
@@ -41,19 +38,25 @@ public class Boss : MonoBehaviour
     private Sequence loopMoveSequence3; // 루프 무브 
     private Sequence bossSkill_1; // skill 1
     private Sequence bossSkill_5; // skill 1
+    private Sequence respawnBossSequence; // 보스 리스폰 움직임
+
 
     private Sequence _LoopMoveSequence_1; // page 1 
     private Sequence _LoopMoveSequence_2; // page 2
     private Sequence _LoopMoveSequence_3; // page 3 
     private Sequence _BossSkill_1; // skill 1
     private Sequence _BossSkill_5; // skill 1
+    private Sequence _RespawnBossSequence; // 리스폰 움직임
 
     private void Awake()
     {
+        ScreenMath(); // 스크린 비율 초기화
+
         bossCapsuleCollider2D = GetComponent<CapsuleCollider2D>(); // 초기화
         bossSpriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
         barSpawner = GetComponent<BarSpawner>(); // 초기화
         playerPostion = FindObjectOfType<PlayerControll>().transform; // 플레이어 위치 받기
+        bossAudioSource = GetComponent<AudioSource>(); // 초기화
 
         bossLineRenderer_1 = transform.GetChild(0).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
         bossLineRenderer_2 = transform.GetChild(1).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
@@ -64,9 +67,8 @@ public class Boss : MonoBehaviour
         barSpawner.enabled = false; // 초기 바 스폰 제거
         //currentPage = 1; // 페이지 초기화 (*****테스트 끝나면 주석 제거*****)
         currentPattern = 1; // 페턴 초기화
-        saveHealth = health; // 체력 저장 변수 초기화
         isNextPage = true; // 처음 소환시 탄 발사 정지
-        ScreenMath(); // 스크린 비율 초기화
+        saveSize = transform.localScale; // 처음 초기화
     }
 
     private void Start()
@@ -94,6 +96,17 @@ public class Boss : MonoBehaviour
                                       .SetLoops(-1, LoopType.Yoyo);
         loopMoveSequence3 = _LoopMoveSequence_3;
 
+        _RespawnBossSequence = DOTween.Sequence().Pause()
+                                      .SetAutoKill(false)
+                                      .Append(transform.DOMove(new Vector3(0, 3, 0), 3f)).SetEase(Ease.Linear) // 시작점 조정
+                                      .Append(transform.DOMoveX(-2, 1.5f)).SetEase(Ease.Linear) // 왼쪽으로 위치조정
+                                      .OnComplete(() => // 도착시
+                                      {
+                                          SequenceUpdate(); // 시퀀스 초기화
+                                          loopMoveSequence2.Restart(); // 좌우 루프 트윈 시작
+                                      });
+        respawnBossSequence = _RespawnBossSequence;
+
         // Boss skill_1 시퀀스
         _BossSkill_1 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
@@ -114,22 +127,18 @@ public class Boss : MonoBehaviour
         _BossSkill_5 = DOTween.Sequence().Pause()
                                       .SetAutoKill(false)
                                       .Append(transform.DOMove(new Vector3(0, 8, 0), 1f))
-                                      .Append(bossSpriteRenderer.DOColor(Color.clear, 0))
+                                      .Append(bossSpriteRenderer.DOColor(Color.clear, 1.5f))
                                       .OnComplete(() =>
                                       {
                                           bossCapsuleCollider2D.enabled = false;
+                                          transform.localScale = new Vector2(1, 1);
                                           transform.DOMove(Vector3.zero, 0);
                                           StartCoroutine(BossSkill_5());
                                       });
         bossSkill_5 = _BossSkill_5;
         #endregion
 
-        transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
-        Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
-        
-        //bossLineRenderer_1.SetPosition(0, new Vector2(playerPostion.position.x, 5.5f));
-        //bossLineRenderer_1.SetPosition(1, new Vector2(playerPostion.position.x, -5.5f));
-        //bossLineRenderer_1.DOColor(startColor, endColor, 1f);
+        StartCoroutine(BossStart());
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -145,18 +154,13 @@ public class Boss : MonoBehaviour
                 bossCapsuleCollider2D.enabled = false; // 충돌 제거
                 isNextPage = true;
                 currentPage++; // 페이지 증가
-                health = saveHealth; // 체력 복귀
-
+                HealthManager();
                 transform.DOMove(new Vector2(0, 8), 2) // 리스폰 장소로 복귀
                     .SetEase(Ease.Linear)
                     .OnComplete(() => // 복귀가 완료되면 크기 줄이기
                     {
-                        transform.DOScale(new Vector2
-                            (
-                            transform.localScale.x / 1.5f, // 크기 줄이기
-                            transform.localScale.y / 1.5f), // 크기 줄이기
-                            0 // 곧 바로 변경 
-                            );
+                        transform.localScale = new Vector2(transform.localScale.x / 1.5f, transform.localScale.y / 1.5f);
+                        saveSize = transform.localScale; // 사이즈 세이브
                     });
                 Invoke("PageChange", 4); // 4초뒤에 페이지 변경 시작
             }
@@ -332,19 +336,7 @@ public class Boss : MonoBehaviour
     private void PageBMove()
     {
         Debug.Log("PageBMove 호출");
-        //if (currentPage != 2)
-        //{
-        //    Debug.LogError("currentPageB Error is return");
-        //    return;
-        //}
-        Sequence damme = DOTween.Sequence()
-            .Append(transform.DOMove(new Vector3(0, 3, 0), 3f)).SetEase(Ease.Linear) // 시작점 조정
-            .Append(transform.DOMoveX(-2, 1.5f)).SetEase(Ease.Linear) // 왼쪽으로 위치조정
-            .OnComplete(() => // 도착시
-            {
-                SequenceUpdate(); // 시퀀스 초기화
-                loopMoveSequence2.Restart(); // 좌우 루프 트윈 시작
-            });
+        respawnBossSequence.Restart();
     }
     #endregion
 
@@ -376,7 +368,7 @@ public class Boss : MonoBehaviour
                     pattenCount = 0; // 발사 횟수 초기화
                     currentPattern++; // 다음 패턴++
                     maxCountCheck++; // 발사 횟수 체크++
-                    Invoke("PageC", 3f); // 다음 패턴 쿨타임
+                    Invoke("PageC", 2f); // 다음 패턴 쿨타임
                     return;
                 }
 
@@ -392,7 +384,7 @@ public class Boss : MonoBehaviour
                     pattenCount = 0; // 발사 횟수 초기화
                     currentPattern++; // 다음 패턴++
                     maxCountCheck++; // 발사 횟수 체크++
-                    Invoke("PageC", 1f); // 다음 패턴 쿨타임
+                    Invoke("PageC", 2f); // 다음 패턴 쿨타임
                     return;
                 }
 
@@ -404,6 +396,7 @@ public class Boss : MonoBehaviour
                 Debug.Log("레이저 발사 패턴");
 
                 PageMoveStop(); // 움직임 리셋
+                SequenceUpdate(); // 시퀸스 초기화
                 bossSkill_5.Restart(); // 움직임 시작
 
                 maxCountCheck = 4; // 횟수 체크 초기화
@@ -416,19 +409,9 @@ public class Boss : MonoBehaviour
     private void PageCMove()
     {
         Debug.Log("PageBMove 호출");
-        //if (currentPage != 3)
-        //{
-        //    Debug.LogError("currentPageC Error is return");
-        //    return;
-        //}
-        Sequence damme = DOTween.Sequence()
-            .Append(transform.DOMove(new Vector3(0, 3, 0), 3f)).SetEase(Ease.Linear) // 시작점 조정
-            .Append(transform.DOMoveX(-2.4f, 0.5f)).SetEase(Ease.Linear) // 왼쪽으로 위치조정
-            .OnComplete(() => // 도착시
-            {
-                SequenceUpdate(); // 시퀀스 초기화
-                loopMoveSequence3.Restart(); // 좌우 루프 트윈 시작
-            });
+
+        SequenceUpdate();
+        respawnBossSequence.Restart();
     }
     #endregion
 
@@ -462,7 +445,6 @@ public class Boss : MonoBehaviour
                     bullets.SetActive(false); // 완료 후 비활성 화
                 });
         }
-
     }
     #endregion
 
@@ -502,44 +484,46 @@ public class Boss : MonoBehaviour
     IEnumerator BossSkill_5()
     {
         int count = 0;
+        yield return new WaitForSeconds(0.5f); // 시작전 대기시간
+
         while (true)
         {
             Debug.Log("레이저 발사중!");
             if (count > 5) break;
 
             // line_1 세로 => player의 x축 추적
-            
+
             bossLineRenderer_1.DOColor(resetColor, resetColor, 0); // 컬러 리셋
 
             bossLineRenderer_1.SetPosition(0, new Vector2(playerPostion.position.x, 5.5f)); // 라인 생성
             bossLineRenderer_1.SetPosition(1, new Vector2(playerPostion.position.x, -5.5f)); // 라인 생성
-            edgeCollider_1.points = new Vector2[] { bossLineRenderer_1.GetPosition(0),bossLineRenderer_1.GetPosition(1) };
-            yield return new WaitForSeconds(0.5f); // 라인 생성후 1.5초 후
+            edgeCollider_1.points = new Vector2[] { bossLineRenderer_1.GetPosition(0), bossLineRenderer_1.GetPosition(1) };
+            yield return new WaitForSeconds(0.3f); // 라인 생성후
+            bossLineRenderer_1.DOColor(startColor, endColor, 0.8f); // 라인 사라지는 모션
             edgeCollider_1.enabled = true; // 콜라이더 활성화
-            bossLineRenderer_1.DOColor(startColor, endColor, 1f); // 라인 사라지는 모션
+            bossAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[6]); // 소리 출력
             yield return new WaitForSeconds(0.3f);
-            edgeCollider_1.enabled = false; // 콜라이더 활성화
-            yield return new WaitForSeconds(0.2f);
-
-            // line_2 가로 = > player의 y축 추적
+            edgeCollider_1.enabled = false; // 콜라이더 비활성화
 
             bossLineRenderer_2.DOColor(resetColor, resetColor, 0); // 컬러 리셋
 
-            bossLineRenderer_2.SetPosition(0, new Vector2(3f, playerPostion.position.y)); // 라인 생성
-            bossLineRenderer_2.SetPosition(1, new Vector2(-3f, playerPostion.position.y)); // 라인 생성
+            bossLineRenderer_2.SetPosition(0, new Vector2(3, playerPostion.position.y)); ; // 라인 생성
+            bossLineRenderer_2.SetPosition(1, new Vector2(-3, playerPostion.position.y)); // 라인 생성
             edgeCollider_2.points = new Vector2[] { bossLineRenderer_2.GetPosition(0), bossLineRenderer_2.GetPosition(1) };
-            yield return new WaitForSeconds(0.5f); // 라인 생성후 0.5초 후
+            yield return new WaitForSeconds(0.3f); // 라인 생성후
+            bossLineRenderer_2.DOColor(startColor, endColor, 0.8f); // 라인 사라지는 모션
             edgeCollider_2.enabled = true; // 콜라이더 활성화
-            bossLineRenderer_2.DOColor(startColor, endColor, 1f); // 라인 사라지는 모션
+            bossAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[6]); // 소리 출력
             yield return new WaitForSeconds(0.3f);
-            edgeCollider_2.enabled = false; // 콜라이더 활성화
-            yield return new WaitForSeconds(0.2f);
+            edgeCollider_2.enabled = false; // 콜라이더 비활성화
+
             count++;
         }
-        Debug.Log("레이저 발사 wwhile 종료");
+        Debug.Log("레이저 발사 while 종료");
 
-        bossSpriteRenderer.DOColor(Color.white, 0); // 색 리셋
-        transform.DOMove(new Vector3(0, 8, 0), 0) // 위치 리셋
+        transform.localScale = saveSize;
+        transform.DOMove(new Vector3(0, 8, 0), 0); // 위치 리셋
+        bossSpriteRenderer.DOColor(Color.white, 0.2f) // 색 리셋
             .OnComplete(() =>
             {
                 PageChange();
@@ -562,6 +546,7 @@ public class Boss : MonoBehaviour
         loopMoveSequence1.Pause();
         loopMoveSequence2.Pause();
         loopMoveSequence3.Pause();
+        respawnBossSequence.Pause();
     }
     #endregion
 
@@ -574,6 +559,7 @@ public class Boss : MonoBehaviour
         loopMoveSequence3 = _LoopMoveSequence_3;
         bossSkill_1 = _BossSkill_1;
         bossSkill_5 = _BossSkill_5;
+        respawnBossSequence = _RespawnBossSequence;
     }
     #endregion
 
@@ -631,6 +617,39 @@ public class Boss : MonoBehaviour
         }
 
         return ranArr;
+    }
+    #endregion
+
+    #region HealthManager() 보스 체력 관리
+    private void HealthManager()
+    {
+        switch (currentPage)
+        {
+            case 2:
+                health = 2000;
+                break;
+            case 3:
+                health = 3000;
+                break;
+        }
+    }
+    #endregion
+
+    #region BossStart() 보스 생성 로직
+    IEnumerator BossStart()
+    {
+        bossAudioSource.loop = true;
+        bossAudioSource.clip = SoundManager.Instance.FXSounds[7];
+        bossAudioSource.Play();
+        bossAudioSource.DOFade(0, 4f)
+            .OnComplete(() =>
+            {
+                bossAudioSource.Stop();
+                bossAudioSource.volume = 0.4f;
+            });
+        yield return new WaitForSeconds(2f);
+        transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
+        Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
     }
     #endregion
 }

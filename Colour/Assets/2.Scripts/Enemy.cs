@@ -17,10 +17,12 @@ public class Enemy : MonoBehaviour, IPooledObject
     private float savehealth; // 재 생성될때 저장 체력값
     private SpriteRenderer spriteRenderer; // enemy 기체 이미지렌더러
     private float startTime; // 총알 발사 주기
+    private AudioSource enemyAudioSource;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
+        enemyAudioSource = GetComponent<AudioSource>(); // 초기화
         savehealth = health; // 체력값을 save에 저장
     }
 
@@ -64,7 +66,8 @@ public class Enemy : MonoBehaviour, IPooledObject
             {
                 //Debug.Log($"Enemy의 skillPoint : {skillPoint}");
                 gameObject.SetActive(false); // 비활성화
-                ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭팔 이펙트 생성
+                var fxDamme = ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭팔 이펙트 생성
+                FxSize(fxDamme);
                 GameManager.Instance.SkillPoint += enemyPoint; // 기체의 스킬 포인트 획득
             }
         }
@@ -87,12 +90,25 @@ public class Enemy : MonoBehaviour, IPooledObject
             case "EBM":
                 ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0, -0.5f, 0), Quaternion.identity);
                 break;
+        }
+        startTime = 0; // 경과 시간 초기화
+    }
+
+    private void FxSize(GameObject damme)
+    {
+        switch (enemyType)
+        {
+            case "EBL":
+                damme.transform.localScale = new Vector2(2, 2);
+                break;
+
+            case "EBM":
+                damme.transform.localScale = new Vector2(1.5f, 1.5f);
+                break;
+
             case "EBS":
-                ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0, -0.5f, 0), Quaternion.identity);
+                damme.transform.localScale = new Vector2(1, 1);
                 break;
         }
-
-        startTime = 0; // 경과 시간 초기화
-
     }
 }
