@@ -6,7 +6,7 @@ using System.Linq;
 public class Boss : MonoBehaviour
 {
     public bool isNextPage = false; // 페이지 변환 체크
-    public float health; // 체력
+    public float health; // 현재 체력
     public int maxCountCheck; // 최대 발사 체크
     public int pattenCount; // 발사 횟수
     public int currentPattern; // 현재 패턴
@@ -24,7 +24,9 @@ public class Boss : MonoBehaviour
     private LineRenderer bossLineRenderer_2; // 라인 렌더러
     private EdgeCollider2D edgeCollider_1; // 엣지 콜라이더
     private EdgeCollider2D edgeCollider_2; // 엣지 콜라이더
-    private AudioSource bossAudioSource; // 보스 오디오 
+    private AudioSource bossAudioSource; // 보스 오디오
+    [SerializeField]
+    private HealthBar healthBar;
     private float[] screenWidths = new float[9]; // 화면 비율값에 대한 x값
     private float mainCamWidth; // 화면 가로 길이
 
@@ -61,11 +63,13 @@ public class Boss : MonoBehaviour
         bossLineRenderer_1 = transform.GetChild(0).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
         bossLineRenderer_2 = transform.GetChild(1).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
 
-        edgeCollider_1 = transform.GetChild(0).GetComponent<EdgeCollider2D>();
-        edgeCollider_2 = transform.GetChild(1).GetComponent<EdgeCollider2D>();
+        healthBar = transform.GetComponentInChildren<HealthBar>(); // hp bar 초기화
+
+        edgeCollider_1 = transform.GetChild(0).GetComponent<EdgeCollider2D>(); // Lager edgeCollider 초기화
+        edgeCollider_2 = transform.GetChild(1).GetComponent<EdgeCollider2D>(); // Lager edgeCollider 초기화
 
         barSpawner.enabled = false; // 초기 바 스폰 제거
-        //currentPage = 1; // 페이지 초기화 (*****테스트 끝나면 주석 제거*****)
+        currentPage = 1; // 페이지 초기화 
         currentPattern = 1; // 페턴 초기화
         isNextPage = true; // 처음 소환시 탄 발사 정지
         saveSize = transform.localScale; // 처음 초기화
@@ -116,7 +120,7 @@ public class Boss : MonoBehaviour
                                       .AppendInterval(10f)
                                       .OnComplete(() =>
                                       {
-                                          Debug.Log("BOSS SKILL 종료");
+                                          //Debug.Log("BOSS SKILL 종료");
                                           transform.position = new Vector2(0, 8);
                                           bossSpriteRenderer.DOColor(new Color(1, 1, 1, 1), 0);
                                           PageChange();
@@ -138,7 +142,8 @@ public class Boss : MonoBehaviour
         bossSkill_5 = _BossSkill_5;
         #endregion
 
-        StartCoroutine(BossStart());
+        StartCoroutine(BossStart()); // 최초 보스 등장 로직
+        HealthManager(); // 보스 체력 값 초기화
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -148,13 +153,14 @@ public class Boss : MonoBehaviour
         {
             other.gameObject.SetActive(false); // 총알 비활성화
             health -= other.GetComponent<Bullt>().power; // boss 체력 감소
+            healthBar.SetHealth((int)health);
             if (health <= 0) // 체력이 0이되면
             {
                 PageMoveStop(); // 보스 움직임 정지
                 bossCapsuleCollider2D.enabled = false; // 충돌 제거
                 isNextPage = true;
                 currentPage++; // 페이지 증가
-                HealthManager();
+                HealthManager(); // 보스 체력 Bar 변경
                 transform.DOMove(new Vector2(0, 8), 2) // 리스폰 장소로 복귀
                     .SetEase(Ease.Linear)
                     .OnComplete(() => // 복귀가 완료되면 크기 줄이기
@@ -176,19 +182,19 @@ public class Boss : MonoBehaviour
         switch (currentPage)
         {
             case 1:
-                Debug.Log("페이지 1 시작");
+                //Debug.Log("페이지 1 시작");
                 maxCountCheck = 0; // maxPatternCounts[]을 체크하기 위한 변수 초기화
                 PageA(); // 총 발사
                 PageAMove(); // 움직임 시작
                 break;
             case 2:
-                Debug.Log("페이지 2 시작");
+                //Debug.Log("페이지 2 시작");
                 maxCountCheck = 2; // maxPatternCounts[]을 체크하기 위한 변수 초기화
                 Invoke("PageB", 3f); // 총 발사
                 PageBMove(); // 움직임 시작
                 break;
             case 3:
-                Debug.Log("페이지 3 시작");
+                //Debug.Log("페이지 3 시작");
                 maxCountCheck = 4; // maxPatternCounts[]을 체크하기 위한 변수 초기화
                 Invoke("PageC", 3f); // 총 발사
                 PageCMove(); // 움직임 시작
@@ -203,7 +209,7 @@ public class Boss : MonoBehaviour
         // 페이지 변경중 로직 정지를 위한 처리
         if (isNextPage)
         {
-            Debug.Log("페이지 변경중..");
+            //Debug.Log("페이지 변경중..");
             pattenCount = 0; // 패턴 횟수 초기화
             currentPattern = 1; // 현재 패턴종류 초기화
             return;
@@ -219,7 +225,7 @@ public class Boss : MonoBehaviour
         {
             // 일렬로 발사
             case 1:
-                Debug.Log("일렬로 발사!!");
+                //Debug.Log("일렬로 발사!!");
                 // 패턴별 발사 횟수 초과시
                 if (pattenCount < 0)
                 {
@@ -236,7 +242,7 @@ public class Boss : MonoBehaviour
 
             // 4개의 총탄 발사
             case 2:
-                Debug.Log("샷권 발사!!");
+                //Debug.Log("샷권 발사!!");
                 if (pattenCount < 0)
                 {
                     pattenCount = 0; // 패턴 횟수 초기화
@@ -255,7 +261,7 @@ public class Boss : MonoBehaviour
 
             // 패턴 초기화
             default:
-                Debug.Log("패턴 초기화");
+                //Debug.Log("패턴 초기화");
                 maxCountCheck = 0; // 패턴 처음부터 시작
                 currentPattern = 1; // 패턴 처음부터 시작
                 PageA(); // 패턴 시작
@@ -265,7 +271,7 @@ public class Boss : MonoBehaviour
 
     private void PageAMove()
     {
-        Debug.Log("PageAMove 호출");
+        //Debug.Log("PageAMove 호출");
 
         // 중복 시퀀스 사용을 방지하기 위한 처리
         //if (currentPage != 1)
@@ -290,7 +296,7 @@ public class Boss : MonoBehaviour
         // 페이지 변경중 로직 정지를 위한 처리
         if (isNextPage)
         {
-            Debug.Log("페이지 변경중..");
+            //Debug.Log("페이지 변경중..");
             pattenCount = 0; // 패턴 횟수 초기화
             currentPattern = 1; // 현재 패턴종류 초기화
             return;
@@ -306,7 +312,7 @@ public class Boss : MonoBehaviour
         {
             // 플레이어 방향으로 발사
             case 1:
-                Debug.Log("플레이어 방향으로 단발총 발사");
+                //Debug.Log("플레이어 방향으로 단발총 발사");
 
                 // count를 다 발사했을 때 예외
                 if (pattenCount < 0)
@@ -324,7 +330,7 @@ public class Boss : MonoBehaviour
 
             // Boss Skill_1
             case 2:
-                Debug.Log("스킬 시작!!");
+                //Debug.Log("스킬 시작!!");
                 loopMoveSequence2.Pause(); // case 1의 움직임 정지
                 BossSkill_1(); // 스킬 사용
                 pattenCount = 0; // case 1로 복귀
@@ -335,7 +341,7 @@ public class Boss : MonoBehaviour
 
     private void PageBMove()
     {
-        Debug.Log("PageBMove 호출");
+        //Debug.Log("PageBMove 호출");
         respawnBossSequence.Restart();
     }
     #endregion
@@ -346,7 +352,7 @@ public class Boss : MonoBehaviour
         // 페이지 변경중 로직 정지를 위한 처리
         if (isNextPage)
         {
-            Debug.Log("페이지 변경중..");
+            //Debug.Log("페이지 변경중..");
             pattenCount = 0; // 패턴 횟수 초기화
             currentPattern = 1; // 현재 패턴종류 초기화
             return;
@@ -361,7 +367,7 @@ public class Boss : MonoBehaviour
         switch (currentPattern)
         {
             case 1:
-                Debug.Log("다발로 쏘기");
+                //Debug.Log("다발로 쏘기");
                 // count다 발사 시 예외 처리
                 if (pattenCount < 0)
                 {
@@ -377,7 +383,7 @@ public class Boss : MonoBehaviour
                 break;
 
             case 2:
-                Debug.Log("다발총 발사");
+                //Debug.Log("다발총 발사");
 
                 if (pattenCount < 0)
                 {
@@ -393,7 +399,7 @@ public class Boss : MonoBehaviour
                 break;
 
             case 3:
-                Debug.Log("레이저 발사 패턴");
+                //Debug.Log("레이저 발사 패턴");
 
                 PageMoveStop(); // 움직임 리셋
                 SequenceUpdate(); // 시퀸스 초기화
@@ -408,7 +414,7 @@ public class Boss : MonoBehaviour
 
     private void PageCMove()
     {
-        Debug.Log("PageBMove 호출");
+        //Debug.Log("PageBMove 호출");
 
         SequenceUpdate();
         respawnBossSequence.Restart();
@@ -418,7 +424,7 @@ public class Boss : MonoBehaviour
     #region BossSkill_1() BarSpawn Skill 로직
     private void BossSkill_1()
     {
-        Debug.Log("BOSSSKill_1() 실행");
+        //Debug.Log("BOSSSKill_1() 실행");
         bossCapsuleCollider2D.enabled = false; // 충돌 제거
         SequenceUpdate(); // 시퀀스 초기화
         bossSkill_1.Restart(); // 시퀀스 시작
@@ -488,7 +494,7 @@ public class Boss : MonoBehaviour
 
         while (true)
         {
-            Debug.Log("레이저 발사중!");
+            //Debug.Log("레이저 발사중!");
             if (count > 5) break;
 
             // line_1 세로 => player의 x축 추적
@@ -519,14 +525,14 @@ public class Boss : MonoBehaviour
 
             count++;
         }
-        Debug.Log("레이저 발사 while 종료");
+        //Debug.Log("레이저 발사 while 종료");
 
         transform.localScale = saveSize;
         transform.DOMove(new Vector3(0, 8, 0), 0); // 위치 리셋
         bossSpriteRenderer.DOColor(Color.white, 0.2f) // 색 리셋
             .OnComplete(() =>
             {
-                PageChange();
+                PageChange(); // 페이지 체인지
             });
     }
     #endregion
@@ -542,7 +548,7 @@ public class Boss : MonoBehaviour
     #region PageMoveStop() 보스 움직임 시퀀스 정지
     private void PageMoveStop()
     {
-        Debug.Log("페이지 무브 스탑");
+        //Debug.Log("페이지 무브 스탑");
         loopMoveSequence1.Pause();
         loopMoveSequence2.Pause();
         loopMoveSequence3.Pause();
@@ -553,7 +559,7 @@ public class Boss : MonoBehaviour
     #region SequenceUpdate() 시퀀스 초기화 로직
     private void SequenceUpdate()
     {
-        Debug.Log("시퀀스 초기화!");
+        //Debug.Log("시퀀스 초기화!");
         loopMoveSequence1 = _LoopMoveSequence_1;
         loopMoveSequence2 = _LoopMoveSequence_2;
         loopMoveSequence3 = _LoopMoveSequence_3;
@@ -625,29 +631,35 @@ public class Boss : MonoBehaviour
     {
         switch (currentPage)
         {
+            case 1:
+                health = 2000; // 1 page 체력
+                break;
             case 2:
-                health = 2000;
+                health = 2000; // 2 page 체력
                 break;
             case 3:
-                health = 3000;
+                health = 3000; // 3 page 체력
                 break;
         }
+
+        healthBar.SetMaxHealth((int)health); // 보스 체력바 최대 값 초기화
+
     }
     #endregion
 
     #region BossStart() 보스 생성 로직
     IEnumerator BossStart()
     {
-        bossAudioSource.loop = true;
-        bossAudioSource.clip = SoundManager.Instance.FXSounds[7];
-        bossAudioSource.Play();
-        bossAudioSource.DOFade(0, 4f)
+        bossAudioSource.loop = true; // loop 상태로 만듬
+        bossAudioSource.clip = SoundManager.Instance.FXSounds[7]; // 사운드 클립 교체 (경고 벨)
+        bossAudioSource.Play(); // 소리 재생
+        bossAudioSource.DOFade(0, 4f) // 4초안에 소리 꺼짐
             .OnComplete(() =>
             {
-                bossAudioSource.Stop();
-                bossAudioSource.volume = 0.4f;
+                bossAudioSource.Stop(); // 소리를 멈춤
+                bossAudioSource.volume = 0.4f; // 볼륨 초기화
             });
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f); // 대기 시간
         transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
         Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
     }

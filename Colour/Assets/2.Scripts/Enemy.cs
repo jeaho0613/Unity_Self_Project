@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour, IPooledObject
 {
@@ -17,12 +14,10 @@ public class Enemy : MonoBehaviour, IPooledObject
     private float savehealth; // 재 생성될때 저장 체력값
     private SpriteRenderer spriteRenderer; // enemy 기체 이미지렌더러
     private float startTime; // 총알 발사 주기
-    private AudioSource enemyAudioSource;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // 초기화
-        enemyAudioSource = GetComponent<AudioSource>(); // 초기화
         savehealth = health; // 체력값을 save에 저장
     }
 

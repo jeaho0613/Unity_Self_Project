@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
         // 마지막줄 처리
         if (enemySpawnList.Count <= index)
         {
-            Debug.Log("마지막 적 생성 종료");
+            //Debug.Log("마지막 적 생성 종료");
             StartCoroutine(SoundManager.Instance.BossSound());
             GameManager.Instance.isBoss = true; // 보스전 돌입
             //gameObject.SetActive(false); // 몹 스포너 제거
