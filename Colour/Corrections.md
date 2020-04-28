@@ -16,3 +16,14 @@
 - Invoke() 의 델리게이트화
   - Invoke("string", delay); string으로 함수를 넘겨줘서 클레스명이 변경됐을 때 하나하나 수정해야됩니다.
   - 델리게이트로 바꿔주면 편할꺼 같습니다.
+
+- Sound Play 로직
+  - SoundManager에서 함수를 하나 만들어서 Play를 관리 하는게 용이했을 꺼 같다.
+  - Playoneshot은 다중으로 음악 사운드를 출력해주는 이점을 활용했어야 했다.
+  
+   ```C
+  PlaySound(Clip playClip)
+  {
+    AudioSound.PlayOnShot(playClip)
+  }
+  ```

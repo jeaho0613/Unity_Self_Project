@@ -21,6 +21,7 @@ public class FX : MonoBehaviour, IPooledObject
         audioSource.clip = SoundManager.Instance.FXSounds[randomNum]; // 각각의 랜덤한 오디오 클립 생성
         animator.SetTrigger("isDie"); // 애니메이션 재생
         audioSource.Play(); // 재생
+        if (gameObject.name == "BoosDestroy") { return; };
         checkCoroutine = StartCoroutine(CheckEndSound()); // 사운드 종료 체크
     }
 

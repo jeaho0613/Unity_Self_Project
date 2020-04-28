@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControll : MonoBehaviour
 {
-    private bool isDie = false; // 사망 체크
-    private bool isRespawn = false; // 리스폰 체크
-    private bool isSkill = false; // 스킬 사용 체크
+    public bool isDie = false; // 사망 체크
+    public bool isRespawn = false; // 리스폰 체크
+    public bool isSkill = false; // 스킬 사용 체크
 
     public string currentColor; // 현재 색깔
     [Range(1f, 10f)]
@@ -44,21 +45,27 @@ public class PlayerControll : MonoBehaviour
 
     private void Update()
     {
-        if (!isDie && !isRespawn) // !사망중 && !리스폰중
+        // 게임이 시작하지 않았다면
+        if (!GameManager.Instance.IsStart)
+        {
+            GameStart();
+            return;
+        }
+
+        else if ((!isDie || isRespawn) && !GameManager.Instance.isWin) // !사망중이 아닐 때 리스폰 중일 때
         {
             PlayerMove(); // 이동 
             PlayerClick(); // 색 변경
             PlayerShooting(); // 총 발사
-        }
-        else if (isDie) // 사망
-        {
             return;
         }
-        else // 리스폰 중일 경우
+
+        else if (isDie || GameManager.Instance.isWin) // 사망중 이거나 게임에서 이겼을 때
         {
-            PlayerMove(); // 이동 
-            PlayerShooting(); // 총 발사
+            GameReStart();
+            return;
         }
+
 
     }
 
@@ -126,6 +133,7 @@ public class PlayerControll : MonoBehaviour
             enumColors = EnumColors.Yellow; // 색 변경
             ChageColor(); // 색 변경
         }
+       
     }
     #endregion
 
@@ -164,21 +172,18 @@ public class PlayerControll : MonoBehaviour
                 shootingTime = 0.05f; // 능력치 변경
                 currentColor = "Red";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
-                playerBoxCollider.enabled = true;
                 break;
             case 1:
                 moveSpeed = 0.7f; // 능력치 변경
                 shootingTime = 0.1f; // 능력치 변경
                 currentColor = "Green";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
-                playerBoxCollider.enabled = true;
                 break;
             case 2:
                 moveSpeed = 7f; // 능력치 변경
                 shootingTime = 0.2f; // 능력치 변경
                 currentColor = "Blue";
                 playerMaterial.SetTexture("_SubTex", sprites[num]); // 텍스쳐 변경
-                playerBoxCollider.enabled = true;
                 break;
             case 3:
                 moveSpeed = 7f; // 능력치 변경
@@ -198,9 +203,12 @@ public class PlayerControll : MonoBehaviour
         playerBoxCollider.enabled = false; // 충돌 비활성화
         PlayerSpriteRenderer.color = Color.clear; // player 색 제거
         GameManager.Instance.Life--; // 목숨 감소
-        //StartCoroutine(GameManager.Instance.UpdateLifeUI());
         ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭파 애니메이션 생성
         playerAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[(int)enumColors + 2]); // 사망 효과음 발생 
+        if (GameManager.Instance.Life == 0)
+        {
+            return; // life가 0이면 중지
+        }
         Invoke("PlayerRespawn", 2); // 사망한뒤 2초뒤 생성
     }
     #endregion
@@ -234,6 +242,7 @@ public class PlayerControll : MonoBehaviour
         isSkill = false;
         enumColors = saveNum; // 사용전 color로 돌려줌
         ChageColor(); // 색 변경
+        playerBoxCollider.enabled = true;
     }
     #endregion
 
@@ -241,9 +250,31 @@ public class PlayerControll : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 적 총알 || 적 기체에 충돌시
-        if (other.tag == "EBullet" || other.tag == "Enemy")
+        if ((other.tag == "EBullet" || other.tag == "Enemy") && !isDie)
         {
             PlayerDie(); // player Die
+        }
+    }
+    #endregion
+
+    #region GameReStart() 게임 restart 로직
+    private void GameReStart()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && (GameManager.Instance.isLose || GameManager.Instance.isWin))
+        {
+            Debug.Log("R버튼 클릭");
+            SceneManager.LoadScene(1);
+        }
+    }
+    #endregion
+
+    #region GameStart() 게임 처음 스타트 로직
+    private void GameStart()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && (GameManager.Instance.IsStart == false))
+        {
+            Debug.Log("게임 시작!");
+            GameManager.Instance.IsStart = true;
         }
     }
     #endregion

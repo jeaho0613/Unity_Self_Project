@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
             // 라이프가 0 이하이면
             if (value < 0)
             {
+                
                 life = 0; // 라이프는 0으로 초기화
                 return; // 리턴
             }
@@ -98,17 +99,55 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region [isStart 프로퍼티]
+    [SerializeField]
+    private bool isStart = false;
+    public bool IsStart
+    {
+        get
+        {
+            return isStart;
+        }
+        set
+        {
+            if (value)
+            {
+                Debug.Log("if value의 값 :" + value);
+                TextSetActive(value);
+            }
+            else
+            {
+                Debug.Log("else value의 값 :" + value);
+                TextSetActive(value);
+            }
+        }
+    }
+    #endregion
+
     public static GameManager Instance; // 싱글톤
     public GameObject[] lifeGameObjects; // 라이프 오브젝트
     public GameObject[] skillPowerGameObjects; // 스킬 오브젝트
     public Image skillPowerBar; // 스킬 바
+    public Animator endGameAnimation; // 게임 끝 텍스트 에니메이션
+    public Text startGameText; // 게임 스타트 텍스트
+    public GameObject enemySpawner; // 적 소환 오브젝트
     public bool isBoss = false;
+    public bool isLose = false;
+    public bool isWin = false;
 
     // 초기화
     private void Awake()
     {
+        if (null == Instance)
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
         Screen.SetResolution(540, 900, false); // 화면 해상도 고정
-        Instance = this; // 싱글톤
         spawnList = new List<Spawn>(); // spawnList 초기화
         ReadSpawnFile(); // Text 파일 
 
@@ -174,8 +213,11 @@ public class GameManager : MonoBehaviour
                 lifeGameObjects[0].SetActive(false);
                 lifeGameObjects[1].SetActive(false);
                 lifeGameObjects[2].SetActive(false);
-                // 게임 오버 UI
+
+                isLose = true; // 게임 end를 체크
+                GameEnd(1);
                 break;
+               
         }
     }
     #endregion
@@ -233,6 +275,26 @@ public class GameManager : MonoBehaviour
                 // 게임 오버 UI
                 break;
         }
+    }
+    #endregion
+
+    #region GameEnd(int num) 게임 종료 로직 *num은 출력할 사운드
+    public void GameEnd(int num)
+    {
+        // 게임 오버 UI
+        Debug.Log("life end");
+        SoundManager.Instance.GetComponent<AudioSource>()
+            .PlayOneShot(SoundManager.Instance.FXSounds[num]); // End Sound 출력
+        endGameAnimation.SetTrigger("isEnd"); // 엔드 게임 이미지 출력
+    }
+    #endregion
+
+    #region TextSetActive() 처음 게임 스타트 
+    private void TextSetActive(bool value)
+    {
+        startGameText.gameObject.SetActive(!value);
+        enemySpawner.SetActive(value);
+        isStart = value;
     }
     #endregion
 

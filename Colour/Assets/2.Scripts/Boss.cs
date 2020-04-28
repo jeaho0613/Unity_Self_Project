@@ -15,7 +15,6 @@ public class Boss : MonoBehaviour
     public int[] maxPatternCounts; // 각 패턴발사 수
     public Vector3 saveSize; // 사이즈 세이브
 
-    //private PathType pathType = PathType.CatmullRom; // path 타입 (직선 경로)
     private CapsuleCollider2D bossCapsuleCollider2D; // Boss 콜라이더
     private SpriteRenderer bossSpriteRenderer; // Boss spriteRenderer
     private Transform playerPostion; // 플레이어 위치값
@@ -25,7 +24,7 @@ public class Boss : MonoBehaviour
     private EdgeCollider2D edgeCollider_1; // 엣지 콜라이더
     private EdgeCollider2D edgeCollider_2; // 엣지 콜라이더
     private AudioSource bossAudioSource; // 보스 오디오
-    [SerializeField]
+    private Animator bossAnimator; // 보스 애니메이터
     private HealthBar healthBar;
     private float[] screenWidths = new float[9]; // 화면 비율값에 대한 x값
     private float mainCamWidth; // 화면 가로 길이
@@ -59,6 +58,7 @@ public class Boss : MonoBehaviour
         barSpawner = GetComponent<BarSpawner>(); // 초기화
         playerPostion = FindObjectOfType<PlayerControll>().transform; // 플레이어 위치 받기
         bossAudioSource = GetComponent<AudioSource>(); // 초기화
+        bossAnimator = GetComponent<Animator>(); // 초기화
 
         bossLineRenderer_1 = transform.GetChild(0).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
         bossLineRenderer_2 = transform.GetChild(1).GetComponent<LineRenderer>(); // 라인 렌더러 초기화
@@ -151,15 +151,22 @@ public class Boss : MonoBehaviour
         // 플레이어 총알과 충돌 할때
         if (other.tag == "PBullet")
         {
+            bossAnimator.SetTrigger("isHit");
+            Invoke("Attacked", 0.1f); // 이미지 복원
             other.gameObject.SetActive(false); // 총알 비활성화
             health -= other.GetComponent<Bullt>().power; // boss 체력 감소
             healthBar.SetHealth((int)health);
+
             if (health <= 0) // 체력이 0이되면
             {
                 PageMoveStop(); // 보스 움직임 정지
                 bossCapsuleCollider2D.enabled = false; // 충돌 제거
                 isNextPage = true;
                 currentPage++; // 페이지 증가
+                if (currentPage > 3) {
+                    BossEnd();
+                    return;
+                };
                 HealthManager(); // 보스 체력 Bar 변경
                 transform.DOMove(new Vector2(0, 8), 2) // 리스폰 장소로 복귀
                     .SetEase(Ease.Linear)
@@ -438,7 +445,7 @@ public class Boss : MonoBehaviour
         int[] dammeArry = RandomNum(); // 중복되지 않은 랜덤 값 배열
 
         // 한번에 반복수 만큼 총알 생성
-        for (int index = 0; index < 8; index++)
+        for (int index = 0; index < 7; index++)
         {
             var bullets = ObjectManager.Instance.SpawnFromPool( // 오브젝트 생성
                                                "EBBM" // 총알 종류
@@ -657,12 +664,29 @@ public class Boss : MonoBehaviour
             .OnComplete(() =>
             {
                 bossAudioSource.Stop(); // 소리를 멈춤
-                bossAudioSource.volume = 0.4f; // 볼륨 초기화
+                bossAudioSource.volume = 0.6f; // 볼륨 초기화
             });
         yield return new WaitForSeconds(2f); // 대기 시간
         transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
         Invoke("PageChange", 3.1f); // 현재 페이지에 맞는 공격 패턴 시작
     }
     #endregion
+
+    private void BossEnd()
+    {
+        Debug.Log("보스 처치");
+        SoundManager.Instance.GetComponent<AudioSource>().DOFade(0, 3f);
+        GameManager.Instance.isWin = true;
+        Sequence damme = DOTween.Sequence()
+        .Append(transform.DOLocalMove(new Vector2(2, -2), 4).SetRelative().SetEase(Ease.Linear))
+        .Join(transform.DOScale(0, 4).SetEase(Ease.Linear))
+        .Append(transform.DOScale(0.5f,0))
+        .OnComplete(() => {
+            SoundManager.Instance.GetComponent<AudioSource>().clip = null;
+            SoundManager.Instance.GetComponent<AudioSource>().volume = 0.6f;
+            ObjectManager.Instance.SpawnFromPool("BossDestroyFX", transform.position, transform.rotation);
+            gameObject.SetActive(false);
+        }); 
+    }
 }
 

@@ -29,7 +29,15 @@ public class ObjectManager : MonoBehaviour
     #region 싱글톤, 오브젝트 풀링 초기화
     private void Awake()
     {
-        Instance = this; // 싱글톤 변수
+        if (null == Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.Log("오브젝트 제거");
+            Destroy(this.gameObject);
+        }
 
         // 생성자로 초기화
         PoolDictionary = new Dictionary<string, Queue<GameObject>>();
