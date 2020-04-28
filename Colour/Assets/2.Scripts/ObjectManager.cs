@@ -32,11 +32,12 @@ public class ObjectManager : MonoBehaviour
         if (null == Instance)
         {
             Instance = this;
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Debug.Log("오브젝트 제거");
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         // 생성자로 초기화

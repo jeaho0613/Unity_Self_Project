@@ -151,6 +151,7 @@ public class Boss : MonoBehaviour
         // 플레이어 총알과 충돌 할때
         if (other.tag == "PBullet")
         {
+            if (other.name != "BulletY") { GameManager.Instance.SkillPoint += 0.01f; }; // 기체의 스킬 포인트 획득
             bossAnimator.SetTrigger("isHit");
             Invoke("Attacked", 0.1f); // 이미지 복원
             other.gameObject.SetActive(false); // 총알 비활성화
@@ -639,13 +640,13 @@ public class Boss : MonoBehaviour
         switch (currentPage)
         {
             case 1:
-                health = 2000; // 1 page 체력
+                health = 4000; // 1 page 체력
                 break;
             case 2:
-                health = 2000; // 2 page 체력
+                health = 3000; // 2 page 체력
                 break;
             case 3:
-                health = 3000; // 3 page 체력
+                health = 6000; // 3 page 체력
                 break;
         }
 

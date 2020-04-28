@@ -349,11 +349,20 @@
   - intro (완성)
   - 화면은 트윈을 이용한 Fade in out 으로 작업 (완성)
   - 스크롤링 Background (완성)
-  - 처음 게임 Start But (미완성)
+  - 처음 게임 Start But (완성)
 
 - `20-04-29`
-  - 처음 게임 Start 화면 배경 스크롤 이미지 사라짐 오류
+  - 처음 게임 Start 화면 배경 스크롤 이미지 사라짐 오류 (완료)
+    - 씬 로드할 때 DonLoadObject 제거..
   - 중간 점검 후 오류 처리 `Bug` 부분.
+  - **`중간점검`**
+    - 보스 HP 조정
+    - 시간이 된다면 부 Boss전 (다른 색의 적 기체를 이용)
+    - 다른 패턴의 적 기체 (Blue Enemy 완료)
+    - 보스 Sound 추가
+    - 스폰 패턴 추가 (Blue Enemy 완료)
+    - ObjectPool 갯수 조정
+    - Intro Sound 추가 (완료)
 
 - `20-04-30`
   - 최종 평가

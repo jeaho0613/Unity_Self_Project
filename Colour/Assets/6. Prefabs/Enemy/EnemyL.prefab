@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endSpeed: 4
-  shootingDelay: 2
+  shootingDelay: 1.5
   health: 200
   enemyPoint: 0.3
   sprites:

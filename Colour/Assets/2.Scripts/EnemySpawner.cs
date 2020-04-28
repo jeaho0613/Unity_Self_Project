@@ -109,6 +109,23 @@ public class EnemySpawner : MonoBehaviour
                 enemyObject.transform.DOMoveX(playerPoint.x, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.OutQuad);
                 enemyObject.transform.DOMoveY(-5.5f, enemyObject.GetComponent<Enemy>().endSpeed).SetEase(Ease.InQuad);
                 break;
+
+            // Enemy Blue 기체 생성
+            case 8:
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                    , points[enemySpawnList[index].point].position // 생성 포인트
+                                                    , Quaternion.identity); // 회전값
+
+                enemyObject.transform.DOMoveX(4, 8).SetEase(Ease.Linear).SetLoops(-1,LoopType.Yoyo);
+                break;
+            // Enemy Blue 기체 생성
+            case 9:
+                enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                    , points[enemySpawnList[index].point].position // 생성 포인트
+                                                    , Quaternion.identity); // 회전값
+
+                enemyObject.transform.DOMoveX(-4, 8).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+                break;
         }
 
         this.index++; // 다음 생성을 위한 index값 증가

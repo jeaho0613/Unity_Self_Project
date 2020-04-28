@@ -9,6 +9,7 @@ public class IntroSceneManager : MonoBehaviour
 {
     public PlayableDirector playableDirector;
     public TimelineAsset timeline;
+
     void Start()
     {
         playableDirector.Play();

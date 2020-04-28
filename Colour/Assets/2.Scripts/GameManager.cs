@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         Screen.SetResolution(540, 900, false); // 화면 해상도 고정
         spawnList = new List<Spawn>(); // spawnList 초기화
@@ -215,7 +215,8 @@ public class GameManager : MonoBehaviour
                 lifeGameObjects[2].SetActive(false);
 
                 isLose = true; // 게임 end를 체크
-                GameEnd(1);
+                SoundManager.Instance.GetComponent<AudioSource>().Stop(); // 배경음 정지
+                GameEnd(1); // End 사운드 출력
                 break;
                
         }
