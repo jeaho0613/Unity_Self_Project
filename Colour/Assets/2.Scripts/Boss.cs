@@ -243,7 +243,7 @@ public class Boss : MonoBehaviour
                     Invoke("PageA", 1f); // 다음 패턴 쿨타임
                     return;
                 }
-
+                bossAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[9]);
                 Shooting("EBL", 1); // 기본 탄 발사
                 Invoke("PageA", 0.2f); // 0.2초마다 시작
                 break;
@@ -264,6 +264,7 @@ public class Boss : MonoBehaviour
                 {
                     Shooting("EBM", index); // for문이므로 동시에 나가는 것 처럼 보임
                 }
+                bossAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[10]);
                 Invoke("PageA", 0.2f); // 0.2초 마다 시작
                 break;
 
@@ -331,7 +332,7 @@ public class Boss : MonoBehaviour
                     Invoke("PageB", 1f);
                     return;
                 }
-
+                bossAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[11]);
                 BossSkill_4(); // 패턴 시작
                 Invoke("PageB", 0.1f); // 0.1초 마다
                 break;
@@ -444,7 +445,7 @@ public class Boss : MonoBehaviour
     private void BossSkill_2()
     {
         int[] dammeArry = RandomNum(); // 중복되지 않은 랜덤 값 배열
-
+        bossAudioSource.PlayOneShot(SoundManager.Instance.FXSounds[12]); // 소리 재생
         // 한번에 반복수 만큼 총알 생성
         for (int index = 0; index < 7; index++)
         {
@@ -549,6 +550,7 @@ public class Boss : MonoBehaviour
     // 탄 종류, 위치값을 받음
     private void Shooting(string bulletName, int postion)
     {
+        
         ObjectManager.Instance.SpawnFromPool(bulletName, shootPoints[postion].position, transform.rotation);
     }
     #endregion
@@ -640,13 +642,13 @@ public class Boss : MonoBehaviour
         switch (currentPage)
         {
             case 1:
-                health = 4000; // 1 page 체력
+                health = 5000; // 1 page 체력
                 break;
             case 2:
-                health = 3000; // 2 page 체력
+                health = 4000; // 2 page 체력
                 break;
             case 3:
-                health = 6000; // 3 page 체력
+                health = 7000; // 3 page 체력
                 break;
         }
 
@@ -665,7 +667,7 @@ public class Boss : MonoBehaviour
             .OnComplete(() =>
             {
                 bossAudioSource.Stop(); // 소리를 멈춤
-                bossAudioSource.volume = 0.6f; // 볼륨 초기화
+                bossAudioSource.volume = 0.3f; // 볼륨 초기화
             });
         yield return new WaitForSeconds(2f); // 대기 시간
         transform.DOMoveY(3, 3).SetEase(Ease.Linear); // 초기 위치값 시작
@@ -673,6 +675,7 @@ public class Boss : MonoBehaviour
     }
     #endregion
 
+    #region BossEnd() 보스 처지 로직
     private void BossEnd()
     {
         Debug.Log("보스 처치");
@@ -689,5 +692,6 @@ public class Boss : MonoBehaviour
             gameObject.SetActive(false);
         }); 
     }
+    #endregion
 }
 

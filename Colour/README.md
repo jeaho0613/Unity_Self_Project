@@ -356,12 +356,12 @@
     - 씬 로드할 때 DonLoadObject 제거..
   - 중간 점검 후 오류 처리 `Bug` 부분.
   - **`중간점검`**
-    - 보스 HP 조정
-    - 시간이 된다면 부 Boss전 (다른 색의 적 기체를 이용)
+    - 보스 HP 조정 (완료)
+    - 시간이 된다면 부 Boss전 (다른 색의 적 기체를 이용) (완료)
     - 다른 패턴의 적 기체 (Blue Enemy 완료)
-    - 보스 Sound 추가
+    - 보스 Sound 추가 (완료)
     - 스폰 패턴 추가 (Blue Enemy 완료)
-    - ObjectPool 갯수 조정
+    - ObjectPool 갯수 조정 (완료)
     - Intro Sound 추가 (완료)
 
 - `20-04-30`

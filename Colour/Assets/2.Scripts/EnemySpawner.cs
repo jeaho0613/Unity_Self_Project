@@ -8,6 +8,8 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform[] points; // 생성 위치
     public GameObject playerObject; // playerObject
+    public Vector2[] wayPoints = new Vector2[4];
+    public PathType pathType = PathType.Linear;
 
     private Vector3 playerPoint; // player 위치값
     private GameObject enemyObject; // 적 기체
@@ -62,6 +64,7 @@ public class EnemySpawner : MonoBehaviour
             // Red Large 기체 생성
             case 1:
             case 2:
+                
             case 3:
                 // 오브젝트 생성
                 enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
@@ -125,6 +128,19 @@ public class EnemySpawner : MonoBehaviour
                                                     , Quaternion.identity); // 회전값
 
                 enemyObject.transform.DOMoveX(-4, 8).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+                break;
+            case 10:
+                   enemyObject = ObjectManager.Instance.SpawnFromPool(enemySpawnList[index].type // 생성 오브젝트 타입
+                                                    , points[enemySpawnList[index].point].position // 생성 포인트
+                                                    , Quaternion.identity); // 회전값
+
+                Sequence damme = DOTween.Sequence()
+                .Append(enemyObject.transform.DOMove(new Vector2(2.5f, 3), 1))
+                .Append(enemyObject.transform.DOMove(new Vector2(-2.5f, 1), 1))
+                .Append(enemyObject.transform.DOMove(new Vector2(2.5f, -1), 1))
+                .Append(enemyObject.transform.DOMove(new Vector2(-2.5f, -3), 1))
+                .SetEase(Ease.Linear)
+                .SetLoops(-1,LoopType.Yoyo);
                 break;
         }
 

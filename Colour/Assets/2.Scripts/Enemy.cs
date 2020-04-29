@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour, IPooledObject
     {
         health = savehealth;
         // 기체 타입이 EnemyBL이면 hp bar 초기화
-        if (gameObject.name == "EnemyBL")
+        if (gameObject.name == "EnemyBL" || gameObject.name == "EnemyBS")
         {
             healthBar = transform.GetComponentInChildren<HealthBar>(); // hp bar 초기화
             healthBar.SetMaxHealth((int)health);
@@ -62,14 +62,20 @@ public class Enemy : MonoBehaviour, IPooledObject
             other.gameObject.SetActive(false); // 총알은 비활성화
             spriteRenderer.sprite = sprites[1]; // 이미지 변경
             health -= other.GetComponent<Bullt>().power; // 총알의 데미지 만큼 체력 제거
-            if (gameObject.name == "EnemyBL") { healthBar.SetHealth((int)health); }; // EnemyBL 타입 기체면 HP Bar 감소
+            if (gameObject.name == "EnemyBL"|| gameObject.name == "EnemyBS")
+            {
+                healthBar.SetHealth((int)health); 
+            }; // EnemyBL 타입 기체면 HP Bar 감소
             Invoke("Attacked", 0.1f); // 이미지 복원
 
             // 만약 체력이 0보다 작아질 경우
             if (health <= 0)
             {
                 //Debug.Log($"Enemy의 skillPoint : {skillPoint}");
-                if (other.name != "BulletY") { GameManager.Instance.SkillPoint += enemyPoint; };
+                if (other.name != "BulletY")
+                {
+                    GameManager.Instance.SkillPoint += enemyPoint; 
+                };
                 gameObject.SetActive(false); // 비활성화
                 var fxDamme = ObjectManager.Instance.SpawnFromPool("DestroyFX", transform.position, transform.rotation); // 폭팔 이펙트 생성
                 FxSize(fxDamme);
@@ -99,6 +105,9 @@ public class Enemy : MonoBehaviour, IPooledObject
                 ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0.5f, -0.5f, 0), Quaternion.identity);
                 ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(-0.5f, -0.5f, 0), Quaternion.identity);
                 break;
+            case "EBBS":
+                ObjectManager.Instance.SpawnFromPool(enemyType, transform.position + new Vector3(0.5f, -0.5f, 0), Quaternion.identity);
+                break;
         }
         startTime = 0; // 경과 시간 초기화
     }
@@ -117,6 +126,12 @@ public class Enemy : MonoBehaviour, IPooledObject
 
             case "EBS":
                 damme.transform.localScale = new Vector2(1, 1);
+                break;
+            case "EBBS":
+                damme.transform.localScale = new Vector2(1, 1);
+                break;
+            case "EBBL":
+                damme.transform.localScale = new Vector2(2, 2);
                 break;
         }
     }

@@ -66,6 +66,18 @@ public class Bullt : MonoBehaviour, IPooledObject
                         gameObject.SetActive(false); // 시간지나면 비활성화
                     });
                     break;
+                case "EnemyBlueBulletL":
+                    transform.DOMoveY(-5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
+                    {
+                        gameObject.SetActive(false); // 시간지나면 비활성화
+                    });
+                    break;
+                case "EnemyBlueBulletS":
+                    transform.DOMoveY(-5.5f, endTime).SetEase(Ease.Linear).OnComplete(() =>
+                    {
+                        gameObject.SetActive(false); // 시간지나면 비활성화
+                    });
+                    break;
             }
         }
         

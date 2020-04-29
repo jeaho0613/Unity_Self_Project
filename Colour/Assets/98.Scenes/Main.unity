@@ -1362,6 +1362,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 833ea82851053304bb1602eace930cca, type: 3}
   - {fileID: 8300000, guid: 6839434773e16a742a3e527e95a8cd06, type: 3}
   - {fileID: 8300000, guid: 3c57bac6602240446a2289006a9ea17f, type: 3}
+  - {fileID: 8300000, guid: 9830e848ed2d10f449a21ba78ac82fdd, type: 3}
+  - {fileID: 8300000, guid: 7697aa04475acaf4eb9ac7019792f9cb, type: 3}
+  - {fileID: 8300000, guid: 5f82a97507e829c439366f9cfb3124fa, type: 3}
+  - {fileID: 8300000, guid: f1952d03ce76b434db773bd1eecda52d, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,7 +1509,7 @@ PrefabInstance:
     - target: {fileID: 653005240654526809, guid: a8b4a0171b74314409bdcc456d8af1a8,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2710204050064431162, guid: a8b4a0171b74314409bdcc456d8af1a8,
         type: 3}
@@ -1708,6 +1712,7 @@ Transform:
   - {fileID: 881702180}
   - {fileID: 422442160}
   - {fileID: 131168571}
+  - {fileID: 997452196}
   m_Father: {fileID: 2000042556}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1734,7 +1739,14 @@ MonoBehaviour:
   - {fileID: 881702180}
   - {fileID: 422442160}
   - {fileID: 131168571}
+  - {fileID: 997452196}
   playerObject: {fileID: 902417016}
+  wayPoints:
+  - {x: 2.5, y: 3}
+  - {x: -2.5, y: 1}
+  - {x: 2.5, y: -1}
+  - {x: -2.5, y: -3}
+  pathType: 0
 --- !u!1 &881702179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,6 +2030,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &997452195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997452196}
+  m_Layer: 0
+  m_Name: point 10
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &997452196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997452195}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 5.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 765348495}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1027604571
 GameObject:
   m_ObjectHideFlags: 0
@@ -2519,22 +2561,22 @@ MonoBehaviour:
   pools:
   - tag: Red
     prefab: {fileID: 361848951817075978, guid: a64448d4b8575e14a8fa36184b5c153f, type: 3}
-    size: 24
+    size: 10
     target: {fileID: 13222877}
   - tag: Green
     prefab: {fileID: 8297135637862344625, guid: 5ba1b6b31a2b1f243a39351ffa101ae4,
       type: 3}
-    size: 30
+    size: 22
     target: {fileID: 13222877}
   - tag: Blue
     prefab: {fileID: 5561914502778307270, guid: aff05e2d995f135429823e4c548ac0f5,
       type: 3}
-    size: 14
+    size: 6
     target: {fileID: 13222877}
   - tag: Yellow
     prefab: {fileID: 4547547380293589624, guid: 18e0242bd0b11064aa2f00fb392b4090,
       type: 3}
-    size: 50
+    size: 22
     target: {fileID: 13222877}
   - tag: BarR
     prefab: {fileID: 2400614401383715885, guid: a996f1eac3aa93f46bca69e3966d952f,
@@ -2579,7 +2621,7 @@ MonoBehaviour:
   - tag: EBL
     prefab: {fileID: 1994663683073872609, guid: 0b743da9b6c86424bb1ffdbb69827efb,
       type: 3}
-    size: 40
+    size: 5
     target: {fileID: 13222877}
   - tag: DestroyFX
     prefab: {fileID: 5775300656776868462, guid: 8613e6f2c3957114caca6085e229d8e2,
@@ -2604,13 +2646,23 @@ MonoBehaviour:
   - tag: EBBL
     prefab: {fileID: 1994663683073872609, guid: 1af989afaf798394399b03a1515cf019,
       type: 3}
-    size: 20
+    size: 4
     target: {fileID: 13222877}
   - tag: BL
     prefab: {fileID: 4103975644004289000, guid: 2ebab61f015fc6d41a0b15227203ef61,
       type: 3}
     size: 2
     target: {fileID: 1027604572}
+  - tag: BS
+    prefab: {fileID: 4103975644004289000, guid: a231fdf1d16bcb848969f4d9727030f3,
+      type: 3}
+    size: 6
+    target: {fileID: 1027604572}
+  - tag: EBBS
+    prefab: {fileID: 4772746772643867106, guid: e8c2a2b192556a04db61f19a0b84f73b,
+      type: 3}
+    size: 20
+    target: {fileID: 13222877}
 --- !u!4 &1442041270
 Transform:
   m_ObjectHideFlags: 0

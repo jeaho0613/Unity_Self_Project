@@ -523,8 +523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endSpeed: 4
   shootingDelay: 2
-  health: 500
-  enemyPoint: 0.3
+  health: 600
+  enemyPoint: 0.9
   sprites:
   - {fileID: 968011450282801046, guid: f4b8075216f12a24d93bf7d849b76442, type: 3}
   - {fileID: 8214901426000330681, guid: f4b8075216f12a24d93bf7d849b76442, type: 3}

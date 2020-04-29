@@ -62,18 +62,13 @@ ScriptsOnlyBuild:
     - UnityEngine.Timeline.AudioTrack
     - UnityEngine.Timeline.MarkerTrack
     - UnityEngine.Timeline.TimelineAsset
-    UnityEditor.Graphs.dll:
-    - UnityEditor.Graphs.AnimationBlendTree.Graph
-    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
-    - UnityEditor.Graphs.AnimationStateMachine.Graph
-    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
     UnityEngine.UI.dll:
+    - UnityEngine.EventSystems.EventSystem
+    - UnityEngine.EventSystems.StandaloneInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.ContentSizeFitter
@@ -303,6 +298,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12348}
     - Class: 114
+      Script: {instanceID: 12412}
+    - Class: 114
       Script: {instanceID: 12420}
     - Class: 114
       Script: {instanceID: 12528}
@@ -320,6 +317,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14288}
     - Class: 114
       Script: {instanceID: 14462}
+    - Class: 114
+      Script: {instanceID: 14752}
     - Class: 114
       Script: {instanceID: 14806}
     - Class: 114
@@ -1067,7 +1066,7 @@ ScriptsOnlyBuild:
     className: DepthOfField
   - hash:
       serializedVersion: 2
-      Hash: 4fbfaa1ddcfcf066270000e6f2d9b1bc
+      Hash: a4fde16ac7f61f444b0c237b8d20db16
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EnemySpawner
