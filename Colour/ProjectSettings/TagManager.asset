@@ -8,6 +8,7 @@ TagManager:
   - PBullet
   - EBullet
   - Enemy
+  - Razer
   layers:
   - Default
   - TransparentFX

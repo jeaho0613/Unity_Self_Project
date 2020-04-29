@@ -1,24 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 public class IntroSceneManager : MonoBehaviour
 {
-    public PlayableDirector playableDirector;
-    public TimelineAsset timeline;
+    public PlayableDirector playableDirector; // 플레이어 인트로
 
     void Start()
     {
-        playableDirector.Play();
+        playableDirector.Play(); // 씬 플레이
     }
 
     void Update()
     {
+        // 타임라인이 끝나면
         if (playableDirector.time > 10.6f )
         {
+            // 다음씬 로드
             SceneManager.LoadScene(1);
         }
     }

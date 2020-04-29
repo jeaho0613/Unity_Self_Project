@@ -84,13 +84,14 @@ public class Enemy : MonoBehaviour, IPooledObject
         }
     }
 
-    // 피격시 스프라이트 복구
+    #region Attacked() 피격 이미지 복구
     private void Attacked()
     {
         spriteRenderer.sprite = sprites[0]; // 원상태 이미지
     }
+    #endregion
 
-    // 오브젝트 풀링의 적 총알 타입에 맞게 생성
+    #region Shooting() 오브젝트 풀링의 적 총알 타입에 맞게 생성
     private void Shooting()
     {
         switch (enemyType)
@@ -111,7 +112,9 @@ public class Enemy : MonoBehaviour, IPooledObject
         }
         startTime = 0; // 경과 시간 초기화
     }
+    #endregion
 
+    #region FxSize() 폭팔 이펙트 적 기체 크기에 따른 사이즈 변ㄴ경
     private void FxSize(GameObject damme)
     {
         switch (enemyType)
@@ -135,4 +138,5 @@ public class Enemy : MonoBehaviour, IPooledObject
                 break;
         }
     }
+    #endregion
 }

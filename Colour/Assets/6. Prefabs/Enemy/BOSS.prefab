@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 6297636417918746755}
   m_Layer: 13
   m_Name: LineRenderer_1
-  m_TagString: Enemy
+  m_TagString: Razer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -794,8 +794,6 @@ MonoBehaviour:
   - {fileID: 4181747836297474902}
   maxPatternCounts: 140000001e00000032000000000000000a0000002c01000001000000
   saveSize: {x: 0, y: 0, z: 0}
-  sprites:
-  - {fileID: 1455800853001472315, guid: 222c4cba023a9a641a55bdf30f37c639, type: 3}
 --- !u!1 &4543801846622275665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1006,7 @@ GameObject:
   - component: {fileID: 9120315330547799856}
   m_Layer: 13
   m_Name: LineRenderer_2
-  m_TagString: Enemy
+  m_TagString: Razer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -250,7 +250,7 @@ public class PlayerControll : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 적 총알 || 적 기체에 충돌시
-        if ((other.tag == "EBullet" || other.tag == "Enemy") && !isDie)
+        if ((other.tag == "EBullet" || other.tag == "Enemy" || other.tag == "Razer") && !isDie)
         {
             PlayerDie(); // player Die
         }
@@ -273,7 +273,7 @@ public class PlayerControll : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && (GameManager.Instance.IsStart == false))
         {
-            Debug.Log("게임 시작!");
+            //Debug.Log("게임 시작!");
             GameManager.Instance.IsStart = true;
         }
     }

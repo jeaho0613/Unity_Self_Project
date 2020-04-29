@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider slider;
-    public Gradient gradient;
-    public Image fill;
+    public Slider slider; // 실린더
+    public Gradient gradient; // 체력 상황에 따른 색 변경
+    public Image fill; // 배경 이미지
 
     // 처음 전체 체력을 초기화 하는 변수
     public void SetMaxHealth(int health)

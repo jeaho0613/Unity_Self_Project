@@ -6,6 +6,7 @@ using System.Linq;
 public class Boss : MonoBehaviour
 {
     public bool isNextPage = false; // 페이지 변환 체크
+    public bool isRazer = false; // 레이저 스킬 시작 중
     public float health; // 현재 체력
     public int maxCountCheck; // 최대 발사 체크
     public int pattenCount; // 발사 횟수
@@ -25,13 +26,13 @@ public class Boss : MonoBehaviour
     private EdgeCollider2D edgeCollider_2; // 엣지 콜라이더
     private AudioSource bossAudioSource; // 보스 오디오
     private Animator bossAnimator; // 보스 애니메이터
-    private HealthBar healthBar;
+    private HealthBar healthBar; // HP Bar 
     private float[] screenWidths = new float[9]; // 화면 비율값에 대한 x값
     private float mainCamWidth; // 화면 가로 길이
 
-    private Color2 resetColor = new Color2(new Color(1, 0, 0, 0.5f), new Color(1, 0, 0, 0.5f));
-    private Color2 startColor = new Color2(Color.white, Color.white);
-    private Color2 endColor = new Color2(Color.clear, Color.clear);
+    private Color2 resetColor = new Color2(new Color(1, 0, 0, 0.5f), new Color(1, 0, 0, 0.5f)); // 레이져 컬러 셋
+    private Color2 startColor = new Color2(Color.white, Color.white); // 레이져 컬러 셋
+    private Color2 endColor = new Color2(Color.clear, Color.clear); // 레이져 컬러 셋
 
     // Move 사용 시퀀스
     private Sequence loopMoveSequence1; // 루프 무브 
@@ -135,6 +136,7 @@ public class Boss : MonoBehaviour
                                       .OnComplete(() =>
                                       {
                                           bossCapsuleCollider2D.enabled = false;
+                                          isRazer = true;
                                           transform.localScale = new Vector2(1, 1);
                                           transform.DOMove(Vector3.zero, 0);
                                           StartCoroutine(BossSkill_5());
@@ -151,6 +153,8 @@ public class Boss : MonoBehaviour
         // 플레이어 총알과 충돌 할때
         if (other.tag == "PBullet")
         {
+            //Debug.Log("플레이어 탄과 충돌!");
+            if (isRazer) return; // 레이저 스킬 사용 시 충돌 무시
             if (other.name != "BulletY") { GameManager.Instance.SkillPoint += 0.01f; }; // 기체의 스킬 포인트 획득
             bossAnimator.SetTrigger("isHit");
             Invoke("Attacked", 0.1f); // 이미지 복원
@@ -162,7 +166,7 @@ public class Boss : MonoBehaviour
             {
                 PageMoveStop(); // 보스 움직임 정지
                 bossCapsuleCollider2D.enabled = false; // 충돌 제거
-                isNextPage = true;
+                isNextPage = true; // 페이지 변경 중 일때 충돌 제거
                 currentPage++; // 페이지 증가
                 if (currentPage > 3) {
                     BossEnd();
@@ -536,6 +540,7 @@ public class Boss : MonoBehaviour
         }
         //Debug.Log("레이저 발사 while 종료");
 
+        isRazer = false;
         transform.localScale = saveSize;
         transform.DOMove(new Vector3(0, 8, 0), 0); // 위치 리셋
         bossSpriteRenderer.DOColor(Color.white, 0.2f) // 색 리셋
@@ -550,7 +555,6 @@ public class Boss : MonoBehaviour
     // 탄 종류, 위치값을 받음
     private void Shooting(string bulletName, int postion)
     {
-        
         ObjectManager.Instance.SpawnFromPool(bulletName, shootPoints[postion].position, transform.rotation);
     }
     #endregion

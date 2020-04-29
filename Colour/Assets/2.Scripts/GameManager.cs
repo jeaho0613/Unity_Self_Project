@@ -112,12 +112,12 @@ public class GameManager : MonoBehaviour
         {
             if (value)
             {
-                Debug.Log("if value의 값 :" + value);
+                //Debug.Log("if value의 값 :" + value);
                 TextSetActive(value);
             }
             else
             {
-                Debug.Log("else value의 값 :" + value);
+                //Debug.Log("else value의 값 :" + value);
                 TextSetActive(value);
             }
         }
@@ -131,9 +131,9 @@ public class GameManager : MonoBehaviour
     public Animator endGameAnimation; // 게임 끝 텍스트 에니메이션
     public Text startGameText; // 게임 스타트 텍스트
     public GameObject enemySpawner; // 적 소환 오브젝트
-    public bool isBoss = false;
-    public bool isLose = false;
-    public bool isWin = false;
+    public bool isBoss = false; // 포스전 체크
+    public bool isLose = false; // 플레이어 Game End 체크
+    public bool isWin = false; // 플레이어 Game Win 체크
 
     // 초기화
     private void Awake()
@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour
     public void GameEnd(int num)
     {
         // 게임 오버 UI
-        Debug.Log("life end");
+        //Debug.Log("life end");
         SoundManager.Instance.GetComponent<AudioSource>()
             .PlayOneShot(SoundManager.Instance.FXSounds[num]); // End Sound 출력
         endGameAnimation.SetTrigger("isEnd"); // 엔드 게임 이미지 출력
@@ -293,9 +293,9 @@ public class GameManager : MonoBehaviour
     #region TextSetActive() 처음 게임 스타트 
     private void TextSetActive(bool value)
     {
-        startGameText.gameObject.SetActive(!value);
-        enemySpawner.SetActive(value);
-        isStart = value;
+        startGameText.gameObject.SetActive(!value); // 프로퍼티에 상태에 따라 TextUI 활성화
+        enemySpawner.SetActive(value); // 게임 시작을 하면 적 기체 스포너 활성화
+        isStart = value; // isStart 값 변경
     }
     #endregion
 

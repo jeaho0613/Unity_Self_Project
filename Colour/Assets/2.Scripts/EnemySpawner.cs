@@ -48,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // 적 기체 생성 로직
+    #region EnemySpawn() 적 기체 생성 로직
     private void EnemySpawn(int index)
     {
         //Debug.Log($"{index}번째 생성함."); // 현재 인덱스
@@ -135,16 +135,17 @@ public class EnemySpawner : MonoBehaviour
                                                     , Quaternion.identity); // 회전값
 
                 Sequence damme = DOTween.Sequence()
-                .Append(enemyObject.transform.DOMove(new Vector2(2.5f, 3), 1))
-                .Append(enemyObject.transform.DOMove(new Vector2(-2.5f, 1), 1))
-                .Append(enemyObject.transform.DOMove(new Vector2(2.5f, -1), 1))
-                .Append(enemyObject.transform.DOMove(new Vector2(-2.5f, -3), 1))
-                .SetEase(Ease.Linear)
-                .SetLoops(-1,LoopType.Yoyo);
+                .Append(enemyObject.transform.DOMove(new Vector2(2.5f, 3), 1)) // 이동할 위치 포인트
+                .Append(enemyObject.transform.DOMove(new Vector2(-2.5f, 1), 1)) // 이동할 위치 포인트
+                .Append(enemyObject.transform.DOMove(new Vector2(2.5f, -1), 1)) // 이동할 위치 포인트
+                .Append(enemyObject.transform.DOMove(new Vector2(-2.5f, -3), 1)) // 이동할 위치 포인트
+                .SetEase(Ease.Linear) // 평균적인 속도로
+                .SetLoops(-1,LoopType.Yoyo); // 무한 루프
                 break;
         }
 
         this.index++; // 다음 생성을 위한 index값 증가
         //Debug.Log(index);
     }
+    #endregion
 }

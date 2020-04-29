@@ -10,7 +10,7 @@ public class FX : MonoBehaviour, IPooledObject
 
     private void Awake()
     {
-        randomNum = Random.Range(2, 6);
+        randomNum = Random.Range(2, 6); // 랜덤한 효과음을 위한 Num 변수
         animator = GetComponent<Animator>(); // 초기화
         audioSource = GetComponent<AudioSource>(); // 초기화
     }
@@ -21,7 +21,7 @@ public class FX : MonoBehaviour, IPooledObject
         audioSource.clip = SoundManager.Instance.FXSounds[randomNum]; // 각각의 랜덤한 오디오 클립 생성
         animator.SetTrigger("isDie"); // 애니메이션 재생
         audioSource.Play(); // 재생
-        if (gameObject.name == "BoosDestroy") { return; };
+        if (gameObject.name == "BoosDestroy") { return; }; // Boss 파괴 이펙트는 State 스크립트에서 제어
         checkCoroutine = StartCoroutine(CheckEndSound()); // 사운드 종료 체크
     }
 

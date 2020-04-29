@@ -3,6 +3,9 @@
 색을 이용한 게임을 제작합니다.  
 기본 베이스는 슈팅게임을 바탕으로 색에 맞추어 컨트롤합니다.
 
+PV 영상입니다.  
+<https://youtu.be/vQSucYXattw>
+
 ## **주의 사항**
 
 - **`Sound Folder`에 유로 에셋이 포함되있습니다. 저작권에 위반될 시 삭제하겠습니다.**
@@ -58,31 +61,13 @@
 
 - DOTWEEN (트윈 에셋) // 무료
 - Interface and Item Sounds (사운드 에셋) // 유료
-- URP (파이프 라인) // 패키지
-- Grenade Sound FX (예정)
-- Loop & Music Free
-- (Free) Retro SFX Pack
-
-## **SoundManager**
-
-- **Player Sounds**  
-  - 0 Bullet (플레이어 발사 소리)
-  - 1 Color Change (플레이어 색 변경 소리)
-
-- **Enemy Sounds**  
-  - 0 Bullet (적 발사 소리)
-
-- **FX Sounds**
-  - 0 Game Win (게임 승리 소리)
-  - 1 Game Lose (게임 종료 소리)
-  - 2 Destroy1 (nomarl)
-  - 3 Destroy2 (nomarl)
-  - 4 Destroy3 (nomarl)
-  - 5 Destroy4 (nomarl)
+- FREE Casual Game SFX Pack (사운드 에셋) // 무료
+- Loop & Music Free (사운드 에셋) // 무료
+- GoldMetal Resource (이미지) // 무료
 
 ## **화면 비율**
 
-11
+540 : 900
 
 ## **생성 규칙**
 
@@ -104,6 +89,14 @@
   - player 위치를 타켓으로 한다.
   - 체력이 낮음 (약 1,2발에 파괴)
   - 총알 발사는 없지만 player기체에 다가오는 시간이 빠름
+- BlueL
+  - 8,9 point에서 생성
+  - 중간 보스 역할
+  - 좌우를 루프하면서 탄을 발사
+- BlueS
+  - 10 point에서 생성
+  - 일정 구역을 반복하는 동작
+  - 중간 보스 역할
 
 ## **만들면서**
 
@@ -367,8 +360,7 @@
 - `20-04-30`
   - 최종 평가
   - 스크립트 정리
-    - EnemySpawner 움직임 부분 정리 요망
 
 - `Bug`
-  - BOSS Razer 스킬 중 보스에게 타격이 들어가는 버그
+  - BOSS Razer 스킬 중 보스에게 타격이 들어가는 버그 (수정)
   
